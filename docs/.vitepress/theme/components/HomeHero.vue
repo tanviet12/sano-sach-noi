@@ -3,10 +3,19 @@
 // Lúc build (SSR) chưa biết máy → hiện "Tải Sano"; vào trình duyệt mới nhận diện.
 import { computed, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
-import { Apple, BookOpen, Download, ExternalLink, Laptop, Monitor } from 'lucide-vue-next'
+import { Apple, BookOpen, Check, Download, ExternalLink, Laptop, Monitor } from 'lucide-vue-next'
 import libraryShot from '../../../images/app/thu-vien.jpg'
 
 const REPO = 'https://github.com/tanviet12/sano-sach-noi'
+
+// Sano dùng để làm gì — cùng nội dung với trang Cài đặt, mục Giới thiệu trong app và README
+const uses = [
+  { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
+  { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
+  { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, iPhone nghe bằng BookPlayer (miễn phí), Android bằng Voice' },
+  { t: 'Nghe trên ô tô', d: 'CarPlay qua BookPlayer: chọn sách, chọn chương ngay trên màn hình xe; Android Auto qua app sách nói có hỗ trợ' },
+  { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
+]
 const RELEASES = REPO + '/releases/latest'
 
 type OS = 'mac' | 'win' | 'linux'
@@ -43,6 +52,11 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
           Biến tài liệu của chính bạn thành sách nói. Giọng đọc AI tiếng Việt chạy ngay trên máy, miễn phí, mã nguồn mở.
           Nghe trong phần mềm, hoặc chép một file sang điện thoại nghe khi lái xe, lúc rảnh tay.
         </p>
+        <ul class="uses">
+          <li v-for="u in uses" :key="u.t">
+            <Check :size="16" class="ck" aria-hidden="true" /><span><strong>{{ u.t }}</strong> {{ u.d }}</span>
+          </li>
+        </ul>
 
         <div class="actions">
           <a :href="RELEASES" target="_blank" rel="noopener" class="sano-btn brand block-sm dl">
@@ -155,6 +169,31 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
   .lead {
     font-size: 18px;
   }
+}
+.uses {
+  margin: 20px 0 0;
+  padding: 0;
+  max-width: 36rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--vp-c-text-2);
+}
+.uses li {
+  display: flex;
+  gap: 8px;
+}
+.uses strong {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+.ck {
+  margin-top: 3px;
+  flex-shrink: 0;
+  color: var(--vp-c-brand-1);
 }
 .actions {
   margin-top: 28px;

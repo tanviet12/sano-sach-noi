@@ -7,6 +7,14 @@ description: 'Tải và cài Sano, phần mềm làm sách nói bằng AI từ f
 
 Sano là phần mềm cài trên máy tính để tạo sách nói bằng AI từ file Word. Bản cài miễn phí, tải từ GitHub Releases. Lần mở đầu, Sano tự tải bộ đọc giọng Việt về máy; từ đó trở đi dùng được không cần mạng.
 
+## Sano làm được gì
+
+- **Tạo sách nói** từ tài liệu Word của chính bạn.
+- **Nghe trên máy tính** ngay trong phần mềm, nhớ chỗ nghe dở.
+- **Nghe trên điện thoại**: xuất một file M4B, iPhone nghe bằng BookPlayer (miễn phí), Android bằng Voice. Xem [Nghe trên điện thoại](./nghe-tren-dien-thoai).
+- **Nghe trên ô tô**: CarPlay qua BookPlayer, chọn sách, chọn chương ngay trên màn hình xe; Android Auto qua app sách nói có hỗ trợ.
+- **25 giọng đọc AI tiếng Việt**: nam, nữ, giọng Bắc, giọng Nam.
+
 ## Máy cần có
 
 - **Windows 10/11** 64-bit, **macOS 10.13** trở lên (Apple Silicon hoặc Intel), hoặc **Linux x86_64** có WebKitGTK 4.1 (Ubuntu 22.04+, Debian 12+, Fedora 36+).

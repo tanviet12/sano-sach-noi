@@ -25,6 +25,7 @@ const shots = [
         </p>
         <ul class="list">
           <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>iPhone:</strong> app BookPlayer (miễn phí, mã nguồn mở) hoặc app Sách của Apple</span></li>
+          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Trên ô tô có CarPlay:</strong> BookPlayer hiện thư viện sách, chọn sách, chọn chương ngay trên màn hình xe</span></li>
           <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Android:</strong> Voice (mã nguồn mở) hoặc app nghe sách nói bất kỳ đọc được M4B, có Android Auto</span></li>
           <li><Check :size="16" class="ck" aria-hidden="true" /><span>Khoảng 29 MB cho mỗi giờ nghe</span></li>
         </ul>

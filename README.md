@@ -6,6 +6,14 @@ Biến tài liệu của chính bạn thành sách nói. Sano giúp bạn **tự
 
 Sano là phần mềm cài trên máy tính (Windows, macOS, Linux): đọc file Word, trích mục lục theo Heading, chuẩn hóa lời đọc, đọc thành giọng nói bằng [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS) chạy ngay trên máy, rồi lưu vào thư viện để nghe. Muốn nghe trên điện thoại hay trên xe thì xuất một file M4B (có mục lục chương + bìa).
 
+**Sano làm được gì**
+
+- **Tạo sách nói** từ tài liệu Word của chính bạn
+- **Nghe trên máy tính** ngay trong phần mềm, nhớ chỗ nghe dở
+- **Nghe trên điện thoại**: xuất một file M4B, iPhone nghe bằng BookPlayer (miễn phí), Android bằng Voice
+- **Nghe trên ô tô**: CarPlay qua BookPlayer, chọn sách, chọn chương ngay trên màn hình xe; Android Auto qua app sách nói có hỗ trợ
+- **25 giọng đọc AI tiếng Việt**: nam, nữ, giọng Bắc, giọng Nam
+
 > Repo không kèm sách hay audio nào. Xem mục [Bản quyền và trách nhiệm](#bản-quyền-và-trách-nhiệm) trước khi dùng.
 
 ## Stack

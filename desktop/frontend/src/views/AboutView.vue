@@ -11,6 +11,15 @@ import { TERMS_VERSION } from '../lib/terms'
 import sepayLogo from '../assets/sponsors/sepay.svg'
 import hostLogo from '../assets/sponsors/123host.svg'
 
+// Sano dùng để làm gì — cùng nội dung với trang chủ, trang Cài đặt và README
+const uses = [
+  { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
+  { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
+  { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, iPhone nghe bằng BookPlayer (miễn phí), Android bằng Voice' },
+  { t: 'Nghe trên ô tô', d: 'CarPlay qua BookPlayer: chọn sách, chọn chương ngay trên màn hình xe; Android Auto qua app sách nói có hỗ trợ' },
+  { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
+]
+
 // Đơn vị tài trợ: Sano miễn phí nhờ hai đơn vị này. utm để biết lượt ghé đến từ app.
 const utm = '?utm_source=sano&utm_medium=app&utm_campaign=tai-tro'
 const sponsors = [
@@ -68,6 +77,14 @@ const termsLine = computed(() => {
           </p>
         </div>
       </div>
+
+      <h2 class="mt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Sano làm được gì</h2>
+      <ul class="mt-3 rounded-lg border border-border divide-y divide-border text-sm">
+        <li v-for="u in uses" :key="u.t" class="flex items-start gap-2.5 px-4 py-3">
+          <Check class="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+          <span><span class="font-medium">{{ u.t }}</span> <span class="text-muted-foreground">{{ u.d }}</span></span>
+        </li>
+      </ul>
 
       <h2 class="mt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Đơn vị tài trợ</h2>
       <p class="mt-1 text-sm text-muted-foreground">Sano miễn phí và mã nguồn mở nhờ sự tài trợ của</p>
