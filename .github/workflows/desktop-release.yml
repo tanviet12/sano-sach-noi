@@ -1,0 +1,229 @@
+name: Desktop build + release
+
+# Build phần mềm desktop (Wails) cho Windows, macOS, Linux.
+#
+# - Gắn thẻ vX.Y.Z (hoặc vX.Y.Z-beta.N) → build 3 hệ điều hành, đóng gói
+#   (.exe bộ cài + .zip chạy ngay, .dmg, .AppImage), SHA256SUMS, attestation
+#   nguồn gốc build, tạo GitHub Release dạng NHÁP (người vận hành tự bấm Publish).
+# - Run workflow (workflow_dispatch) → build thử 3 hệ điều hành, tải file ở mục
+#   Artifacts của lần chạy, KHÔNG tạo release.
+# - Pull request / push vào main có đụng mã desktop → build + đóng gói Linux và
+#   Windows để bắt lỗi sớm (bỏ macOS cho đỡ tốn phút: máy Mac tính gấp 10 lần).
+#
+# Không ký số, không notarize (chưa có chứng chỉ). Không dùng secret nào ngoài
+# GITHUB_TOKEN. Mọi action ghim theo SHA commit.
+on:
+  push:
+    tags: ['v*']
+    branches: [main]
+    paths: &build_paths
+      - 'desktop/**'
+      - 'docs/dieu-khoan-su-dung.md'
+      - 'docs/prompts/**'
+      - 'internal/**'
+      - 'go.mod'
+      - 'go.sum'
+      - 'scripts/release/**'
+      - 'scripts/tts/**'
+      - '.github/workflows/desktop-release.yml'
+  pull_request:
+    branches: [main]
+    paths: *build_paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  meta:
+    name: Phiên bản + ma trận
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      release: ${{ steps.meta.outputs.release }}
+      matrix: ${{ steps.meta.outputs.matrix }}
+    steps:
+      - id: meta
+        env:
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          release=false
+          if [[ "$EVENT" == "push" && "$REF" == refs/tags/v* ]]; then
+            version="${REF_NAME#v}"
+            if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+              echo "::error::thẻ '$REF_NAME' không đúng dạng vX.Y.Z hoặc vX.Y.Z-beta.N"
+              exit 1
+            fi
+            release=true
+          else
+            version="0.0.0-dev.${SHA::7}"
+          fi
+          mac='{"os":"macos-14","target":"macos","platform":"darwin/universal","arch":"universal"}'
+          win='{"os":"windows-latest","target":"windows","platform":"windows/amd64","arch":"amd64"}'
+          lin='{"os":"ubuntu-22.04","target":"linux","platform":"linux/amd64","arch":"amd64"}'
+          if [[ "$EVENT" == "pull_request" || ( "$EVENT" == "push" && "$release" == "false" ) ]]; then
+            matrix="{\"include\":[$win,$lin]}"
+          else
+            matrix="{\"include\":[$mac,$win,$lin]}"
+          fi
+          {
+            echo "version=$version"
+            echo "release=$release"
+            echo "matrix=$matrix"
+          } >> "$GITHUB_OUTPUT"
+          echo "Phiên bản: $version · phát hành: $release"
+
+  gate:
+    name: Gate (go vet + go test)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: desktop/go.mod
+          cache-dependency-path: |
+            go.sum
+            desktop/go.sum
+      - name: Thư viện GTK/WebKit (desktop cần CGO)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+      - name: Module gốc
+        run: |
+          go vet ./...
+          go test ./internal/... -count=1
+      - name: Module desktop
+        working-directory: desktop
+        run: |
+          go vet -tags webkit2_41 ./...
+          go test -tags webkit2_41 ./... -count=1
+
+  build:
+    name: Build ${{ matrix.target }}
+    needs: [meta, gate]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.meta.outputs.matrix) }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      VERSION: ${{ needs.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: desktop/go.mod
+          cache-dependency-path: |
+            go.sum
+            desktop/go.sum
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop/frontend/package-lock.json
+
+      - name: Thư viện GTK/WebKit (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+
+      - name: NSIS (Windows, tạo bộ cài)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $nsis = Join-Path ${env:ProgramFiles(x86)} 'NSIS'
+          if (-not (Get-Command makensis -ErrorAction SilentlyContinue)) {
+            if (-not (Test-Path (Join-Path $nsis 'makensis.exe'))) {
+              choco install nsis --version=3.11 -y --no-progress
+            }
+            Add-Content -Path $env:GITHUB_PATH -Value $nsis
+          }
+
+      - name: Wails CLI (đúng phiên bản trong desktop/go.mod)
+        run: |
+          wv="$(cd desktop && go list -m -f "{{.Version}}" github.com/wailsapp/wails/v2)"
+          test -n "$wv"
+          go install "github.com/wailsapp/wails/v2/cmd/wails@$wv"
+          wails version
+
+      - name: Cài thư viện giao diện
+        working-directory: desktop/frontend
+        run: npm ci --no-audit --no-fund
+
+      - name: Build
+        run: scripts/release/build.sh "$VERSION" "${{ matrix.platform }}"
+
+      - name: Đóng gói
+        run: scripts/release/package-${{ matrix.target }}.sh "$VERSION" "${{ matrix.arch }}"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sano-${{ matrix.target }}-${{ matrix.arch }}
+          path: desktop/build/bin/release/*
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: GitHub Release (nháp)
+    needs: [meta, build]
+    if: needs.meta.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write      # tạo release nháp + đính file
+      id-token: write      # attestation nguồn gốc build
+      attestations: write
+    env:
+      VERSION: ${{ needs.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: sano-*
+          path: dist
+          merge-multiple: true
+
+      - name: SHA256SUMS
+        run: scripts/release/checksums.sh dist
+
+      # Attestation miễn phí cho repo công khai; repo riêng tư cần gói GitHub
+      # Enterprise Cloud → bỏ qua cho tới khi repo công khai.
+      - name: Attestation nguồn gốc build
+        if: ${{ !github.event.repository.private }}
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            dist/Sano-*
+            dist/SHA256SUMS
+      - name: Nhắc khi bỏ qua attestation
+        if: ${{ github.event.repository.private }}
+        run: echo "::warning::Repo đang riêng tư — bỏ qua attestation (chỉ miễn phí cho repo công khai)."
+
+      - name: Tạo release nháp
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          scripts/release/notes.sh "$VERSION" "$GITHUB_REPOSITORY" > "$RUNNER_TEMP/notes.md"
+          flags=(--draft --verify-tag --title "Sano $VERSION" --notes-file "$RUNNER_TEMP/notes.md")
+          [[ "$VERSION" == *-* ]] && flags+=(--prerelease)
+          gh release create "$TAG" "${flags[@]}" dist/*

@@ -1,0 +1,87 @@
+# Từ điển cách đọc mặc định của sano-docx2tts (nhúng sẵn vào binary).
+#
+# Mỗi dòng: <viết tắt><TAB><cách đọc>. Dòng bắt đầu bằng # là chú thích.
+# - Khớp NGUYÊN TỪ và PHÂN BIỆT hoa thường: "PR" không đụng "pr" hay "PRO".
+# - Viết tắt chỉ gồm chữ, số và dấu & (vd R&D, B2B).
+# - Dòng trong câu viết hoa toàn bộ (tiêu đề in hoa) không áp dụng từ điển,
+#   tránh đổi nhầm chữ tiếng Việt viết hoa.
+#
+# Bổ sung / ghi đè bằng cờ --pronunciations <file> cùng định dạng. Để trống
+# cách đọc (chỉ "<viết tắt><TAB>") để tắt 1 mục mặc định, cho bộ đọc tự xử lý.
+
+# Chức danh
+CEO	xi i âu
+CFO	xi ép âu
+CTO	xi ti âu
+COO	xi âu âu
+CMO	xi em âu
+HR	ếch a
+PM	pi em
+
+# Quản trị, chiến lược
+KPI	ca pê i
+OKR	âu cây a
+SWOT	suốt
+PEST	pét
+BCG	bi xi gi
+STP	ét ti pi
+USP	iu ét pi
+BSC	bi ét xi
+PDCA	pi đi xi ây
+SOP	ét âu pi
+SLA	ét eo ây
+MBA	em bi ây
+SME	ét em i
+CSR	xi ét a
+ESG	i ét gi
+ESOP	i xốp
+R&D	a en đi
+M&A	em en ây
+QA	kiu ây
+QC	kiu xi
+OEM	âu i em
+ODM	âu đi em
+CV	xi vi
+JD	giây đi
+
+# Tài chính
+P&L	pê en eo
+ROI	a âu ai
+ROE	a âu i
+IPO	ai pi âu
+EBITDA	i bít đa
+GDP	gờ đê pê
+VAT	vát
+USD	đô la Mỹ
+
+# Kinh doanh, marketing
+B2B	bi tu bi
+B2C	bi tu xi
+C2C	xi tu xi
+F&B	ép en bi
+FMCG	ép em xi gi
+VIP	vi ai pi
+PR	pi a
+TVC	ti vi xi
+KOL	cây âu eo
+KOC	cây âu xi
+AIDA	ai đa
+NPS	en pi ét
+CAC	xi ây xi
+LTV	eo ti vi
+CRM	xi a em
+ERP	i a pi
+POS	pi âu ét
+MKT	marketing
+
+# Công nghệ
+AI	ây ai
+IT	ai ti
+API	ây pi ai
+UI	iu ai
+UX	iu ếch
+MVP	em vi pi
+SaaS	xát
+
+# Tổ chức
+NATO	Na Tô

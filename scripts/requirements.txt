@@ -1,0 +1,7 @@
+# Thư viện Python cho pre-process PDF -> DOCX (cmd/sano-docx2tts, bước tiền xử lý PDF).
+# Cài trong venv riêng (môi trường homebrew externally-managed, PEP 668):
+#   python3 -m venv scripts/.venv-pdf2docx
+#   scripts/.venv-pdf2docx/bin/pip install -r scripts/requirements.txt
+pypdf>=6.19.0       # đọc outline (bookmark) + extract text từng trang; bản cũ có lỗi DoS với PDF độc
+python-docx>=1.2.0  # ghi .docx có Heading 1/2 chuẩn
+reportlab>=4.0      # CHỈ dùng cho test (scripts/test_pdf_to_docx.sh) sinh PDF mẫu

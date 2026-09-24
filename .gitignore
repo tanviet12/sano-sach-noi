@@ -1,0 +1,52 @@
+node_modules/
+.env
+.env.local
+*.log
+/bin/
+.DS_Store
+.idea/
+.vscode/
+
+# Cấu hình Claude Code riêng của người phát triển (rules, skills, CLAUDE.md riêng) — không track
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+
+# Reference assets — không track
+tham-khao/
+
+# Audio output (pre-render TTS) — không commit
+*.mp3
+*.m4a
+*.wav
+*.aac
+
+# Gói sách nói đã đóng (book-<slug>.zip) — output của cmd/sano-docx2tts, không commit git
+dong-goi-sach/
+
+# Python venv cho pre-process PDF->DOCX (scripts/pdf_to_docx.py) — không commit
+scripts/.venv-pdf2docx/
+scripts/**/__pycache__/
+*.pyc
+
+# File sinh ra khi build TypeScript
+*.tsbuildinfo
+
+# Phần mềm desktop (Wails) — file build ra, không commit
+desktop/build/bin/
+desktop/frontend/dist/*
+!desktop/frontend/dist/gitkeep
+desktop/frontend/wailsjs/
+desktop/frontend/package.json.md5
+/cmd/sano-docx2tts/sano-docx2tts
+
+# Báo cáo quét bảo mật (vbsec)
+vbsec-reports/
+.vbsec-tmp/
+
+# Trang tài liệu (VitePress, docs/) — file build + cache, không commit
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+# Audio nghe thử của trang tài liệu (nhỏ, render sẵn) — ngoại lệ của luật *.mp3 ở trên
+!docs/public/audio/*.mp3

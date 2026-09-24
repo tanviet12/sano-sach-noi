@@ -1,0 +1,291 @@
+/*
+ * Theme trang tài liệu Sano — cùng bộ nhận diện với phần mềm (BRAND.md, desktop/frontend/src/style.css):
+ * đỏ thương hiệu #c60505 = hsl(0 94% 40%), dark: hsl(0 80% 55%); nền trung tính slate.
+ * Màu chỉ khai báo ở đây dưới dạng biến; component dùng biến, không hard-code.
+ */
+
+:root {
+  /* token gốc của app (HSL không bọc) */
+  --sano-primary: 0 94% 40%;
+  --sano-foreground: 222.2 47.4% 11.2%;
+  --sano-muted: 210 40% 96.1%;
+  --sano-muted-foreground: 215.4 16.3% 46.9%;
+  --sano-border: 214.3 31.8% 91.4%;
+  --sano-card: 0 0% 100%;
+  --sano-green: 142 71% 45%;
+  --sano-amber: 38 92% 50%;
+  --sano-red: 0 72% 51%;
+
+  --vp-c-brand-1: hsl(var(--sano-primary));
+  --vp-c-brand-2: hsl(0 94% 34%);
+  --vp-c-brand-3: hsl(var(--sano-primary));
+  --vp-c-brand-soft: hsl(var(--sano-primary) / 0.1);
+
+  --vp-c-text-1: hsl(var(--sano-foreground));
+  --vp-c-text-2: hsl(var(--sano-muted-foreground));
+  --vp-c-divider: hsl(var(--sano-border));
+  --vp-c-gutter: hsl(var(--sano-border));
+  --vp-c-bg-alt: hsl(210 40% 98%);
+  --vp-c-bg-soft: hsl(var(--sano-muted));
+
+  --vp-button-brand-bg: hsl(var(--sano-primary));
+  --vp-button-brand-hover-bg: hsl(0 94% 34%);
+  --vp-button-brand-active-bg: hsl(0 94% 30%);
+
+  --vp-home-hero-name-color: hsl(var(--sano-primary));
+  --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dark {
+  --sano-primary: 0 80% 55%;
+  --sano-foreground: 210 40% 98%;
+  --sano-muted: 217.2 32.6% 17.5%;
+  --sano-muted-foreground: 215 20.2% 65.1%;
+  --sano-border: 217.2 32.6% 17.5%;
+  --sano-card: 222.2 47.4% 8%;
+
+  --vp-c-bg: hsl(222.2 47.4% 6%);
+  --vp-c-bg-alt: hsl(222.2 47.4% 7.5%);
+  --vp-c-bg-elv: hsl(222.2 47.4% 9%);
+  --vp-c-bg-soft: hsl(217.2 32.6% 12%);
+  --vp-c-brand-1: hsl(0 80% 64%);
+  --vp-c-brand-2: hsl(0 80% 58%);
+  --vp-c-brand-3: hsl(0 80% 48%);
+  --vp-c-brand-soft: hsl(0 80% 55% / 0.16);
+  --vp-button-brand-bg: hsl(0 80% 48%);
+  --vp-button-brand-hover-bg: hsl(0 80% 55%);
+  --vp-button-brand-active-bg: hsl(0 80% 44%);
+}
+
+/* ── Khung chung cho các mục trang chủ ── */
+.sano-home {
+  color: var(--vp-c-text-1);
+}
+.sano-section {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+.sano-section.alt {
+  background: hsl(var(--sano-muted) / 0.3);
+}
+.sano-container {
+  margin: 0 auto;
+  max-width: 1152px;
+  padding: 56px 16px;
+}
+@media (min-width: 640px) {
+  .sano-container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+.sano-h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  border: 0;
+  padding: 0;
+}
+@media (min-width: 640px) {
+  .sano-h2 {
+    font-size: 30px;
+  }
+}
+.sano-lead {
+  margin: 8px 0 0;
+  max-width: 42rem;
+  color: var(--vp-c-text-2);
+  line-height: 1.6;
+}
+.sano-grid-listen {
+  margin-top: 32px;
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+  .sano-grid-listen {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+.sano-grid-about {
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+  .sano-grid-about {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+.sano-card {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: hsl(var(--sano-card));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+.sano-icon-tile {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+.sano-muted {
+  color: var(--vp-c-text-2);
+}
+
+/* Nút (giống Button của app) */
+.sano-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none !important;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  cursor: pointer;
+}
+.sano-btn.brand {
+  background: var(--vp-button-brand-bg);
+  color: #fff !important;
+}
+.sano-btn.brand:hover {
+  background: var(--vp-button-brand-hover-bg);
+}
+.sano-btn.outline {
+  border-color: var(--vp-c-divider);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1) !important;
+}
+.sano-btn.outline:hover {
+  background: var(--vp-c-bg-soft);
+}
+.sano-btn:focus-visible,
+.sano-focus:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+@media (max-width: 639px) {
+  .sano-btn.block-sm {
+    width: 100%;
+  }
+}
+
+/* Chỗ trống ảnh chụp / video: nhẹ nhàng, không phải chú thích duyệt */
+.sano-placeholder {
+  display: grid;
+  place-items: center;
+  border: 1.5px dashed var(--vp-c-divider);
+  border-radius: 10px;
+  background: hsl(var(--sano-muted) / 0.4);
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  text-align: center;
+  padding: 12px;
+}
+
+/* Nền hero loang đỏ nhẹ (ambient-soft của app) */
+.sano-ambient {
+  background:
+    radial-gradient(82% 50% at 16% -6%, hsl(0 92% 95%), transparent 60%),
+    radial-gradient(66% 46% at 104% 6%, hsl(22 94% 94%), transparent 56%),
+    radial-gradient(96% 60% at 52% 106%, hsl(348 90% 96%), transparent 62%),
+    var(--vp-c-bg);
+}
+.dark .sano-ambient {
+  background:
+    radial-gradient(82% 50% at 16% -6%, hsl(0 60% 22% / 0.7), transparent 60%),
+    radial-gradient(66% 46% at 104% 6%, hsl(300 40% 24% / 0.6), transparent 56%),
+    radial-gradient(96% 60% at 52% 106%, hsl(340 55% 22% / 0.6), transparent 62%),
+    var(--vp-c-bg);
+}
+
+/* Tên nhóm phía trên tiêu đề trang hướng dẫn */
+.sano-eyebrow {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+}
+
+/* Trang chủ: bỏ khoảng đệm mặc định dưới nội dung home */
+.VPHome {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Chân trang */
+.VPFooter a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.VPFooter a:hover {
+  color: var(--vp-c-brand-1);
+}
+.vbsec-badge {
+  display: inline-flex;
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+.vbsec-name {
+  padding: 3px 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+}
+.vbsec-state {
+  padding: 3px 8px;
+  background: hsl(var(--sano-green) / 0.15);
+  color: hsl(var(--sano-green));
+}
+
+.medium-zoom-overlay {
+  z-index: 999;
+}
+.medium-zoom-image--opened {
+  z-index: 1000;
+  position: relative;
+}
+
+/* Ảnh chụp điện thoại trong bài */
+.vp-doc .phone-shots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 28rem;
+}
+.vp-doc .phone-shots img {
+  margin: 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+
+/* Lời nhắc mẫu (khối txt dài): xuống dòng thay vì cuộn ngang */
+.vp-doc div[class*='language-txt'] pre,
+.vp-doc div[class*='language-txt'] code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Ảnh chụp phần mềm trong trang hướng dẫn */
+.vp-doc .app-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}

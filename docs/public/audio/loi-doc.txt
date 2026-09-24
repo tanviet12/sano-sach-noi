@@ -1,0 +1,46 @@
+Lời đọc của các file nghe thử (giọng Thiện Minh, VieNeu-TTS v3 Turbo, MP3 mono 64 kbps).
+Sách mẫu: docs/demo-books/ky-nang-mem-cho-nguoi-tre (tự viết). Lời đọc lấy từ bản Sano đã chuẩn hoá (--keep-txt).
+
+=== ky-nang-mem-1.mp3
+Bạn đang nghe sách nói.
+
+Cuốn sách: Kỹ năng mềm cho người trẻ.
+
+Tác giả: Sách mẫu Sano.
+
+Chương 1. Lắng nghe chủ động.
+
+Lắng nghe là kỹ năng mềm quan trọng nhất mà ít người để ý rèn luyện. Nhiều bạn trẻ nghĩ rằng giao tiếp giỏi là nói hay, nhưng thực ra người được yêu quý lại thường là người biết lắng nghe.
+
+Lắng nghe chủ động nghĩa là bạn tập trung hoàn toàn vào người đang nói, không cắt lời, không vội phán xét, và không tranh thủ nghĩ sẵn câu trả lời trong đầu. Khi ai đó chia sẻ, điều họ cần đầu tiên thường là được thấu hiểu, chứ chưa phải một lời khuyên.
+
+
+=== ky-nang-mem-2.mp3
+Chương 2. Giao tiếp hiệu quả.
+
+Giao tiếp hiệu quả không phải là nói thật nhiều, mà là truyền đạt đúng điều mình muốn để người khác hiểu và hành động. Một thông điệp rõ ràng luôn thắng một bài nói dài dòng.
+
+Nguyên tắc đầu tiên là hãy nói ngắn và đi thẳng vào ý chính. Trước khi mở lời, bạn hãy tự hỏi điều quan trọng nhất mình cần nói là gì. Khi bạn biết rõ mục tiêu, lời nói của bạn sẽ gọn gàng và dễ theo dõi hơn.
+
+
+=== ky-nang-mem-3.mp3
+Chương 3. Làm việc nhóm.
+
+Làm việc nhóm là kỹ năng mà hầu hết công việc hiện nay đều đòi hỏi. Một người giỏi đến đâu cũng khó tạo ra kết quả lớn nếu không biết phối hợp với người khác.
+
+Điều đầu tiên của làm việc nhóm là hiểu mục tiêu chung. Khi cả nhóm cùng nhìn về một hướng, mỗi người sẽ biết phần việc của mình đóng góp ra sao vào kết quả cuối cùng. Nếu mục tiêu mơ hồ, nhóm dễ làm việc rời rạc và dẫm chân lên nhau.
+
+
+=== ky-nang-mem-4.mp3
+Chương 4. Quản lý thời gian.
+
+Quản lý thời gian không phải là làm thật nhiều việc, mà là làm đúng việc quan trọng vào đúng lúc. Ai cũng có như nhau hai mươi bốn giờ mỗi ngày, khác biệt nằm ở cách chúng ta sử dụng.
+
+Bước đầu tiên là phân biệt việc quan trọng và việc khẩn cấp. Việc khẩn cấp đòi bạn xử lý ngay, nhưng chưa chắc đã quan trọng. Việc quan trọng là việc giúp bạn tiến gần mục tiêu dài hạn. Hãy dành thời gian tốt nhất trong ngày cho những việc quan trọng, trước khi bị cuốn vào những việc vụn vặt.
+
+
+=== chuan-hoa-truoc.mp3 (đưa thẳng văn bản gốc vào bộ đọc, không qua chuẩn hoá)
+Chương IV. Mô hình 4P. Theo PGS. TS. Lê Văn C, TP.HCM, thói quen tốt đi theo một vòng: đọc sách → hiểu mình → đổi thói quen. Hãy học 2-3 giờ mỗi ngày, vd. sáng & tối.
+
+=== chuan-hoa-sau.mp3 (cùng đoạn, qua chuẩn hoá của Sano)
+Chương bốn. Mô hình bốn Pê. Theo Phó giáo sư Tiến sĩ Lê Văn C, Thành phố Hồ Chí Minh, thói quen tốt đi theo một vòng: đọc sách, dẫn tới hiểu mình, dẫn tới đổi thói quen. Hãy học 2 đến 3 giờ mỗi ngày, ví dụ sáng và tối.

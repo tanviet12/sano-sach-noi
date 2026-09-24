@@ -1,0 +1,33 @@
+name: PR Check
+
+# Kiểm tra nhanh mọi pull request: go vet + go test của module gốc (bookmaker,
+# cover, m4b, scripts/tts, CLI sano-docx2tts). Phần mềm desktop (vet, test,
+# typecheck, build Linux + Windows) đã chạy trong desktop-release.yml khi PR đụng
+# mã desktop — không lặp lại ở đây.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  go:
+    name: Go vet + test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - name: go vet
+        run: go vet ./...
+      - name: go test
+        run: go test ./... -race -count=1

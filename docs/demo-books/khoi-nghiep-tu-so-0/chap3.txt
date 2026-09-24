@@ -1,0 +1,11 @@
+Khi đã có dấu hiệu thị trường cần, bước tiếp theo là làm ra phiên bản đầu tiên thật đơn giản. Người ta thường gọi đó là sản phẩm khả dụng tối thiểu, nghĩa là phiên bản nhỏ nhất nhưng vẫn giải quyết được vấn đề cốt lõi của khách hàng.
+
+Mục tiêu của phiên bản đầu tiên không phải là hoàn hảo, mà là để học. Bạn đưa nó đến tay người dùng thật càng sớm càng tốt, rồi quan sát họ dùng ra sao, gặp khó ở đâu, và điều gì khiến họ hài lòng.
+
+Sai lầm phổ biến là cố nhồi nhét quá nhiều tính năng ngay từ đầu. Việc này khiến bạn tốn thời gian, trì hoãn ngày ra mắt, và làm sản phẩm trở nên rối rắm. Hãy chọn đúng một tính năng quan trọng nhất, làm cho nó thật tốt, rồi mới tính đến phần còn lại.
+
+Bạn không cần công nghệ phức tạp để bắt đầu. Nhiều startup thành công khởi đầu bằng những cách rất thủ công, thậm chí xử lý đơn hàng bằng tay, miễn là khách hàng nhận được giá trị thật.
+
+Sau khi ra mắt, hãy lắng nghe phản hồi và cải tiến theo từng vòng nhỏ. Mỗi vòng, bạn thêm hoặc sửa một điều dựa trên điều khách hàng thật sự cần, chứ không dựa trên cảm tính của riêng mình.
+
+Hãy nhớ, làm xong một phiên bản nhỏ và đưa ra thị trường luôn tốt hơn ngồi mãi để chờ một sản phẩm hoàn hảo mà có thể không bao giờ ra đời.

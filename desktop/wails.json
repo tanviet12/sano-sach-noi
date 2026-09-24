@@ -1,0 +1,18 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Sano",
+  "outputfilename": "Sano",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "http://localhost:5390",
+  "author": {
+    "name": "Bùi Tấn Việt"
+  },
+  "info": {
+    "productName": "Sano",
+    "productVersion": "0.0.0",
+    "copyright": "Bùi Tấn Việt · giấy phép MIT",
+    "comments": "Biến tài liệu của chính bạn thành sách nói, chạy trên máy bạn"
+  }
+}

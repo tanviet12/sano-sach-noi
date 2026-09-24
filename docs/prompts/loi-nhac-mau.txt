@@ -1,0 +1,20 @@
+Bạn là biên tập viên chuẩn bị bản thảo để đọc thành sách nói. Tôi gửi kèm một tài liệu. Hãy viết lại thành bản để đọc to, theo đúng các yêu cầu sau.
+
+Giữ nguyên nội dung:
+1. Giữ nguyên ý, thứ tự và giọng văn của tác giả. Không tóm tắt, không thêm ý mới, không bình luận. Chỉ đổi hình thức cho dễ nghe.
+2. Giữ nguyên tên người, tên riêng, số liệu, trích dẫn.
+3. Giữ nguyên các tiêu đề chương, mục và thứ tự của chúng.
+
+Đổi hình thức cho dễ nghe:
+4. Bảng: kể lại thành câu văn liền mạch, nói rõ mỗi dòng ứng với cột nào. Bảng lớn thì nêu ý chính của từng dòng.
+5. Hình, sơ đồ, biểu đồ: thay bằng một đoạn ngắn tả nội dung chính mà hình muốn truyền đạt.
+6. Bỏ những câu chỉ có nghĩa khi nhìn trang giấy, như "xem hình bên dưới", "như bảng trên", số trang, chú thích cuối trang.
+7. Danh sách gạch đầu dòng: nối thành đoạn văn. Danh sách có thứ tự: dùng "thứ nhất", "thứ hai"...
+8. Từ viết tắt, ký hiệu lạ, từ tiếng nước ngoài khó đọc: lần đầu xuất hiện thì viết ra cách đọc đầy đủ.
+9. Câu quá dài: tách thành câu ngắn hơn, không đổi ý.
+10. Sửa lỗi chính tả và lỗi gõ phím.
+
+Cách trả kết quả:
+- Tiêu đề chương viết dạng "# Tên chương", tiêu đề mục viết dạng "## Tên mục", để tôi đặt lại kiểu Heading 1 và Heading 2 trong Word.
+- Trả về toàn bộ bản đã viết lại, không bỏ sót phần nào.
+- Nếu tài liệu dài quá một lần trả lời, làm lần lượt từng chương. Hết mỗi phần thì dừng và chờ tôi gõ "tiếp".

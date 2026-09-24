@@ -1,0 +1,178 @@
+name: TTS smoke
+
+# Thử bộ đọc VieNeu-TTS v3 Turbo (ONNX/CPU) chạy được trên từng hệ điều hành:
+# cài đúng phiên bản ghim (scripts/tts/versions.env), tải model (không cần
+# HF_TOKEN), đọc đoạn tiếng Việt mẫu bằng chính script sano-docx2tts gọi
+# (scripts/tts/audio_gen_batch.py), xuất MP3 + log thời gian + dung lượng.
+# KHÔNG chạy trên pull_request (tránh PR từ fork).
+on:
+  workflow_dispatch:
+    inputs:
+      macos:
+        description: "Chạy thêm macOS (tốn phút x10) để đối chiếu"
+        type: boolean
+        default: false
+  push:
+    branches: [ci/tts-smoke, ci/tts-v3turbo]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tts-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: TTS (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.macos) && '["ubuntu-latest","windows-latest","macos-latest"]' || '["ubuntu-latest","windows-latest"]') }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Đọc phiên bản ghim
+        run: |
+          # tr: checkout trên Windows có thể đổi sang CRLF
+          tr -d '\r' < scripts/tts/versions.env | grep -E '^[A-Z0-9_]+=' | tee -a "$GITHUB_ENV"
+          # runner.temp không dùng được ở env cấp job → đặt ở đây
+          HF_HOME="$RUNNER_TEMP/hf"; VIENEU_DIR="$RUNNER_TEMP/VieNeu-TTS"; OUT="$RUNNER_TEMP/out"
+          printf 'HF_HOME=%s\nVIENEU_DIR=%s\nOUT=%s\n' "$HF_HOME" "$VIENEU_DIR" "$OUT" >> "$GITHUB_ENV"
+          mkdir -p "$OUT"
+          printf 'step\tseconds\n' > "$OUT/timing.tsv"
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            echo "PY=$VIENEU_DIR/.venv/Scripts/python.exe" >> "$GITHUB_ENV"
+          else
+            echo "PY=$VIENEU_DIR/.venv/bin/python" >> "$GITHUB_ENV"
+          fi
+          case "$RUNNER_OS" in Windows) echo "TAG=windows";; Linux) echo "TAG=linux";; *) echo "TAG=macos";; esac >> "$GITHUB_ENV"
+
+      - name: Cài uv
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: scripts/tts/versions.env
+
+      - name: Cài ffmpeg
+        uses: AnimMouse/setup-ffmpeg@178e0b4a408f06ce40d896c3cd79f50fa6f8b0c3 # v1.2.5
+
+      - name: Clone VieNeu-TTS đúng commit
+        run: |
+          t0=$(date +%s)
+          git clone --filter=blob:none "$VIENEU_REPO" "$VIENEU_DIR"
+          git -C "$VIENEU_DIR" checkout --detach "$VIENEU_COMMIT"
+          test "$(git -C "$VIENEU_DIR" rev-parse HEAD)" = "$VIENEU_COMMIT"
+          printf 'clone_vieneu\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
+
+      - name: Đối chiếu requirements.txt với uv.lock
+        if: runner.os == 'Linux'
+        run: |
+          uv export --project "$VIENEU_DIR" --frozen --no-dev --no-hashes \
+            --no-emit-project --no-annotate --no-header > "$RUNNER_TEMP/req-lock.txt"
+          grep -v '^#' scripts/tts/requirements.txt > "$RUNNER_TEMP/req-repo.txt"
+          diff -u "$RUNNER_TEMP/req-repo.txt" "$RUNNER_TEMP/req-lock.txt"
+
+      - name: Cài VieNeu-TTS (uv sync --frozen)
+        run: |
+          t0=$(date +%s)
+          uv python install "$PYTHON_VERSION"
+          cd "$VIENEU_DIR"
+          uv sync --frozen --no-dev --python "$PYTHON_VERSION" 2>&1 | tee "$OUT/install.log"
+          printf 'install_python_deps\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
+          echo "--- gói build từ mã nguồn:"; grep -E "^\s+Built " "$OUT/install.log" || echo "(không có)"
+          "$PY" --version
+          "$PY" -c "import vieneu, onnxruntime, sea_g2p, soundfile; print('import OK')"
+          if "$PY" -c "import torch" 2>/dev/null; then echo "::warning::torch có trong venv"; fi
+          if "$PY" -c "import llama_cpp" 2>/dev/null; then echo "::warning::llama_cpp có trong venv"; fi
+
+      - name: Cache model Hugging Face
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ${{ runner.temp }}/hf
+          key: hf-${{ runner.os }}-${{ hashFiles('scripts/tts/versions.env') }}
+
+      - name: Tải model ghim revision (không HF_TOKEN)
+        run: |
+          unset HF_TOKEN HUGGING_FACE_HUB_TOKEN
+          t0=$(date +%s)
+          before=$(du -sk "$HF_HOME" 2>/dev/null | cut -f1 || echo 0)
+          "$PY" scripts/tts/models.py fetch 2>&1 | tee "$OUT/fetch.log"
+          after=$(du -sk "$HF_HOME" 2>/dev/null | cut -f1 || echo 0)
+          printf 'fetch_models\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
+          echo "MODEL_DOWNLOADED_MB=$(( (after - ${before:-0}) / 1024 ))" >> "$GITHUB_ENV"
+          echo "MODEL_CACHE_MB=$(( after / 1024 ))" >> "$GITHUB_ENV"
+
+      - name: Đọc đoạn mẫu (offline)
+        run: |
+          cp scripts/tts/sample-vi.txt scripts/tts/sample-vi-long.txt "$OUT/"
+          cd "$OUT"
+          export PYTHONPATH="$GITHUB_WORKSPACE/scripts/tts" HF_HUB_OFFLINE=1
+          BATCH="$GITHUB_WORKSPACE/scripts/tts/audio_gen_batch.py"
+          "$PY" "$BATCH" --list-voices > voices.log 2>&1
+          t0=$(date +%s)
+          "$PY" "$BATCH" --voice "Trúc Ly" sample-vi.txt sample-vi-long.txt 2>&1 | tee synth.log
+          printf 'synth_truc_ly_total\t%s\n' $(( $(date +%s) - t0 )) >> timing.tsv
+          for f in sample-vi sample-vi-long; do test -s "${f}_full.wav"; mv "${f}_full.wav" "${f}__Truc-Ly.wav"; done
+          mkdir -p nam && cp sample-vi.txt nam/ && (cd nam && "$PY" "$BATCH" --voice "Thái Sơn" sample-vi.txt 2>&1 | tee ../synth-thai-son.log)
+          mv nam/sample-vi_full.wav sample-vi__Thai-Son.wav
+
+      - name: WAV → MP3
+        run: |
+          cd "$OUT"
+          for w in ./*__*.wav; do
+            b=$(basename "$w" .wav); stem=${b%%__*}; voice=${b#*__}
+            case $stem in sample-vi) t=ngan;; *) t=dai;; esac
+            ffmpeg -y -loglevel error -i "$w" -codec:a libmp3lame -b:a 128k -ar 44100 -ac 1 \
+              "$TAG-v3turbo-$voice-$t.mp3"
+          done
+          ls -la ./*.mp3
+
+      - name: Tổng kết
+        if: always()
+        run: |
+          cd "$OUT" 2>/dev/null || exit 0
+          venv_mb=$(du -sm "$VIENEU_DIR/.venv" 2>/dev/null | cut -f1 || echo "?")
+          uvc_mb=$(du -sm "$(uv cache dir 2>/dev/null)" 2>/dev/null | cut -f1 || echo "?")
+          {
+            echo "## TTS smoke v3 Turbo — $RUNNER_OS ($(uname -m)), $(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo "$NUMBER_OF_PROCESSORS") lõi"
+            echo
+            echo "- VieNeu commit: \`$VIENEU_COMMIT\`, không dùng HF_TOKEN"
+            echo "- Model: \`$HF_BACKBONE_REPO@${HF_BACKBONE_REVISION:0:8}\`, codec \`$HF_CODEC_REPO@${HF_CODEC_REVISION:0:8}\`"
+            echo "- Model tải lần này: ${MODEL_DOWNLOADED_MB:-?} MB (cache model: ${MODEL_CACHE_MB:-?} MB)"
+            echo "- venv đã cài: ${venv_mb} MB, uv cache: ${uvc_mb} MB"
+            echo "- Gói build từ mã nguồn: $(grep -E '^\s+Built ' install.log 2>/dev/null | sed 's/^ *Built //' | tr '\n' ' ')"
+            echo
+            echo '| Bước | Giây |'
+            echo '|---|---|'
+            tail -n +2 timing.tsv | awk -F'\t' '{print "| "$1" | "$2" |"}'
+            echo
+            grep -hE "Loaded trong|📄|Audio:|Compute:|Speed ratio|Giọng:" synth.log synth-thai-son.log 2>/dev/null | sed 's/^/    /' || true
+          } > summary.md
+          cat summary.md
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload kết quả
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: tts-smoke-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/out/*.mp3
+            ${{ runner.temp }}/out/*.log
+            ${{ runner.temp }}/out/*.md
+            ${{ runner.temp }}/out/timing.tsv
+          if-no-files-found: warn
+          retention-days: 14

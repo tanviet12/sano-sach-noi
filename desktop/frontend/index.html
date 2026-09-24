@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      CSP: webview gọi được hàm Go có quyền nên chỉ chạy script cùng nguồn (bundle
+      của app + /wails/runtime.js, /wails/ipc.js do Wails chèn), không inline/eval.
+      Ảnh bìa data:/blob:, âm thanh /sano-media/ cùng nguồn. Style inline cần cho
+      Vue/Tailwind. Khi `wails dev`, vite.config.ts nới connect-src cho websocket dev.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sano</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

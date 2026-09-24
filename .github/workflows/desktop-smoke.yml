@@ -1,0 +1,129 @@
+name: Desktop smoke
+
+# Chạy thật trên máy sạch của GitHub (thay cho máy Windows/Linux thật khi chưa có):
+# 1. Cài bộ đọc đúng luồng phần mềm làm lần mở đầu (TestInstallThat): uv →
+#    Python → VieNeu-TTS → mô hình → ffmpeg tải về (bắt buộc tải, không dùng
+#    ffmpeg có sẵn trên máy) → đọc thử một câu.
+# 2. Tạo sách từ file Word mẫu bằng chính bộ đọc + ffmpeg vừa cài, xuất M4B,
+#    kiểm mục lục chương.
+# Không thử được giao diện cửa sổ và hộp cảnh báo SmartScreen/Gatekeeper.
+# KHÔNG chạy trên pull_request (tránh PR từ fork).
+on:
+  workflow_dispatch:
+    inputs:
+      macos:
+        description: "Chạy thêm macOS (tốn phút x10)"
+        type: boolean
+        default: false
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Cài bộ đọc + tạo sách (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON((github.event_name == 'workflow_dispatch' && inputs.macos) && '["windows-latest","ubuntu-latest","macos-latest"]' || '["windows-latest","ubuntu-latest"]') }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: desktop/go.mod
+
+      - name: Thư mục dữ liệu tạm
+        run: |
+          DATA="$RUNNER_TEMP/sano-data"; OUT="$RUNNER_TEMP/out"
+          mkdir -p "$DATA" "$OUT"
+          RT="$DATA/tts"
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            PY="$RT/vieneu/.venv/Scripts/python.exe"; FF="$RT/ffmpeg/ffmpeg.exe"
+          else
+            PY="$RT/vieneu/.venv/bin/python"; FF="$RT/ffmpeg/ffmpeg"
+          fi
+          printf 'DATA=%s\nOUT=%s\nRT=%s\nPY=%s\nFF=%s\n' "$DATA" "$OUT" "$RT" "$PY" "$FF" >> "$GITHUB_ENV"
+          printf 'step\tseconds\n' > "$OUT/timing.tsv"
+
+      - name: Cài bộ đọc như lần mở đầu (bắt buộc tải ffmpeg)
+        working-directory: desktop
+        env:
+          SANO_SETUP_INTEGRATION: "1"
+          SANO_SETUP_FORCE_FFMPEG: "1"
+        run: |
+          t0=$(date +%s)
+          SANO_DATA_DIR="$DATA" go test ./internal/setup -run 'TestInstallThat$' -v -count=1 -timeout 50m 2>&1 | tee "$OUT/install.log"
+          test "${PIPESTATUS[0]}" = 0
+          printf 'install\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
+          test -x "$PY" || test -f "$PY"
+          test -f "$FF"
+          "$FF" -hide_banner -version | head -1 | tee "$OUT/ffmpeg-version.txt"
+          "$FF" -hide_banner -h encoder=libmp3lame | head -1
+
+      - name: Tạo sách từ file Word mẫu + xuất M4B
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+          HF_HUB_OFFLINE: "1"
+          PYTHONUTF8: "1"
+          PYTHONIOENCODING: utf-8
+        run: |
+          export HF_HOME="$RT/hf" HF_HUB_CACHE="$RT/hf/hub"
+          go run ./cmd/sano-docx2tts -gen-sample-docx "$OUT/mau.docx"
+          t0=$(date +%s)
+          go run ./cmd/sano-docx2tts -input "$OUT/mau.docx" -output-dir "$OUT/sach" \
+            -tts-python "$PY" -ffmpeg "$FF" -voice "Thiện Minh" \
+            -m4b "$OUT/sach-mau-$RUNNER_OS.m4b" 2>&1 | tee "$OUT/render.log"
+          test "${PIPESTATUS[0]}" = 0
+          printf 'render_m4b\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
+          ls -la "$OUT/sach" "$OUT"/*.m4b
+          # Mục lục chương trong M4B (ffmpeg -i in ra "Chapter #0:0 ...")
+          "$FF" -hide_banner -i "$OUT/sach-mau-$RUNNER_OS.m4b" 2>&1 | tee "$OUT/m4b-info.txt" || true
+          n=$(grep -c "Chapter #" "$OUT/m4b-info.txt" || true)
+          echo "Số chương trong M4B: $n"
+          test "$n" -ge 3
+
+      - name: Tổng kết
+        if: always()
+        run: |
+          cd "$OUT" 2>/dev/null || exit 0
+          {
+            echo "## Desktop smoke — $RUNNER_OS ($(uname -m))"
+            echo
+            echo "- ffmpeg tải về: $(cat ffmpeg-version.txt 2>/dev/null || echo '?')"
+            echo "- Thư mục bộ đọc: $(du -sm "$RT" 2>/dev/null | cut -f1 || echo '?') MB"
+            echo "- M4B: $(find . -maxdepth 1 -name '*.m4b' | head -1) · $(grep -c 'Chapter #' m4b-info.txt 2>/dev/null || echo 0) chương"
+            echo
+            echo '| Bước | Giây |'
+            echo '|---|---|'
+            tail -n +2 timing.tsv | awk -F'\t' '{print "| "$1" | "$2" |"}'
+          } > summary.md
+          cat summary.md
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload kết quả
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: desktop-smoke-${{ matrix.os }}
+          path: |
+            ${{ runner.temp }}/out/*.m4b
+            ${{ runner.temp }}/out/*.log
+            ${{ runner.temp }}/out/*.txt
+            ${{ runner.temp }}/out/*.md
+            ${{ runner.temp }}/out/timing.tsv
+          if-no-files-found: warn
+          retention-days: 14

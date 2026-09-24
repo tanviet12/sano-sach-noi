@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* shadcn-vue tokens — slate-based neutral với đỏ thương hiệu làm accent.
+ *
+ * Brand color: đỏ #c60505 = HSL(0 94% 40%). Xem BRAND.md ở root.
+ * KHÔNG hard-code màu hex/rgb ở component hoặc page — luôn qua token --primary.
+ *
+ * Dark mode polish ngang light mode (xem docs/design-system.md Section 1.1).
+ */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 0 94% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 0 94% 40%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 47.4% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 47.4% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 47.4% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 0 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 0 80% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Focus ring polish — consistent across inputs and buttons (a11y mandatory) */
+@layer utilities {
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Ambient gradient backdrops — dải nhiều màu loang có chiều sâu (kiểu now-playing
+   * Spotify/Apple Music). Dùng cho mảng nền lớn: player, auth, hero, profile.
+   * Tông xoay quanh đỏ brand #c60505. Vùng list nội dung giữ sạch (không áp). */
+
+  /* Nền tối ambient — cho player / màn full-screen tối */
+  .ambient-dark {
+    background:
+      radial-gradient(95% 55% at 50% -8%, hsl(0 72% 32% / 0.55), transparent 62%),
+      radial-gradient(60% 45% at 88% 10%, hsl(286 48% 34% / 0.40), transparent 58%),
+      radial-gradient(72% 55% at 6% 34%, hsl(340 62% 28% / 0.34), transparent 58%),
+      linear-gradient(180deg, #160d12 0%, #0c0b0f 58%, #08080a 100%);
+  }
+
+  /* Nền sáng ambient mềm — cho auth / hồ sơ / màn nhẹ */
+  .ambient-soft {
+    background:
+      radial-gradient(82% 50% at 16% -6%, hsl(0 92% 95%), transparent 60%),
+      radial-gradient(66% 46% at 104% 6%, hsl(22 94% 94%), transparent 56%),
+      radial-gradient(96% 60% at 52% 106%, hsl(348 90% 96%), transparent 62%),
+      hsl(var(--background));
+  }
+  .dark .ambient-soft {
+    background:
+      radial-gradient(82% 50% at 16% -6%, hsl(0 60% 22% / 0.7), transparent 60%),
+      radial-gradient(66% 46% at 104% 6%, hsl(300 40% 24% / 0.6), transparent 56%),
+      radial-gradient(96% 60% at 52% 106%, hsl(340 55% 22% / 0.6), transparent 62%),
+      hsl(var(--background));
+  }
+
+  /* Hero giàu màu — dải đỏ brand nhiều tông cho card nổi bật */
+  .ambient-hero {
+    background:
+      radial-gradient(120% 95% at 0% 0%, hsl(0 88% 56%), transparent 56%),
+      radial-gradient(120% 120% at 100% 100%, hsl(344 78% 36%), transparent 60%),
+      linear-gradient(135deg, hsl(0 82% 49%), hsl(0 72% 38%));
+  }
+}
