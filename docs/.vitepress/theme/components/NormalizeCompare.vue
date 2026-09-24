@@ -2,7 +2,7 @@
 // Trước / sau chuẩn hoá văn nói (wireframe WfLanding mục 2). Hai audio cùng một đoạn, giọng Thiện Minh:
 // bản trước = văn bản gốc đưa thẳng vào bộ đọc; bản sau = cùng đoạn qua chuẩn hoá của Sano (internal/bookmaker).
 // Cột "sau" là đúng chữ Sano đã tạo ra (--keep-txt), không viết tay.
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { withBase } from 'vitepress'
 import { ArrowRight, Pause, Play } from 'lucide-vue-next'
 import { announcePlay, fmt, onOtherPlay } from './audioBus'
@@ -25,21 +25,27 @@ const playing = ref(false)
 const audio = ref<HTMLAudioElement>()
 const v = computed(() => versions[pick.value])
 
-function toggle() {
+function play() {
   const a = audio.value
   if (!a) return
-  if (playing.value) return a.pause()
   announcePlay(ID)
   void a.play().catch(() => (playing.value = false))
 }
-// đổi bản khi đang phát → phát tiếp bản mới từ đầu
-watch(pick, () => {
-  const was = playing.value
-  audio.value?.pause()
-  requestAnimationFrame(() => {
-    audio.value?.load()
-    if (was) toggle()
-  })
+function toggle() {
+  // đọc trạng thái thật của audio, không tin biến playing (sự kiện pause có thể bị huỷ khi đổi src)
+  if (audio.value && !audio.value.paused) audio.value.pause()
+  else play()
+}
+// đổi bản khi đang phát → phát tiếp bản mới từ đầu. Không gọi load(): Vue đổi src là trình duyệt
+// tự nạp lại; load() ngay sau đó làm Chrome báo sai trạng thái và nút kẹt ở "đang phát".
+watch(pick, async () => {
+  const a = audio.value
+  if (!a) return
+  const was = !a.paused
+  a.pause()
+  playing.value = false
+  await nextTick() // chờ :src đổi sang bản mới
+  if (was) play()
 })
 
 let off: (() => void) | undefined

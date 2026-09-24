@@ -30,7 +30,8 @@ function play() {
   void a.play().catch(() => (playing.value = false))
 }
 function toggle() {
-  if (playing.value) audio.value?.pause()
+  // đọc trạng thái thật của audio: load() huỷ sự kiện pause đang chờ nên playing có thể lệch
+  if (audio.value && !audio.value.paused) audio.value.pause()
   else play()
 }
 function pick(i: number) {
