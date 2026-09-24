@@ -45,6 +45,17 @@ BookPlayer hiện bìa, mục lục chương, nhớ chỗ nghe dở, chỉnh t�
 
 *Thư viện · Đang nghe (bìa, tên chương, tốc độ, hẹn giờ tắt) · Mục lục chương lấy từ file M4B do Sano xuất. Bấm ảnh để phóng to.*
 
+### Trên xe có CarPlay
+
+BookPlayer chạy được trên màn hình xe qua **CarPlay**, không chỉ phát/dừng như trình phát nhạc:
+
+1. Kết nối iPhone với xe (cáp USB hoặc CarPlay không dây).
+2. Trên màn hình xe, mở **BookPlayer**.
+3. Xem **danh sách sách** trong thư viện, chạm vào một cuốn để nghe.
+4. Mở **danh sách chương** để nhảy tới chương muốn nghe. Tên chương hiện trên màn hình xe, lấy từ mục lục trong file M4B.
+
+BookPlayer nhớ chỗ nghe dở: tắt máy xe, lần sau mở lại nghe tiếp đúng chỗ, trên xe hay trên điện thoại đều vậy.
+
 ### App Sách của Apple
 
 Đồng bộ từ máy tính:
