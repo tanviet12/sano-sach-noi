@@ -7,6 +7,8 @@ description: 'Dùng ChatGPT, Gemini hoặc Claude viết lại bảng, hình, da
 
 Sano đọc được file Word thường. Nhưng một số thứ trong tài liệu viết để **nhìn** chứ không để **nghe**: bảng, hình, sơ đồ, danh sách gạch đầu dòng, câu kiểu "xem hình bên dưới". Sano sẽ cảnh báo khi nạp file nếu gặp những thứ này.
 
+<img class="app-shot" src="./images/app/canh-bao-bang-hinh.jpg" alt="Cảnh báo khi nạp file có hình chưa có lời tả, kèm nút Sao chép lời nhắc mẫu" width="1056" height="426">
+
 Cách xử lý nhanh nhất: nhờ một trợ lý AI bất kỳ (ChatGPT, Gemini, Claude…) viết lại thành bản để đọc to, rồi nạp bản đó vào Sano. Không cần tài khoản trả phí.
 
 ## Các bước

@@ -17,6 +17,8 @@ Chỉ cần lúc tải bản cài và lần cài bộ đọc đầu tiên (tải
 
 Khi mở, Sano hỏi GitHub xem có bản mới không (chỉ lấy số phiên bản, không gửi dữ liệu nào của bạn). Không có mạng thì bỏ qua. Tắt được trong **Cài đặt → Tự kiểm tra bản mới khi mở Sano**.
 
+<img class="app-shot" src="./images/app/kiem-tra-ban-moi.jpg" alt="Cài đặt, mục Ứng dụng: tự kiểm tra bản mới khi mở, nút Kiểm tra bản mới" width="984" height="312">
+
 ### Cập nhật Sano thế nào?
 
 Có bản mới, thanh bên hiện **Có bản mới**. Bấm vào để xem có gì mới, rồi **Mở trang tải** và cài đè lên bản đang dùng. Sách, tiến độ nghe và bộ đọc giữ nguyên.

@@ -16,6 +16,8 @@ M4B là định dạng sách nói chuẩn: **một file duy nhất** chứa cả
 3. Sano xuất chạy nền, hiện phần trăm, bấm **Huỷ** được (không để lại file dở).
 4. Xong, Sano mở thư mục và chọn sẵn file.
 
+<img class="app-shot" src="./images/app/xuat-m4b.jpg" alt="Trình phát với nút Xuất M4B, Xuất gói zip; dòng báo đã lưu file M4B kèm số mốc chương" width="1600" height="955">
+
 Dung lượng khoảng **29 MB cho mỗi giờ nghe** (AAC 64 kbps mono, đủ rõ cho giọng đọc). Mỗi lúc xuất một cuốn.
 
 Tiếp theo: [chép file M4B sang điện thoại](./nghe-tren-dien-thoai).

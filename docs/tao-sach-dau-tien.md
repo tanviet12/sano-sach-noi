@@ -38,9 +38,13 @@ Tick hoặc bỏ tick từng chương, từng mục để chọn phần sẽ đ�
 
 Số đầu tiêu đề (như "1.2.") mặc định không đọc. Muốn đọc thì tick ô **Đọc cả số đầu tiêu đề**.
 
+<img class="app-shot" src="./images/app/b2-muc-luc.jpg" alt="Bước Mục lục: tick chọn chương, mục sẽ đọc, ước tính thời lượng" width="1600" height="955">
+
 ## 3. Giọng đọc
 
 Chọn một trong khoảng 25 giọng Việt, nam và nữ, giọng Bắc và giọng Nam. Mỗi giọng có nút **Nghe mẫu**; câu nghe mẫu sửa được. Giọng mặc định là **Thiện Minh** (nam, miền Bắc, giọng kể chuyện).
+
+<img class="app-shot" src="./images/app/b3-giong-doc.jpg" alt="Bước Giọng đọc: danh sách giọng, nút Nghe mẫu, câu nghe mẫu sửa được" width="1600" height="955">
 
 ## 4. Lời mở đầu
 
@@ -49,6 +53,8 @@ Sano tự điền lời mở đầu đọc trước chương 1, ví dụ:
 > Bạn đang nghe sách nói. Cuốn sách: Kỹ năng mềm cho người trẻ. Tác giả: …
 
 Sửa được, hoặc bỏ tick **Có lời mở đầu** nếu không cần. Giữ chữ "Cuốn sách:" trước tên sách để bộ đọc không nuốt mất tên ở đầu câu. Bấm **Nghe lời mở đầu** để nghe thử.
+
+<img class="app-shot" src="./images/app/b4-loi-mo-dau.jpg" alt="Bước Lời mở đầu: đoạn đọc trước chương 1, sửa được, nút Nghe lời mở đầu" width="1600" height="955">
 
 ## 5. Nghe thử
 
