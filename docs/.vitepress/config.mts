@@ -51,6 +51,7 @@ const guide = [
   { text: 'Tạo sách đầu tiên', link: '/tao-sach-dau-tien' },
   { text: 'Làm mượt tài liệu', link: '/lam-muot-tai-lieu' },
   { text: 'Nghe trên điện thoại', link: '/nghe-tren-dien-thoai' },
+  { text: 'Nghe khi lái xe ô tô', link: '/nghe-khi-lai-xe' },
   { text: 'Câu hỏi thường gặp', link: '/cau-hoi-thuong-gap' },
   { text: 'Gỡ cài đặt', link: '/go-cai-dat' },
 ]
@@ -172,6 +173,7 @@ export default defineConfig({
         items: [
           { text: 'Làm mượt tài liệu', link: '/lam-muot-tai-lieu' },
           { text: 'Nghe trên điện thoại', link: '/nghe-tren-dien-thoai' },
+          { text: 'Nghe khi lái xe ô tô', link: '/nghe-khi-lai-xe' },
           { text: 'Thư viện & danh mục', link: '/thu-vien' },
           { text: 'Xuất M4B / gói zip', link: '/xuat-m4b-goi-zip' },
         ],

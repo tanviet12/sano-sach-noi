@@ -16,7 +16,7 @@ const uses = [
   { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
   { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
   { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android)' },
-  { t: 'Nghe trên ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },
+  { t: 'Nghe khi lái xe ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },
   { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
 ]
 

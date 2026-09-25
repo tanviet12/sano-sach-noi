@@ -26,7 +26,7 @@ const shots = [
         </p>
         <ul class="list">
           <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>iPhone và Android:</strong> app BookPlayer (miễn phí, mã nguồn mở); iPhone dùng được cả app Sách của Apple</span></li>
-          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Trên ô tô:</strong> BookPlayer chạy trên CarPlay và Android Auto, chọn sách, chọn chương ngay trên màn hình xe</span></li>
+          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Khi lái xe ô tô:</strong> BookPlayer chạy trên CarPlay và Android Auto, chọn sách, chọn chương ngay trên màn hình xe</span></li>
           <li><Check :size="16" class="ck" aria-hidden="true" /><span>Khoảng 29 MB cho mỗi giờ nghe</span></li>
         </ul>
         <div class="actions">
@@ -44,7 +44,7 @@ const shots = [
         </div>
         <figure class="car">
           <img :src="imgCar" alt="BookPlayer trên màn hình xe qua CarPlay: tên chương, bìa, nút tua và chuyển chương" loading="lazy" />
-          <figcaption class="sano-muted">Trên ô tô (ảnh CarPlay): chọn sách, chọn chương ngay trên màn hình xe</figcaption>
+          <figcaption class="sano-muted">Khi lái xe ô tô (ảnh CarPlay): chọn sách, chọn chương ngay trên màn hình xe · <a :href="withBase('/nghe-khi-lai-xe')">Hướng dẫn</a></figcaption>
         </figure>
       </div>
     </div>
