@@ -77,13 +77,14 @@ jobs:
           test "$(git -C "$VIENEU_DIR" rev-parse HEAD)" = "$VIENEU_COMMIT"
           printf 'clone_vieneu\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
 
-      - name: Đối chiếu requirements.txt với uv.lock
+      # Sano chép pyproject.toml + uv.lock của mình (scripts/tts/vieneu/: bỏ gradio,
+      # ép bản vá bảo mật) đè lên bản của VieNeu trước khi sync — làm y như app.
+      - name: Kiểm scripts/tts/vieneu/ + requirements.txt khớp ghi đè
         if: runner.os == 'Linux'
-        run: |
-          uv export --project "$VIENEU_DIR" --frozen --no-dev --no-hashes \
-            --no-emit-project --no-annotate --no-header > "$RUNNER_TEMP/req-lock.txt"
-          grep -v '^#' scripts/tts/requirements.txt > "$RUNNER_TEMP/req-repo.txt"
-          diff -u "$RUNNER_TEMP/req-repo.txt" "$RUNNER_TEMP/req-lock.txt"
+        run: scripts/tts/vieneu-lock.sh --check
+
+      - name: Chép pyproject.toml + uv.lock của Sano
+        run: cp scripts/tts/vieneu/pyproject.toml scripts/tts/vieneu/uv.lock "$VIENEU_DIR/"
 
       - name: Cài VieNeu-TTS (uv sync --frozen)
         run: |
@@ -97,6 +98,7 @@ jobs:
           "$PY" -c "import vieneu, onnxruntime, sea_g2p, soundfile; print('import OK')"
           if "$PY" -c "import torch" 2>/dev/null; then echo "::warning::torch có trong venv"; fi
           if "$PY" -c "import llama_cpp" 2>/dev/null; then echo "::warning::llama_cpp có trong venv"; fi
+          if "$PY" -c "import gradio" 2>/dev/null; then echo "::error::gradio vẫn có trong venv"; exit 1; fi
 
       - name: Cache model Hugging Face
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
