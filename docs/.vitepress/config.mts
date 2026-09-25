@@ -183,6 +183,7 @@ export default defineConfig({
         items: [
           { text: 'Câu hỏi thường gặp', link: '/cau-hoi-thuong-gap' },
           { text: 'Mở app lần đầu', link: '/mo-app-lan-dau' },
+          { text: 'Chính sách ký số', link: '/chinh-sach-ky-so' },
           { text: 'Gỡ cài đặt', link: '/go-cai-dat' },
           { text: 'Điều khoản sử dụng', link: '/dieu-khoan-su-dung' },
           { text: 'Nhật ký thay đổi', link: '/nhat-ky-thay-doi' },

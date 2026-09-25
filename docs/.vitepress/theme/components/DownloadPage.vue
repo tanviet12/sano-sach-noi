@@ -97,8 +97,9 @@ async function copyLink() {
       <p class="trust">
         <ShieldCheck :size="16" class="ok" aria-hidden="true" />
         <span>
-          File cài build tự động trên GitHub từ mã nguồn công khai, kèm SHA256SUMS. Chưa ký số nên lần đầu mở máy sẽ cảnh báo —
-          <a :href="withBase('/mo-app-lan-dau')" class="link">cách mở lần đầu</a>.
+          File cài build tự động trên GitHub từ mã nguồn công khai, kèm SHA256SUMS có chữ ký. Chưa ký số hệ điều hành nên lần đầu mở máy sẽ cảnh báo —
+          <a :href="withBase('/mo-app-lan-dau')" class="link">cách mở lần đầu</a>. Ký số Windows đang xin miễn phí qua SignPath Foundation —
+          <a :href="withBase('/chinh-sach-ky-so')" class="link">chính sách ký số</a>.
         </span>
       </p>
     </div>
