@@ -63,14 +63,8 @@ func applyUpdate(inst installInfo, file, version string, relaunch bool) error {
 	pid := strconv.Itoa(os.Getpid())
 	switch inst.kind {
 	case "setup":
-		// /D= phải đứng cuối, không có ngoặc kép kể cả khi có dấu cách (quy ước NSIS).
-		line := syscall.EscapeArg(file) + " /S"
-		if relaunch {
-			line += " /sano-mo-lai"
-		}
-		line += " /D=" + inst.path
 		cmd := exec.Command(file)
-		cmd.SysProcAttr = &syscall.SysProcAttr{CmdLine: line, CreationFlags: createNewProcessGroup | detachedProcess}
+		cmd.SysProcAttr = &syscall.SysProcAttr{CmdLine: setupCmdLine(file, inst.path, relaunch), CreationFlags: createNewProcessGroup | detachedProcess}
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("không chạy được bộ cài: %w", err)
 		}
@@ -105,6 +99,16 @@ func applyUpdate(inst installInfo, file, version string, relaunch bool) error {
 		return cmd.Process.Release()
 	}
 	return errors.New("kiểu cài này không tự thay được")
+}
+
+// setupCmdLine — dòng lệnh chạy bộ cài NSIS im lặng. /D= phải đứng cuối, không
+// có ngoặc kép kể cả khi đường dẫn có dấu cách (quy ước NSIS).
+func setupCmdLine(file, dir string, relaunch bool) string {
+	line := syscall.EscapeArg(file) + " /S"
+	if relaunch {
+		line += " /sano-mo-lai"
+	}
+	return line + " /D=" + dir
 }
 
 // cleanupAfterUpdate xoá Sano.exe.cu còn lại sau khi thay bản chạy ngay.
