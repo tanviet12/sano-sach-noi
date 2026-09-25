@@ -52,9 +52,9 @@ Số đầu tiêu đề (như "1.2.") mặc định không đọc. Muốn đọc
 
 ## 3. Giọng đọc
 
-Chọn một trong khoảng 25 giọng Việt, nam và nữ, giọng Bắc và giọng Nam. Mỗi giọng có nút **Nghe mẫu**; câu nghe mẫu sửa được. Giọng mặc định là **Hải Đăng** (nam, miền Bắc, giọng tự nhiên).
+Chọn một trong 25 giọng Việt. Giọng gom theo miền: **Miền Bắc** (15), **Miền Trung** (2), **Miền Nam** (8) hoặc **Tất cả**, lọc thêm giọng **Nam** / **Nữ**. Sano mở sẵn đúng miền bạn chọn lần trước, giọng của cuốn tạo gần nhất có nhãn **Dùng lần trước**. Mỗi giọng có nút **Nghe mẫu**; câu nghe mẫu sửa được. Giọng mặc định là **Hải Đăng** (nam, miền Bắc, giọng tự nhiên).
 
-<img class="app-shot" src="./images/app/b3-giong-doc.jpg" alt="Bước Giọng đọc: danh sách giọng, nút Nghe mẫu, câu nghe mẫu sửa được" width="1600" height="955">
+<img class="app-shot" src="./images/app/b3-giong-doc.jpg" alt="Bước Giọng đọc: chọn miền Bắc, Trung, Nam, lọc giọng nam nữ, nút Nghe mẫu" width="1600" height="955">
 
 ## 4. Lời mở đầu
 

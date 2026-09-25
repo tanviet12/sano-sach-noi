@@ -1,13 +1,16 @@
 <script setup lang="ts">
 // Điểm nổi bật (wireframe WfLanding mục 5). Tự làm thay cho frontmatter `features` của VitePress
 // để giữ đúng thứ tự mục như wireframe (features của VitePress luôn nằm ngay dưới hero).
-import { Github, ListTree, Mic, UserRoundX, Wand2, WifiOff } from 'lucide-vue-next'
+import { Github, Headphones, ListTree, Mic, Share2, Text, UserRoundX, Wand2, WifiOff } from 'lucide-vue-next'
 
 const items = [
   { icon: WifiOff, title: 'Chạy offline trên máy', desc: 'Tài liệu không gửi lên mạng. Cài bộ đọc xong là dùng được không cần internet.' },
-  { icon: Mic, title: '25 giọng Việt', desc: 'Nam, nữ, giọng Bắc, Trung, Nam của bộ đọc mã nguồn mở VieNeu-TTS. Nghe thử từng giọng trước khi chọn.' },
+  { icon: Mic, title: '25 giọng Việt', desc: 'Nam, nữ, giọng Bắc, Trung, Nam của bộ đọc mã nguồn mở VieNeu-TTS. Chọn theo miền, nghe thử từng giọng trước khi chọn.' },
   { icon: Wand2, title: 'Tự chuẩn hoá văn nói', desc: 'Số, viết tắt, mũi tên, ký hiệu được đọc thành lời tự nhiên.' },
   { icon: ListTree, title: 'Mục lục chương', desc: 'Lấy từ Heading trong Word. Nhảy chương trong app và trong file M4B.' },
+  { icon: Text, title: 'Chữ chạy theo lời đọc', desc: 'Vừa nghe vừa xem chữ: câu đang đọc in đậm, tự cuộn theo, bấm một câu để nghe lại từ đó.' },
+  { icon: Headphones, title: 'Nghe liền mạch', desc: 'Nhớ chỗ nghe dở của từng cuốn. Rời màn nghe để tạo sách mới, sách vẫn phát ở thanh nghe nhỏ.' },
+  { icon: Share2, title: 'Chia sẻ sách cho nhau', desc: 'Gửi gói zip để người dùng Sano khác nhập vào thư viện, hoặc gửi file M4B để nghe bằng app bất kỳ.' },
   { icon: UserRoundX, title: 'Không cần API key, không tốn token', desc: 'Không điền key ChatGPT hay dịch vụ AI nào, không trả tiền theo lượt dùng. Mô hình AI chạy trên máy bạn, không đăng ký, không đăng nhập.' },
   { icon: Github, title: 'Mã nguồn mở MIT', desc: 'Miễn phí, xem và sửa được toàn bộ mã nguồn trên GitHub.' },
 ]

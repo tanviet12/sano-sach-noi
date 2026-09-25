@@ -1,6 +1,6 @@
 ---
 title: Thư viện & danh mục
-description: 'Thư viện trong Sano, phần mềm làm sách nói bằng AI: tìm và sắp xếp, gắn danh mục, sửa thông tin sách, trình phát nhớ chỗ nghe dở và nơi lưu sách trên máy.'
+description: 'Thư viện trong Sano, phần mềm làm sách nói bằng AI: tìm và sắp xếp, gắn danh mục, nhập sách từ gói zip, trình phát có chữ chạy theo, nhớ chỗ nghe dở và nơi lưu sách trên máy.'
 ---
 
 # Thư viện & danh mục
@@ -14,11 +14,11 @@ Lần đầu mở Sano, thư viện có sẵn một cuốn mẫu: **Kỹ năng m
 ## Nghe tiếp và tất cả sách
 
 - Hàng **Nghe tiếp** hiện tối đa 3 cuốn đang nghe dở, bấm là phát tiếp.
-- Mục **Tất cả sách** hiện bìa từng cuốn kèm tên, tác giả, thời lượng và tiến độ: "Chưa nghe", "Đã nghe X%" hoặc "Đã nghe xong".
+- Mục **Tất cả sách** hiện bìa từng cuốn kèm tên, tác giả, thời lượng, **giọng đọc** và tiến độ: "Chưa nghe", "Đã nghe X%" hoặc "Đã nghe xong".
 
 ## Tìm và sắp xếp
 
-- Ô **Tìm theo tên sách hoặc tác giả…** tìm được cả khi gõ không dấu.
+- Ô **Tìm theo tên sách, tác giả hoặc giọng đọc…** tìm được cả khi gõ không dấu.
 - **Sắp xếp:** Mới tạo nhất, Nghe gần đây, Tên A–Z, Tác giả A–Z, Dài nhất. Sano nhớ lựa chọn của bạn.
 
 ## Danh mục
@@ -28,6 +28,17 @@ Danh mục là nhãn bạn tự đặt cho mỗi cuốn (tối đa 40 ký tự),
 - **Gắn danh mục:** chọn ở bước Nạp file khi tạo sách, hoặc trong **Sửa thông tin** của cuốn đã có. Chưa có danh mục phù hợp thì bấm **Tạo danh mục mới**, gõ tên rồi bấm **Thêm**.
 - **Lọc:** khi thư viện có từ 2 danh mục, phía trên lưới bìa hiện các nút lọc: Tất cả, Đang nghe, từng danh mục, Chưa phân loại.
 - Danh mục tự biến mất khi không còn cuốn nào dùng. Muốn đổi danh mục của một cuốn thì sửa thông tin cuốn đó.
+
+## Nhập sách từ gói zip
+
+Người khác gửi cho bạn gói sách (`book-<tên-sách>.zip`, tạo bằng nút **Xuất gói zip**), hoặc bạn muốn lấy lại bản sao lưu: bấm **Nhập sách** ở đầu Thư viện rồi chọn file, hoặc kéo thả file `.zip` vào cửa sổ.
+
+<img class="app-shot" src="./images/app/nhap-sach.jpg" alt="Hộp Nhập sách: bìa, tên sách, giọng đọc, số chương, thời lượng, dung lượng và nút Nhập vào thư viện" width="1600" height="955">
+
+- Sano cho **xem trước** bìa, tên, giọng đọc, số chương, thời lượng, rồi mới nhập. Sách nhập giữ đủ mục lục, bìa, tên giọng và chữ chạy theo.
+- **Trùng sách đã có:** chọn **Giữ cả hai** (cuốn mới tên "… (2)") hoặc **Thay thế** (cuốn cũ vào Thùng rác, lấy lại được).
+- Gói lạ, bị sửa hay hỏng bị từ chối, Sano nói rõ lý do và không thêm gì vào thư viện. Chi tiết ở [Xuất M4B & gói zip](./xuat-m4b-goi-zip#nhap-goi-zip-tu-0-1-8).
+- Chỉ nhập sách bạn có quyền nghe.
 
 ## Sửa thông tin, mở thư mục, xoá
 
@@ -41,11 +52,25 @@ Bấm nút **⋯** trên bìa sách:
 
 Bấm vào một cuốn để nghe ngay trong Sano:
 
+<img class="app-shot" src="./images/app/nghe.jpg" alt="Màn nghe: bìa, tên sách, giọng đọc, ô Lời đọc, nút phát, mục lục bên phải" width="1600" height="955">
+
 - Phát, dừng, lùi 15 giây, tới 30 giây, mục trước, mục sau; bấm vào thanh tiến độ để nhảy tới chỗ bất kỳ.
 - Tốc độ 0,75× đến 2×, Sano nhớ tốc độ bạn chọn.
 - Tự nhớ chỗ nghe dở của từng cuốn, hết mục tự sang mục kế.
-- Cột **Mục lục** liệt kê từng mục, bấm để nhảy tới.
+- Cột **Mục lục** liệt kê từng mục và tự cuộn tới mục đang phát, bấm để nhảy tới.
+- **Rời màn nghe vẫn nghe tiếp:** sang Thư viện, Tạo sách hay Cài đặt, sách phát tiếp ở **thanh nghe nhỏ** dưới đáy cửa sổ (phát/dừng, tua, ✕ để dừng hẳn). Bấm tên sách trên thanh để mở lại màn nghe. Khi bấm **Nghe mẫu** giọng lúc tạo sách, sách tự tạm dừng.
 - Hàng nút: **Xuất M4B**, **Xuất gói zip**, **Mở thư mục**, **Xoá**.
+
+### Chữ chạy theo lời đọc
+
+Ô **Lời đọc** dưới tên mục hiện câu đang đọc và câu kế. Bấm vào để mở **Xem lời**: chữ lớn như trong file Word, câu đang đọc in đậm, tự cuộn theo.
+
+<img class="app-shot" src="./images/app/xem-loi.jpg" alt="Màn Xem lời: câu đang đọc in đậm, câu đã đọc mờ, thanh điều khiển ở đáy" width="1600" height="955">
+
+- Bấm một câu để nghe từ câu đó. Tự cuộn đi chỗ khác thì Sano ngừng bám theo, bấm **Về câu đang đọc** để quay lại.
+- **Chữ lớn** phóng to chữ, **Thu nhỏ** về màn nghe.
+- Vị trí chữ là **ước lượng** theo độ dài câu rồi khớp vào khoảng ngừng thật trong giọng đọc, thường lệch dưới nửa giây. Dùng được cho cả sách đã tạo trước đây.
+- Tiện để soát: nghe thấy chỗ đọc sai là biết ngay câu nào, sửa lời đọc rồi tạo lại sách.
 
 ## Sách lưu ở đâu
 

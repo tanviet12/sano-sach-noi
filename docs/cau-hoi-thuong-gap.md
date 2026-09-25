@@ -64,6 +64,10 @@ Tuỳ độ dài tài liệu và sức máy. Ở bước **Mục lục**, Sano �
 
 Được. Xuất sách thành một file M4B rồi chép sang điện thoại, xem [Nghe trên điện thoại](./nghe-tren-dien-thoai).
 
+### Gửi sách cho người khác thế nào?
+
+Người nhận **dùng Sano**: gửi gói zip (bấm **Xuất gói zip** ở màn nghe), người nhận bấm **Nhập sách** trong Thư viện. Sách giữ đủ mục lục, bìa, giọng đọc và chữ chạy theo. Người nhận **không dùng Sano**: gửi file M4B, nghe được bằng app sách nói bất kỳ. Xem [Xuất M4B & gói zip](./xuat-m4b-goi-zip).
+
 ### Có bản cho điện thoại, có nghe qua web không?
 
 Bản hiện tại là phần mềm máy tính. Máy chủ nghe sách riêng (nghe qua web và app điện thoại) nằm trong kế hoạch giai đoạn sau.
