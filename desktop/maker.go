@@ -19,6 +19,7 @@ import (
 
 	wruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 
+	"sano/desktop/internal/library"
 	"sano/desktop/internal/tts"
 	"sano/internal/bookmaker"
 )
@@ -281,7 +282,7 @@ func (a *App) StartRender(s BookSettings) (*RenderStatus, error) {
 	if title == "" {
 		title = strings.TrimSuffix(filepath.Base(s.Path), filepath.Ext(s.Path))
 	}
-	slug := bookmaker.Slugify(title)
+	slug := library.BookSlug(title)
 	category := a.lib.CanonicalCategory(s.Category, "") // gộp với danh mục đã có (không phân biệt hoa thường)
 
 	a.mu.Lock()
