@@ -2,6 +2,11 @@
 
 ## Chưa phát hành
 
+### Tính năng
+- **Rời màn nghe vẫn nghe tiếp:** thanh nghe nhỏ ở đáy cửa sổ (phát/dừng, tua −15s/+30s, dừng hẳn); bấm vào tên sách để mở lại màn nghe. Nghe mẫu giọng khi đang tạo sách thì sách tự tạm dừng
+- **Sách ghi tên giọng đọc** trên thẻ trong Thư viện và màn nghe (cả sách đã tạo trước đây); tìm sách được theo tên giọng
+- **Chọn giọng theo miền:** Miền Bắc / Trung / Nam / Tất cả kèm lọc giọng Nam, Nữ; mở đúng miền đã chọn lần trước, giọng đã dùng có nhãn "Dùng lần trước"
+
 ### Sửa lỗi
 - Chữ **P** đứng riêng ("chữ P đầu tiên", "P thứ hai là giá") và "4Ps" đọc là "pê" thay vì "phê"
 

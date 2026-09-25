@@ -39,6 +39,13 @@ export function clearAudioSource(el: HTMLMediaElement) {
   blobs.delete(el)
 }
 
+const clipHooks: (() => void)[] = []
+
+/** Gọi trước khi một đoạn nghe mẫu/nghe thử bắt đầu phát (trình phát sách tạm dừng). */
+export function beforeClipPlay(fn: () => void) {
+  clipHooks.push(fn)
+}
+
 export function useClipPlayer(onPlay?: (id: string) => void) {
   const playing = ref<string | null>(null)
   const error = ref('')
@@ -63,6 +70,7 @@ export function useClipPlayer(onPlay?: (id: string) => void) {
     }
     el.pause()
     playing.value = id
+    clipHooks.forEach((fn) => fn())
     try {
       await setAudioSource(el, url)
       if (playing.value !== id) return // bấm đoạn khác trong lúc đang tải

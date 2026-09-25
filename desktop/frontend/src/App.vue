@@ -14,6 +14,8 @@ import PlayerView from './views/PlayerView.vue'
 import SettingsView from './views/SettingsView.vue'
 import AboutView from './views/AboutView.vue'
 import CreateView from './views/CreateView.vue'
+import MiniPlayer from './components/MiniPlayer.vue'
+import { player } from './lib/player'
 
 const os = ref('')
 onMounted(async () => {
@@ -37,6 +39,7 @@ onMounted(async () => {
         <SettingsView v-else-if="state.view === 'settings'" />
         <AboutView v-else-if="state.view === 'about'" />
         <CreateView v-else />
+        <MiniPlayer v-if="player.slug && state.view !== 'player'" />
       </main>
     </div>
 

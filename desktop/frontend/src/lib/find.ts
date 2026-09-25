@@ -15,10 +15,10 @@ export function fold(s: string): string {
 }
 
 /** Khớp tên sách hoặc tác giả, không phân biệt hoa thường và dấu. */
-export function matches(b: Pick<LibraryBook, 'title' | 'author'>, query: string): boolean {
+export function matches(b: Pick<LibraryBook, 'title' | 'author'> & { voice?: string }, query: string): boolean {
   const q = fold(query.trim()).replace(/\s+/g, ' ')
   if (!q) return true
-  return fold(b.title).includes(q) || fold(b.author).includes(q)
+  return fold(b.title).includes(q) || fold(b.author).includes(q) || fold(b.voice ?? '').includes(q)
 }
 
 /** Chuẩn hoá tên danh mục: bỏ khoảng trắng thừa, cắt độ dài (khớp Go). */

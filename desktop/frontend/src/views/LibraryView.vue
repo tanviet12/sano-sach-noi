@@ -4,7 +4,7 @@
 // mục (chỉ hiện khi có từ 2 danh mục), hàng "Nghe tiếp", menu ⋯ trên bìa.
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
-  Check, ChevronDown, FilePlus2, FolderOpen, MoreHorizontal, Pencil, Play, Search, Trash2, X,
+  Check, ChevronDown, FilePlus2, FolderOpen, Mic, MoreHorizontal, Pencil, Play, Search, Trash2, X,
 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import BookCover from '@/components/sano/BookCover.vue'
@@ -14,6 +14,7 @@ import {
 } from '../lib/find'
 import { fmtLong, loadPosition } from '../lib/position'
 import { go, openBook, refreshLibrary, state } from '../lib/store'
+import { forgetBook } from '../lib/player'
 import EditBookDialog from '../components/EditBookDialog.vue'
 
 onMounted(() => void refreshLibrary())
@@ -109,7 +110,10 @@ async function trash(b: LibraryBook) {
   menuFor.value = null
   actionError.value = ''
   try {
-    if (await deleteBook(b.slug)) await refreshLibrary()
+    if (await deleteBook(b.slug)) {
+      forgetBook(b.slug) // đang phát cuốn này → dừng
+      await refreshLibrary()
+    }
   } catch (e) {
     actionError.value = errText(e)
   }
@@ -158,7 +162,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
         <div class="mt-4 flex items-center gap-2">
           <div class="flex-1 flex items-center h-9 rounded-md border border-input bg-background px-3 focus-within:border-ring">
             <Search class="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
-            <input v-model="query" class="flex-1 min-w-0 bg-transparent outline-none text-sm" placeholder="Tìm theo tên sách hoặc tác giả…" aria-label="Tìm sách" />
+            <input v-model="query" class="flex-1 min-w-0 bg-transparent outline-none text-sm" placeholder="Tìm theo tên sách, tác giả hoặc giọng đọc…" aria-label="Tìm sách" />
             <button v-if="query" class="text-muted-foreground hover:text-foreground" aria-label="Xoá chữ đang tìm" @click="query = ''"><X class="w-4 h-4" /></button>
           </div>
           <div class="relative" data-sort-menu>
@@ -236,6 +240,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
             </div>
             <p class="mt-2 text-sm font-medium truncate" :title="b.title">{{ b.title }}</p>
             <p class="text-xs text-muted-foreground truncate">{{ b.author ? `${b.author} · ` : '' }}{{ fmtLong(b.durationSec) }}</p>
+            <p v-if="b.voice" class="text-xs text-muted-foreground truncate flex items-center gap-1"><Mic class="w-3 h-3 shrink-0" /> Giọng {{ b.voice }}</p>
             <div class="mt-1.5 h-1 rounded-full bg-muted overflow-hidden"><div class="h-full bg-primary" :style="{ width: b.progress + '%' }"></div></div>
             <p class="mt-1 text-[11px] text-muted-foreground flex items-center gap-1.5">
               <span class="shrink-0">{{ progressText(b.progress) }}</span>

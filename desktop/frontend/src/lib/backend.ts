@@ -168,6 +168,7 @@ export interface LibraryBook {
   chapters: number
   sections: number
   durationSec: number
+  voice: string // giọng đọc; trống = không rõ (gói cũ không ghi)
   createdAt: string
 }
 export interface LibraryInfo {

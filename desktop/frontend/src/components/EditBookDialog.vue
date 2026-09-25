@@ -6,6 +6,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { Loader2, X } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { errText, updateBookInfo, type LibraryBook } from '../lib/backend'
+import { refreshInfo } from '../lib/player'
 import CategoryPicker from './CategoryPicker.vue'
 
 const props = defineProps<{ book: LibraryBook; categories: [string, number][] }>()
@@ -24,6 +25,7 @@ async function save() {
   error.value = ''
   try {
     const b = await updateBookInfo(props.book.slug, { title: title.value.trim(), author: author.value.trim(), category: category.value })
+    void refreshInfo(props.book.slug) // đang phát cuốn này → cập nhật tên ở thanh nghe nhỏ
     emit('saved', b)
   } catch (e) {
     error.value = errText(e)

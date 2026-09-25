@@ -37,18 +37,30 @@ export function mockOutline(): Outline {
 }
 
 export function mockVoices(): Voice[] {
+  // 25 giọng thật của VieNeu v3 Turbo (bản dev chạy trình duyệt không có bộ đọc)
+  const v = (name: string, desc: string, featured = false) => ({ name, desc, featured })
   return [
-    { name: 'Trúc Ly', desc: 'Nữ · Bắc · Phong cách tự nhiên', featured: true },
-    { name: 'Mai Anh', desc: 'Nữ · Bắc · Phong cách tin tức', featured: true },
-    { name: 'Thùy Dung', desc: 'Nữ · Nam · Phong cách tin tức', featured: true },
-    { name: 'Phạm Tuyên', desc: 'Nam · Bắc · Phong cách tự nhiên', featured: false },
-    { name: 'Xuân Vĩnh', desc: 'Nam · Bắc · Phong cách tự nhiên', featured: false },
+    v('Adam bựa', 'Nam · Bắc · Phong cách tự nhiên', true), v('Trúc Ly', 'Nữ · Bắc · Phong cách tự nhiên', true),
+    v('Thiện Minh', 'Nam · Bắc · Phong cách kể chuyện', true), v('Mai Anh', 'Nữ · Bắc · Phong cách tin tức', true),
+    v('Hải Đăng', 'Nam · Bắc · Phong cách tự nhiên', true), v('Thùy Dung', 'Nữ · Nam · Phong cách tin tức', true),
+    v('Thiền Tâm Đức', 'Nam · Bắc · Phong cách kể chuyện', true), v('Ngọc Huyền', 'Nữ · Bắc · Giọng đọc tự nhiên', true),
+    v('Quang Sơn', 'Nam · Trung · Phong cách tự nhiên', true), v('Ngọc Trân', 'Nữ · Trung · Phong cách tự nhiên', true),
+    v('Minh Đức', 'Nam · Bắc · Phong cách tin tức'), v('Phạm Tuyên', 'Nam · Bắc · Phong cách tự nhiên'),
+    v('Thái Sơn', 'Nam · Nam · Phong cách kể chuyện'), v('Xuân Vĩnh', 'Nam · Bắc · Phong cách tự nhiên'),
+    v('Thanh Bình', 'Nam · Bắc · Phong cách kể chuyện'), v('Ngọc Linh', 'Nữ · Bắc · Phong cách kể chuyện'),
+    v('Đoan Trang', 'Nữ · Bắc · Phong cách tự nhiên'), v('Thục Đoan', 'Nữ · Nam · Phong cách kể chuyện'),
+    v('Minh Triết', 'Nam · Nam · Phong cách tin tức'), v('Mỹ Duyên', 'Nữ · Nam · Phong cách đọc truyện'),
+    v('Quỳnh Anh', 'Nữ · Bắc · Phong cách đọc truyện'), v('Đức Trí', 'Nam · Nam · Phong cách đọc truyện'),
+    v('Kim Thanh', 'Nữ · Nam · Phong cách đọc truyện'), v('Adam', 'Nam · Nam · Giọng đọc tự nhiên'),
+    v('Quốc Tuấn', 'Nam · Bắc · Phong cách tự nhiên'),
   ]
 }
 
 export function mockLibrary(): LibraryInfo {
+  const voices = ['Hải Đăng', 'Ngọc Huyền', 'Thiện Minh', 'Hải Đăng', 'Thùy Dung', '']
   const b = (i: number, title: string, author: string, durationSec: number, category = '') => ({
     slug: `sach-${i}`, title, author, category, cover: '', coverUrl: '', zip: '', chapters: 4, sections: 8, durationSec,
+    voice: voices[(i - 1) % voices.length],
     createdAt: new Date(Date.UTC(2026, 8, 20 - i)).toISOString(),
   })
   return {
