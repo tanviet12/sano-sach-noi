@@ -14,6 +14,7 @@ Sano là phần mềm cài trên máy tính để tạo sách nói bằng AI t�
 - **Nghe trên điện thoại**: xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android). Xem [Nghe trên điện thoại](./nghe-tren-dien-thoai).
 - **Nghe khi lái xe ô tô**: BookPlayer chạy trên CarPlay và Android Auto, chọn sách, chọn chương ngay trên màn hình xe. Xem [Nghe khi lái xe ô tô](./nghe-khi-lai-xe).
 - **25 giọng đọc AI tiếng Việt**: nam, nữ, giọng Bắc, giọng Nam.
+- **Không cần API key, không tốn tiền token**: mô hình AI tải về một lần rồi chạy ngay trên máy, không cần tài khoản ChatGPT hay dịch vụ AI nào.
 
 ## Máy cần có
 

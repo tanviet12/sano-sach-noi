@@ -8,7 +8,7 @@ const items = [
   { icon: Mic, title: '25 giọng Việt', desc: 'Nam, nữ, giọng Bắc, Trung, Nam của bộ đọc mã nguồn mở VieNeu-TTS. Nghe thử từng giọng trước khi chọn.' },
   { icon: Wand2, title: 'Tự chuẩn hoá văn nói', desc: 'Số, viết tắt, mũi tên, ký hiệu được đọc thành lời tự nhiên.' },
   { icon: ListTree, title: 'Mục lục chương', desc: 'Lấy từ Heading trong Word. Nhảy chương trong app và trong file M4B.' },
-  { icon: UserRoundX, title: 'Không cần tài khoản', desc: 'Tải về, cài, dùng. Không đăng ký, không đăng nhập.' },
+  { icon: UserRoundX, title: 'Không cần API key, không tốn token', desc: 'Không điền key ChatGPT hay dịch vụ AI nào, không trả tiền theo lượt dùng. Mô hình AI chạy trên máy bạn, không đăng ký, không đăng nhập.' },
   { icon: Github, title: 'Mã nguồn mở MIT', desc: 'Miễn phí, xem và sửa được toàn bộ mã nguồn trên GitHub.' },
 ]
 </script>

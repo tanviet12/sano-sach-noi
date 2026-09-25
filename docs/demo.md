@@ -16,7 +16,7 @@ import { withBase } from 'vitepress'
   <div class="sano-container">
     <p class="demo-eyebrow">Nghe thử Sano</p>
     <h1 class="demo-h1">Sách nói tạo bằng AI, <span class="accent">ngay trên máy tính</span></h1>
-    <p class="sano-lead demo-lead">5 cuốn sách mẫu, 12 giọng đọc tiếng Việt của bộ đọc mã nguồn mở VieNeu-TTS. Tất cả tạo từ file Word bằng Sano, không cần phòng thu, không gửi tài liệu lên mạng.</p>
+    <p class="sano-lead demo-lead">5 cuốn sách mẫu, 12 giọng đọc tiếng Việt của bộ đọc mã nguồn mở VieNeu-TTS. Tất cả tạo từ file Word bằng Sano ngay trên máy tính: không cần phòng thu, không cần API key, không tốn tiền token, không gửi tài liệu lên mạng.</p>
     <div class="demo-actions">
       <a href="#tu-sach" class="sano-btn brand block-sm">Nghe ngay</a>
       <a :href="withBase('/#tai-ve')" class="sano-btn outline block-sm">Tải Sano miễn phí</a>
@@ -54,7 +54,7 @@ import { withBase } from 'vitepress'
 <section class="sano-section alt demo-cta">
   <div class="sano-container">
     <h2 class="sano-h2">Làm sách nói từ tài liệu của bạn</h2>
-    <p class="sano-lead">Miễn phí, mã nguồn mở, chạy trên Windows, macOS, Linux. Nghe trên máy tính, trên điện thoại và trên ô tô qua CarPlay, Android Auto.</p>
+    <p class="sano-lead">Miễn phí, mã nguồn mở, không cần API key, chạy trên Windows, macOS, Linux. Nghe trên máy tính, trên điện thoại và trên ô tô qua CarPlay, Android Auto.</p>
     <div class="demo-actions center">
       <a :href="withBase('/#tai-ve')" class="sano-btn brand block-sm">Tải Sano</a>
       <a :href="withBase('/cai-dat')" class="sano-btn outline block-sm">Xem hướng dẫn</a>

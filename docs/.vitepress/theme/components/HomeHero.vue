@@ -15,6 +15,7 @@ const uses = [
   { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android)' },
   { t: 'Nghe khi lái xe ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },
   { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
+  { t: 'Không cần API key, không tốn tiền token', d: 'mô hình AI tải về một lần rồi chạy ngay trên máy bạn, không cần tài khoản ChatGPT hay dịch vụ AI nào' },
 ]
 const RELEASES = REPO + '/releases/latest'
 
@@ -46,7 +47,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
   <section id="tai-ve" class="hero sano-ambient">
     <div class="wrap">
       <div>
-        <span class="badge"><span class="dot" /> Mã nguồn mở · Miễn phí</span>
+        <span class="badge"><span class="dot" /> Mã nguồn mở · Miễn phí · Không cần API key</span>
         <h1 class="h1">Tạo <span class="accent">sách nói bằng AI</span> từ file Word</h1>
         <p class="lead">
           Biến tài liệu của chính bạn thành sách nói. Giọng đọc AI tiếng Việt chạy ngay trên máy, miễn phí, mã nguồn mở.

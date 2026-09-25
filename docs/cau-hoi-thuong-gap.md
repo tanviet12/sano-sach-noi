@@ -1,6 +1,6 @@
 ---
 title: Câu hỏi thường gặp
-description: 'Giải đáp thắc mắc khi làm sách nói bằng AI với Sano: có mất phí không, có cần mạng không, tài liệu có bị gửi đi không, nhận file gì, giọng đọc, bản quyền, lỗi thường gặp.'
+description: 'Giải đáp thắc mắc khi làm sách nói bằng AI với Sano: có mất phí không, có cần API key không, có cần mạng không, tài liệu có bị gửi đi không, nhận file gì, giọng đọc, bản quyền, lỗi thường gặp.'
 ---
 
 # Câu hỏi thường gặp
@@ -9,7 +9,13 @@ description: 'Giải đáp thắc mắc khi làm sách nói bằng AI với Sano
 
 ### Sano có mất phí không?
 
-Không. Sano miễn phí, mã nguồn mở theo giấy phép MIT. Không quảng cáo, không cần tài khoản, không đăng nhập.
+Không. Sano miễn phí, mã nguồn mở theo giấy phép MIT. Không quảng cáo, không cần tài khoản, không đăng nhập, không cần API key.
+
+### Có cần API key hay trả tiền token AI không?
+
+Không. Sano không gọi ChatGPT hay dịch vụ AI trên mạng nào, nên không cần điền API key và không tốn tiền token. Lần mở đầu, Sano tải mô hình giọng đọc [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS) về máy (khoảng 1 GB); sau đó mọi việc chạy ngay trên máy bạn, tạo bao nhiêu sách cũng không mất thêm đồng nào.
+
+Chỉ khi bạn muốn [làm mượt tài liệu](./lam-muot-tai-lieu) (viết lại bảng, hình thành lời văn) thì mới tự dán nội dung vào ChatGPT, Gemini hoặc Claude, bản miễn phí là đủ. Bước này tùy chọn, không bắt buộc.
 
 ### Có cần mạng internet không?
 
