@@ -3,15 +3,18 @@ name: Desktop build + release
 # Build phần mềm desktop (Wails) cho Windows, macOS, Linux.
 #
 # - Gắn thẻ vX.Y.Z (hoặc vX.Y.Z-beta.N) → build 3 hệ điều hành, đóng gói
-#   (.exe bộ cài + .zip chạy ngay, .dmg, .AppImage), SHA256SUMS, attestation
+#   (.exe bộ cài + .zip chạy ngay, .dmg, .AppImage), SHA256SUMS + chữ ký
+#   ed25519 SHA256SUMS.sig (app kiểm trước khi tự cập nhật), attestation
 #   nguồn gốc build, tạo GitHub Release dạng NHÁP (người vận hành tự bấm Publish).
 # - Run workflow (workflow_dispatch) → build thử 3 hệ điều hành, tải file ở mục
 #   Artifacts của lần chạy, KHÔNG tạo release.
 # - Pull request / push vào main có đụng mã desktop → build + đóng gói Linux và
 #   Windows để bắt lỗi sớm (bỏ macOS cho đỡ tốn phút: máy Mac tính gấp 10 lần).
 #
-# Không ký số, không notarize (chưa có chứng chỉ). Không dùng secret nào ngoài
-# GITHUB_TOKEN. Mọi action ghim theo SHA commit.
+# Chưa ký số Windows/Apple, không notarize (chưa có chứng chỉ). Secret duy nhất
+# ngoài GITHUB_TOKEN: SANO_UPDATE_SIGNING_KEY (khoá ed25519 ký SHA256SUMS, chỉ
+# dùng ở job release — tạo bằng scripts/release/update-key.sh). Mọi action ghim
+# theo SHA commit.
 on:
   push:
     tags: ['v*']
@@ -205,6 +208,13 @@ jobs:
       - name: SHA256SUMS
         run: scripts/release/checksums.sh dist
 
+      # App chỉ tự cập nhật lên bản có chữ ký đúng khoá nhúng trong app;
+      # sign.sh kiểm lại chữ ký bằng khoá trong desktop/updatekey.go.
+      - name: Ký SHA256SUMS (ed25519)
+        env:
+          SANO_UPDATE_SIGNING_KEY: ${{ secrets.SANO_UPDATE_SIGNING_KEY }}
+        run: scripts/release/sign.sh dist
+
       # Attestation miễn phí cho repo công khai; repo riêng tư cần gói GitHub
       # Enterprise Cloud → bỏ qua cho tới khi repo công khai.
       - name: Attestation nguồn gốc build
@@ -214,6 +224,7 @@ jobs:
           subject-path: |
             dist/Sano-*
             dist/SHA256SUMS
+            dist/SHA256SUMS.sig
       - name: Nhắc khi bỏ qua attestation
         if: ${{ github.event.repository.private }}
         run: echo "::warning::Repo đang riêng tư — bỏ qua attestation (chỉ miễn phí cho repo công khai)."

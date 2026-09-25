@@ -52,5 +52,7 @@ gh attestation verify <file> --repo $REPO       # nguồn gốc build (GitHub CL
 
 Windows (PowerShell): \`Get-FileHash .\\<file> -Algorithm SHA256\` rồi so với dòng tương ứng trong \`SHA256SUMS\`.
 
+\`SHA256SUMS.sig\` là chữ ký ed25519 của \`SHA256SUMS\`: Sano (từ 0.1.2) tự kiểm chữ ký này trước khi tự cập nhật, sai là từ chối.
+
 Mọi file được build trên GitHub Actions từ đúng thẻ \`v$VERSION\`, không build tay.
 EOF
