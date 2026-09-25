@@ -13,10 +13,13 @@ Tải Sano từ [GitHub Releases của dự án](https://github.com/tanviet12/sa
 
 ## macOS
 
-1. Mở Sano trong thư mục Applications. macOS báo không mở được vì không xác minh được nhà phát triển → bấm **Xong** (hoặc **OK**).
-2. Mở **Cài đặt hệ thống** → **Quyền riêng tư & Bảo mật**.
-3. Kéo xuống mục **Bảo mật**, thấy dòng báo Sano bị chặn → bấm **Vẫn mở**.
-4. Nhập mật khẩu máy nếu được hỏi, bấm **Mở** ở hộp xác nhận.
+1. Mở Sano trong thư mục Applications. macOS báo không mở được vì không xác minh được nhà phát triển → bấm **Xong** (**Done**) hoặc **OK**.
+2. Mở **Cài đặt hệ thống** (**System Settings**) → **Quyền riêng tư & Bảo mật** (**Privacy & Security**).
+3. Kéo xuống mục **Bảo mật** (**Security**), thấy dòng "Sano" bị chặn để bảo vệ máy (*"Sano" was blocked to protect your Mac*) → bấm **Vẫn mở** (**Open Anyway**).
+
+   <img class="app-shot" src="./images/mo-app-lan-dau/macos-van-mo.jpg" alt="macOS, Cài đặt hệ thống → Quyền riêng tư & Bảo mật: dòng Sano bị chặn và nút Vẫn mở (Open Anyway)" width="1432" height="1116">
+
+4. Nhập mật khẩu máy hoặc dùng Touch ID nếu được hỏi, rồi bấm **Mở** (**Open**) ở hộp xác nhận.
 
 Lần sau mở Sano bình thường, không hỏi lại.
 
