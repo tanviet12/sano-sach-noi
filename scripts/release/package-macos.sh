@@ -30,6 +30,18 @@ ln -s /Applications "$STAGE/Applications"
 
 rm -f "$DMG"
 log "hdiutil create $DMG"
-hdiutil create -volname "$APP_NAME" -srcfolder "$STAGE" -fs HFS+ -format UDZO -ov "$DMG" >/dev/null
+# Máy Mac của GitHub Actions đôi khi báo "hdiutil: create failed - Resource
+# busy" (ổ ảnh tạm còn bị giữ) → thử lại vài lần.
+ok=false
+for try in 1 2 3; do
+  if hdiutil create -volname "$APP_NAME" -srcfolder "$STAGE" -fs HFS+ -format UDZO -ov "$DMG" >/dev/null; then
+    ok=true
+    break
+  fi
+  log "hdiutil create lỗi (lần $try), thử lại sau 10 giây"
+  rm -f "$DMG"
+  sleep 10
+done
+$ok || die "hdiutil create lỗi 3 lần"
 hdiutil verify -quiet "$DMG"
 log "Xong: $DMG ($(du -h "$DMG" | awk '{print $1}'))"
