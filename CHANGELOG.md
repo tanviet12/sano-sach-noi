@@ -8,6 +8,7 @@
 - **Chọn giọng theo miền:** Miền Bắc / Trung / Nam / Tất cả kèm lọc giọng Nam, Nữ; mở đúng miền đã chọn lần trước, giọng đã dùng có nhãn "Dùng lần trước"
 
 ### Sửa lỗi
+- Mục lục ở màn nghe tự cuộn tới tiểu mục đang phát, không phải kéo tìm
 - Chữ **P** đứng riêng ("chữ P đầu tiên", "P thứ hai là giá") và "4Ps" đọc là "pê" thay vì "phê"
 
 ## v0.1.6 (25/09/2026)

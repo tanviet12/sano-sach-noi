@@ -2,7 +2,7 @@
 // Màn nghe: mục lục tiểu mục, tua −15s/+30s, đổi tốc độ, nhớ vị trí nghe; xuất M4B
 // (tiến độ ngay dưới hàng nút), xuất gói zip, xoá vào Thùng rác. Việc phát nằm ở
 // lib/player.ts (dùng chung với thanh nghe nhỏ) nên rời màn này vẫn nghe tiếp.
-import { onBeforeUnmount, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   Check, ChevronDown, ChevronLeft, Download, FolderOpen, Gauge, Loader2, Mic, Package, Pause, Play, RotateCcw, RotateCw,
   SkipBack, SkipForward, Trash2, Volume2,
@@ -22,6 +22,18 @@ import {
 useM4B()
 
 const actionError = ref('')
+const tocEl = ref<HTMLElement | null>(null)
+
+// Mục lục tự cuộn tới tiểu mục đang phát (mở màn nghe, chuyển tiểu mục, sang cuốn khác).
+function scrollToCurrent(smooth: boolean) {
+  void nextTick(() => {
+    const el = tocEl.value?.querySelector<HTMLElement>('[data-current="true"]')
+    el?.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' })
+  })
+}
+onMounted(() => scrollToCurrent(false))
+watch(() => player.current, () => scrollToCurrent(true))
+watch(() => player.detail?.slug, () => scrollToCurrent(false))
 const speedOpen = ref(false)
 
 function seekTo(e: MouseEvent) {
@@ -131,9 +143,9 @@ async function act(fn: (slug: string) => Promise<void>) {
         <M4BProgress v-if="state.playerSlug" :slug="state.playerSlug" />
       </div>
     </div>
-    <div class="w-72 shrink-0 border-l border-border overflow-auto">
+    <div ref="tocEl" class="w-72 shrink-0 border-l border-border overflow-auto">
       <div class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Mục lục · {{ tracks.length }} mục · {{ fmtLong(totalSec) }}</div>
-      <button v-for="(c, i) in tracks" :key="c.file"
+      <button v-for="(c, i) in tracks" :key="c.file" :data-current="i === player.current"
         class="w-full flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-left hover:bg-muted/60"
         :class="i === player.current ? 'bg-primary/10 text-primary font-medium' : i < player.current ? 'text-muted-foreground' : ''"
         :title="c.chapter !== c.title ? c.chapter : ''"
