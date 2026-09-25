@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Trước / sau chuẩn hoá văn nói (wireframe WfLanding mục 2). Hai audio cùng một đoạn, giọng Thiện Minh:
+// Trước / sau chuẩn hoá văn nói (wireframe WfLanding mục 2). Hai audio cùng một đoạn, giọng Hải Đăng:
 // bản trước = văn bản gốc đưa thẳng vào bộ đọc; bản sau = cùng đoạn qua chuẩn hoá của Sano (internal/bookmaker).
 // Cột "sau" là đúng chữ Sano đã tạo ra (--keep-txt), không viết tay.
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
@@ -15,8 +15,8 @@ const rows = [
   { before: 'học 2-3 giờ mỗi ngày, vd. sáng & tối', after: 'học 2 đến 3 giờ mỗi ngày, ví dụ sáng và tối' },
 ]
 const versions = {
-  before: { label: 'Chưa chuẩn hoá', src: '/audio/chuan-hoa-truoc.mp3', sec: 12.6 },
-  after: { label: 'Đã chuẩn hoá', src: '/audio/chuan-hoa-sau.mp3', sec: 11.6 },
+  before: { label: 'Chưa chuẩn hoá', src: '/audio/chuan-hoa-truoc.mp3', sec: 11.0 },
+  after: { label: 'Đã chuẩn hoá', src: '/audio/chuan-hoa-sau.mp3', sec: 11.8 },
 } as const
 type Pick = keyof typeof versions
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Cách hoạt động (wireframe WfLanding mục 3): 4 bước + video giới thiệu (quay app thật, lồng tiếng Thiện Minh).
+// Cách hoạt động (wireframe WfLanding mục 3): 4 bước + video giới thiệu (quay app thật, lồng tiếng Hải Đăng).
 import { withBase } from 'vitepress'
 import { AudioLines, FileUp, Headphones, Smartphone } from 'lucide-vue-next'
 import shot1 from '../../../images/app/b1-nap-file.jpg'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Trình phát nghe thử (wireframe WfLanding mục 2), giống trình phát trong app: bìa, tên đoạn,
 // thanh vị trí kéo được, nút phát, danh sách đoạn; hết đoạn tự sang đoạn kế.
-// Audio thật: sách mẫu docs/demo-books/ky-nang-mem-cho-nguoi-tre, giọng Thiện Minh, lời đọc ở audio/loi-doc.txt.
+// Audio thật: sách mẫu docs/demo-books/ky-nang-mem-cho-nguoi-tre, giọng Hải Đăng, lời đọc ở audio/loi-doc.txt.
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { AudioLines, Pause, Play } from 'lucide-vue-next'
@@ -9,10 +9,10 @@ import { announcePlay, fmt, onOtherPlay } from './audioBus'
 
 const ID = 'sample'
 const tracks = [
-  { title: 'Chương 1. Lắng nghe chủ động', src: '/audio/ky-nang-mem-1.mp3', sec: 30.8 },
-  { title: 'Chương 2. Giao tiếp hiệu quả', src: '/audio/ky-nang-mem-2.mp3', sec: 22.4 },
-  { title: 'Chương 3. Làm việc nhóm', src: '/audio/ky-nang-mem-3.mp3', sec: 22.6 },
-  { title: 'Chương 4. Quản lý thời gian', src: '/audio/ky-nang-mem-4.mp3', sec: 26.1 },
+  { title: 'Chương 1. Lắng nghe chủ động', src: '/audio/ky-nang-mem-1.mp3', sec: 29.8 },
+  { title: 'Chương 2. Giao tiếp hiệu quả', src: '/audio/ky-nang-mem-2.mp3', sec: 20.7 },
+  { title: 'Chương 3. Làm việc nhóm', src: '/audio/ky-nang-mem-3.mp3', sec: 21.8 },
+  { title: 'Chương 4. Quản lý thời gian', src: '/audio/ky-nang-mem-4.mp3', sec: 25.1 },
 ]
 
 const audio = ref<HTMLAudioElement>()
@@ -79,7 +79,7 @@ onBeforeUnmount(() => off?.())
       <img :src="withBase('/audio/ky-nang-mem-bia.jpg')" alt="Bìa sách mẫu Kỹ năng mềm cho người trẻ, do Sano tự vẽ" class="cover" width="128" height="171" />
       <div class="info">
         <p class="book">Kỹ năng mềm cho người trẻ</p>
-        <p class="sano-muted meta">Giọng Thiện Minh · {{ tracks.length }} đoạn mẫu</p>
+        <p class="sano-muted meta">Giọng Hải Đăng · {{ tracks.length }} đoạn mẫu</p>
         <p class="now">{{ tracks[current].title }}</p>
         <input
           class="range"

@@ -1,4 +1,4 @@
-Lời đọc của các file nghe thử (giọng Thiện Minh, VieNeu-TTS v3 Turbo, MP3 mono 64 kbps).
+Lời đọc của các file nghe thử (giọng Hải Đăng, VieNeu-TTS v3 Turbo, MP3 mono 64 kbps).
 Sách mẫu: docs/demo-books/ky-nang-mem-cho-nguoi-tre (tự viết). Lời đọc lấy từ bản Sano đã chuẩn hoá (--keep-txt).
 
 === ky-nang-mem-1.mp3

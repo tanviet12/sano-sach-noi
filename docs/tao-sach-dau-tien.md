@@ -91,4 +91,4 @@ Xong, sách tự vào [Thư viện](./thu-vien). Các nút ngay sau đó: **Nghe
 
 ## Nghe thử một cuốn Sano đã tạo
 
-Trang chủ có [trình phát nghe thử](/#nghe-thu) một cuốn sách mẫu tạo đúng theo các bước trên, giọng Thiện Minh.
+Trang chủ có [trình phát nghe thử](/#nghe-thu) một cuốn sách mẫu tạo đúng theo các bước trên, giọng Hải Đăng.

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 // Dải "Nghe giọng khác" ở trang chủ, dưới trình phát nghe thử (wireframe WfDemo, phần đổi trang chủ):
-// 5 giọng khác Thiện Minh + link sang trang /demo.
+// 5 giọng khác Hải Đăng + link sang trang /demo.
 import { withBase } from 'vitepress'
 import { ArrowRight, Pause, Play } from 'lucide-vue-next'
 import { allVoices, voiceAudio } from './demoData'
 import { useClip } from './useClip'
 
-const picks = ['Trúc Ly', 'Thái Sơn', 'Ngọc Trân', 'Thục Đoan', 'Hải Đăng']
+const picks = ['Trúc Ly', 'Thái Sơn', 'Ngọc Trân', 'Thục Đoan', 'Ngọc Huyền']
 const voices = picks.map((n) => allVoices.find((v) => v.name === n)!)
 const { current, toggle } = useClip('home-voices')
 </script>

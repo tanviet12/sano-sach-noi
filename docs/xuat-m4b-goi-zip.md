@@ -23,7 +23,7 @@ Dung lượng khoảng **29 MB cho mỗi giờ nghe** (AAC 64 kbps mono, đủ r
 Tiếp theo: [chép file M4B sang điện thoại](./nghe-tren-dien-thoai).
 
 ::: tip File M4B mẫu
-Muốn xem file M4B do Sano tạo trông thế nào trước khi cài? Bản phát hành trên [GitHub Releases](https://github.com/tanviet12/sano-sach-noi/releases/latest) kèm file M4B mẫu của sách "Kỹ năng mềm cho người trẻ" (khoảng 4 phút 30 giây, giọng Thiện Minh).
+Muốn xem file M4B do Sano tạo trông thế nào trước khi cài? Bản phát hành trên [GitHub Releases](https://github.com/tanviet12/sano-sach-noi/releases/latest) kèm file M4B mẫu của sách "Kỹ năng mềm cho người trẻ" (khoảng 4 phút, giọng Hải Đăng). Cuốn này cũng có sẵn trong thư viện của phần mềm ngay lần đầu mở.
 :::
 
 ## Gói zip

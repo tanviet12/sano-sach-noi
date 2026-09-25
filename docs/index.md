@@ -13,7 +13,7 @@ markdownStyles: false
 <section id="nghe-thu" class="sano-section">
   <div class="sano-container">
     <h2 class="sano-h2">Nghe thử</h2>
-    <p class="sano-lead">Một cuốn sách mẫu Sano tạo từ file Word, giọng Thiện Minh, chạy hoàn toàn trên máy tính.</p>
+    <p class="sano-lead">Một cuốn sách mẫu Sano tạo từ file Word, giọng Hải Đăng, chạy hoàn toàn trên máy tính.</p>
     <div class="sano-grid-listen">
       <SamplePlayer />
       <NormalizeCompare />

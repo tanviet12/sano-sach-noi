@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://tanviet12.github.io/sano-sach-noi/video/sano-gioi-thieu.mp4"><img src="docs/images/readme/sano-demo.gif" alt="Sano: nạp file Word, nghe thử và sửa lời đọc, tạo sách, nghe trên máy hoặc điện thoại" width="860"></a><br>
-  <sub>Bấm vào ảnh để xem video 40 giây có tiếng (giọng Thiện Minh)</sub>
+  <sub>Bấm vào ảnh để xem video 40 giây có tiếng (giọng Hải Đăng)</sub>
 </p>
 
 ## Sano làm được gì
@@ -37,7 +37,7 @@
 
 | | Sách | Giọng | Nghe |
 |---|---|---|---|
-| <img src="docs/public/audio/demo/ky-nang-mem-cho-nguoi-tre.jpg" width="56" alt=""> | Kỹ năng mềm cho người trẻ | Thiện Minh · nam · Bắc | [Chương 1 ▶](https://tanviet12.github.io/sano-sach-noi/audio/demo/ky-nang-mem-cho-nguoi-tre-1.mp3) |
+| <img src="docs/public/audio/demo/ky-nang-mem-cho-nguoi-tre.jpg" width="56" alt=""> | Kỹ năng mềm cho người trẻ | Hải Đăng · nam · Bắc | [Chương 1 ▶](https://tanviet12.github.io/sano-sach-noi/audio/demo/ky-nang-mem-cho-nguoi-tre-1.mp3) |
 | <img src="docs/public/audio/demo/tam-ly-tich-cuc.jpg" width="56" alt=""> | Tâm lý tích cực | Trúc Ly · nữ · Bắc | [Chương 1 ▶](https://tanviet12.github.io/sano-sach-noi/audio/demo/tam-ly-tich-cuc-1.mp3) |
 | <img src="docs/public/audio/demo/khoi-nghiep-tu-so-0.jpg" width="56" alt=""> | Khởi nghiệp từ số 0 | Thái Sơn · nam · Nam | [Chương 1 ▶](https://tanviet12.github.io/sano-sach-noi/audio/demo/khoi-nghiep-tu-so-0-1.mp3) |
 | <img src="docs/public/audio/demo/tai-chinh-ca-nhan-co-ban.jpg" width="56" alt=""> | Tài chính cá nhân cơ bản | Thục Đoan · nữ · Nam | [Chương 1 ▶](https://tanviet12.github.io/sano-sach-noi/audio/demo/tai-chinh-ca-nhan-co-ban-1.mp3) |

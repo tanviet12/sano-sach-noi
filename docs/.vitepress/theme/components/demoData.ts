@@ -12,8 +12,8 @@ export type DemoBook = {
 
 export const demoBooks: DemoBook[] = [
   {
-    slug: 'ky-nang-mem-cho-nguoi-tre', title: 'Kỹ năng mềm cho người trẻ', voice: 'Thiện Minh', voiceDesc: 'nam · Bắc · kể chuyện',
-    chapters: [{ title: 'Lắng nghe chủ động', sec: 64.9 }, { title: 'Giao tiếp hiệu quả', sec: 66.3 }, { title: 'Làm việc nhóm', sec: 65.0 }],
+    slug: 'ky-nang-mem-cho-nguoi-tre', title: 'Kỹ năng mềm cho người trẻ', voice: 'Hải Đăng', voiceDesc: 'nam · Bắc · tự nhiên',
+    chapters: [{ title: 'Lắng nghe chủ động', sec: 62.1 }, { title: 'Giao tiếp hiệu quả', sec: 61.6 }, { title: 'Làm việc nhóm', sec: 61.6 }],
   },
   {
     slug: 'tam-ly-tich-cuc', title: 'Tâm lý tích cực', voice: 'Trúc Ly', voiceDesc: 'nữ · Bắc · tự nhiên',
