@@ -31,6 +31,16 @@ updates:
     commit-message: { prefix: "chore(deps)" }
     groups:
       npm-desktop: { update-types: [minor, patch] }
+    ignore:
+      # Tailwind 4 đổi cách cấu hình (không còn tailwind.config.ts) → chuyển đổi
+      # riêng, có so ảnh giao diện; tailwind-merge 3 chỉ hỗ trợ Tailwind 4.
+      - dependency-name: tailwindcss
+        update-types: [version-update:semver-major]
+      - dependency-name: tailwind-merge
+        update-types: [version-update:semver-major]
+      # Kiểu Node theo đúng bản Node dùng build (22 trong CI).
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: npm
     directory: /docs
@@ -47,3 +57,14 @@ updates:
     commit-message: { prefix: "chore(ci)" }
     groups:
       actions: { update-types: [minor, patch] }
+
+  # scripts/tts/requirements.txt chỉ để đối chiếu: sinh từ uv.lock của VieNeu-TTS
+  # đúng commit ghim, app cài bằng uv.lock đó. Sửa file này không đổi gì trên máy
+  # người dùng và làm hỏng bước kiểm khớp ở tts-smoke → không mở PR cho nó (kể cả
+  # PR vá bảo mật). Nâng thư viện Python của bộ đọc làm qua ghim VieNeu + test thật.
+  - package-ecosystem: pip
+    directory: /scripts/tts
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "*"
