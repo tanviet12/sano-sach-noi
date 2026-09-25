@@ -149,8 +149,9 @@ func TestExpandArrowsLongLineLinear(t *testing.T) {
 	in := strings.Repeat("a,→", 300_000)
 	start := time.Now()
 	got := expandArrows(in)
-	if d := time.Since(start); d > 2*time.Second {
-		t.Fatalf("expandArrows 900 KB mất %v, muốn < 2s", d)
+	// Bản cũ (bình phương) mất ~18 giây không bật -race; tuyến tính < 1 giây.
+	if d, limit := time.Since(start), 2*time.Second*raceSlowdown; d > limit {
+		t.Fatalf("expandArrows 900 KB mất %v, muốn < %v", d, limit)
 	}
 	if !strings.HasPrefix(got, "a, dẫn tới a, dẫn tới") {
 		t.Errorf("đầu kết quả = %q", got[:40])
