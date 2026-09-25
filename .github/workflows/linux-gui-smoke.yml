@@ -11,10 +11,10 @@ on:
     inputs:
       new:
         description: "Bản phát hành để thử phát / đích cập nhật"
-        default: "0.1.4"
+        default: "0.1.6"
       old:
         description: "Bản cũ để thử tự cập nhật"
-        default: "0.1.3"
+        default: "0.1.5"
 
 permissions:
   contents: read
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
-      NEW: ${{ inputs.new || '0.1.4' }}
-      OLD: ${{ inputs.old || '0.1.3' }}
+      NEW: ${{ inputs.new || '0.1.6' }}
+      OLD: ${{ inputs.old || '0.1.5' }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
