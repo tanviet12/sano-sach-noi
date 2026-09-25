@@ -1,6 +1,6 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.8 (26/09/2026)
 
 ### Tính năng
 - **Nhập sách từ gói zip:** nút **Nhập sách** ở Thư viện (hoặc kéo thả file .zip vào cửa sổ). Xem trước bìa, tên, giọng, số chương, thời lượng; trùng sách thì chọn Giữ cả hai / Thay thế. Sách nhập giữ đủ mục lục, bìa, tên giọng, chữ chạy theo
@@ -8,6 +8,9 @@
 
 ### Sửa lỗi
 - Sách tên trùng tên thiết bị của Windows ("Con", "Nul"…) không tạo được thư mục; nay thêm hậu tố
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.7**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.8 và cài đè một lần
 
 ## v0.1.7 (25/09/2026)
 
