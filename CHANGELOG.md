@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.4 (25/09/2026)
+
+### Sửa lỗi
+- **Linux: phát được sách và nghe mẫu giọng.** Trước đây trình phát báo "Không phát được: NotSupportedError" vì WebKitGTK không đọc được file âm thanh qua đường dẫn nội bộ của app; nay Sano đọc file trước rồi mới phát. macOS và Windows không đổi
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 / 0.1.3**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.4 và cài đè một lần
+
 ## v0.1.3 (25/09/2026)
 
 ### Bảo mật
