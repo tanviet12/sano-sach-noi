@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.2 (25/09/2026)
+
+### Tính năng
+- **Tự cập nhật ngay trong app**: có bản mới, bấm **Cập nhật ngay** là Sano tự tải đúng bản cho máy (có tiến độ, huỷ được), kiểm chữ ký rồi thay bản và tự mở lại. Sách, tiến độ nghe và bộ đọc giữ nguyên
+  - macOS: thay Sano.app trong thư mục Applications; Windows: chạy bộ cài im lặng (hoặc thay Sano.exe nếu dùng bản chạy ngay); Linux: thay file AppImage
+  - Đang render thì hẹn **Tự cập nhật khi render xong**; chọn **Khởi động lại sau** thì thay khi thoát Sano
+  - Chạy thẳng từ file .dmg hoặc thư mục không ghi được thì vẫn mở trang tải như trước
+
+### Bảo mật
+- Mỗi bản phát hành có chữ ký ed25519 (`SHA256SUMS.sig`) ký trên `SHA256SUMS`. App kiểm chữ ký bằng khoá công khai nhúng sẵn **trước khi** tải file cài, rồi kiểm SHA256 của file tải về; sai là từ chối, xoá file, báo rõ. Chỉ tải từ trang phát hành của dự án, giới hạn dung lượng
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.0 / 0.1.1**: hai bản này chưa có phần tự cập nhật, cần tải bản 0.1.2 và cài đè **một lần**. Từ 0.1.2 trở đi cập nhật ngay trong app
+
 ## v0.1.1 (25/09/2026)
 
 ### Tính năng
