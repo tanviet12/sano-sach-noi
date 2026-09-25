@@ -1,6 +1,6 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.1 (25/09/2026)
 
 ### Tính năng
 - **Sách mẫu có sẵn trong thư viện**: lần đầu mở app, thư viện có cuốn "Kỹ năng mềm cho người trẻ" (giọng Hải Đăng, 4 phút) để nghe thử ngay. Xoá đi thì không tự thêm lại
