@@ -6,7 +6,7 @@
 import { ref } from 'vue'
 import { ChevronDown, Github, Menu, Moon, Search, Sun, X } from 'lucide-vue-next'
 
-defineProps<{ current: 'home' | 'guide'; dark: boolean }>()
+defineProps<{ current: 'home' | 'guide' | 'download'; dark: boolean }>()
 defineEmits<{ 'toggle-dark': [] }>()
 
 type GuideLink = { text: string; slug: string }
@@ -47,7 +47,7 @@ const dropdown = ref(false) // menu Hướng dẫn trên máy tính
             <a v-for="g in guide" :key="g.slug" href="?wireframe=docs" class="block px-4 py-1.5 text-sm hover:bg-muted hover:text-primary">{{ g.text }}</a>
           </div>
         </div>
-        <a href="?wireframe=landing#tai-ve" class="px-3 py-2 rounded-md hover:text-primary focus-ring">Tải về</a>
+        <a href="?wireframe=download" class="px-3 py-2 rounded-md hover:text-primary focus-ring" :class="current === 'download' && 'text-primary font-medium'" :aria-current="current === 'download' ? 'page' : undefined">Tải về</a>
         <span class="mx-2 h-5 w-px bg-border" />
         <button type="button" class="h-9 w-9 grid place-items-center rounded-md hover:bg-muted focus-ring" :aria-label="dark ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'" @click="$emit('toggle-dark')">
           <component :is="dark ? Sun : Moon" class="w-4 h-4" />
@@ -68,7 +68,7 @@ const dropdown = ref(false) // menu Hướng dẫn trên máy tính
       <a href="?wireframe=landing" class="block border-b border-border py-3" :class="current === 'home' && 'text-primary font-medium'">Trang chủ</a>
       <p class="pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hướng dẫn</p>
       <a v-for="g in guide" :key="g.slug" href="?wireframe=docs" class="block py-2 pl-3">{{ g.text }}</a>
-      <a href="?wireframe=landing#tai-ve" class="mt-2 block border-t border-border py-3">Tải về</a>
+      <a href="?wireframe=download" class="mt-2 block border-t border-border py-3" :class="current === 'download' && 'text-primary font-medium'">Tải về</a>
       <div class="flex items-center justify-between rounded-lg bg-muted/60 px-3 py-2">
         <span>Giao diện</span>
         <button type="button" class="flex items-center gap-1.5 rounded-md px-2 py-1 hover:bg-background focus-ring" @click="$emit('toggle-dark')">
