@@ -7,8 +7,10 @@ import {
   listVoices, onEvent, previewClips, renderStatus, startRender as goStartRender, version as goVersion,
   cancelSetup as goCancelSetup, mockSetupStatus, setupInfo as goSetupInfo, setupStatus as goSetupStatus,
   startSetup as goStartSetup, acceptTermsVersion, termsStatus, checkUpdate,
+  startUpdate as goStartUpdate, cancelUpdate as goCancelUpdate, updateStatus as goUpdateStatus,
+  applyUpdate as goApplyUpdate, applyUpdateOnQuit as goApplyUpdateOnQuit,
   type BookSettings, type TermsStatus, type Clip, type DocxFile, type LibraryInfo, type Outline, type ReadingEdit,
-  type RenderStatus, type SetupInfo, type SetupStatus, type TTSStatus, type UpdateInfo, type Voice,
+  type RenderStatus, type SetupInfo, type SetupStatus, type TTSStatus, type UpdateInfo, type UpdateStatus, type Voice,
 } from './backend'
 import { TERMS_VERSION } from './terms'
 
@@ -54,6 +56,11 @@ export const state = reactive({
   updateInfo: (q.get('update') ? devUpdateInfo() : null) as UpdateInfo | null,
   updateCheck: 'idle' as UpdateCheck,
   autoUpdateCheck: readAutoUpdateCheck(),
+  // Tự cập nhật: tiến độ tải/kiểm (từ phần Go), lỗi khi bấm (vd đang render),
+  // hẹn cập nhật khi render xong. ?update=downloading|ready|error lúc dev để xem giao diện.
+  upd: devUpdateStatus(q.get('update')),
+  updError: '',
+  updateAfterRender: false,
 
   version: '',
   tts: null as TTSStatus | null,
@@ -411,6 +418,12 @@ export async function cancelRender() {
 
 /** Kết quả lượt render: xong → vào thư viện; hủy → về bước nghe thử. */
 function onRenderFinished(st: RenderStatus) {
+  if (state.updateAfterRender) {
+    // Đã hẹn "Tự cập nhật khi render xong": tải luôn, xong thì hộp cập nhật hỏi khởi động lại.
+    state.updateAfterRender = false
+    state.update = 'info'
+    void startUpdate()
+  }
   state.render = st
   if (st.cancelled) {
     state.render = null
@@ -485,6 +498,7 @@ async function onSetupFinished(st: SetupStatus) {
 export async function init() {
   onEvent<RenderStatus>('render:progress', (st) => { state.render = st })
   onEvent<RenderStatus>('render:finished', onRenderFinished)
+  onEvent<UpdateStatus>('update:progress', (st) => { state.upd = st })
   onEvent<SetupStatus>('setup:progress', applySetup)
   onEvent<SetupStatus>('setup:finished', onSetupFinished)
   try {
@@ -495,6 +509,8 @@ export async function init() {
   state.version = await goVersion()
   const [st] = await Promise.all([renderStatus(), refreshLibrary()])
   if (st?.running) state.render = st // mở lại cửa sổ khi đang render
+  const upd = await goUpdateStatus()
+  if (upd && !q.get('update')) state.upd = upd
   await refreshTTS()
   state.terms = await termsStatus()
   // Lần mở đầu chưa có bộ đọc → màn cài bộ đọc; có rồi mà chưa đồng ý điều khoản
@@ -530,7 +546,64 @@ export function setAutoUpdateCheck(on: boolean) {
 }
 
 function devUpdateInfo(): UpdateInfo {
-  return { available: true, version: '0.2.0', published: '', notes: ['Ghi chú phát hành mẫu (chỉ khi chạy dev)'], url: 'https://github.com/tanviet12/sano-sach-noi/releases' }
+  return {
+    available: true, version: '0.2.0', published: '', notes: ['Ghi chú phát hành mẫu (chỉ khi chạy dev)'],
+    url: 'https://github.com/tanviet12/sano-sach-noi/releases', autoUpdate: q.get('manual') !== '1',
+    manual: q.get('manual') === '1' ? 'Sano đang chạy thẳng từ file .dmg — kéo Sano vào thư mục Applications rồi mở lại để tự cập nhật được' : '',
+    size: 18 << 20,
+  }
+}
+
+function devUpdateStatus(mode: string | null): UpdateStatus {
+  const st: UpdateStatus = { phase: 'idle', version: '0.2.0', done: 0, total: 18 << 20, verified: false, error: '', applyOnQuit: false }
+  if (mode === 'downloading') return { ...st, phase: 'downloading', done: 11 << 20 }
+  if (mode === 'ready') return { ...st, phase: 'ready', done: st.total, verified: true }
+  if (mode === 'error') return { ...st, phase: 'error', error: 'chữ ký bản phát hành không hợp lệ — đây không phải bản chính thức của Sano, đã huỷ cập nhật' }
+  return st
+}
+
+// ── Tự cập nhật ───────────────────────────────────────────────────────────
+
+/** Tải bản mới (kiểm chữ ký + SHA256 ở phần Go). */
+export async function startUpdate() {
+  state.updError = ''
+  try {
+    state.upd = await goStartUpdate()
+  } catch (e) {
+    state.updError = errText(e)
+  }
+}
+
+export async function cancelUpdate() {
+  await goCancelUpdate()
+}
+
+/** Thay bản mới + khởi động lại. Đang render / cài bộ đọc / xuất M4B thì phần Go từ chối. */
+export async function applyUpdate() {
+  state.updError = ''
+  try {
+    await goApplyUpdate()
+  } catch (e) {
+    state.updError = errText(e)
+  }
+}
+
+/** "Khởi động lại sau": thay khi thoát Sano. */
+export async function applyUpdateLater() {
+  try {
+    state.upd = await goApplyUpdateOnQuit()
+  } catch (e) {
+    state.updError = errText(e)
+    return
+  }
+  state.update = 'closed'
+}
+
+/** Đóng hộp cập nhật; lỗi lần trước không giữ lại cho lần mở sau. */
+export function closeUpdate() {
+  state.update = 'closed'
+  state.updError = ''
+  if (state.upd.phase === 'error') state.upd = { ...state.upd, phase: 'idle', error: '' }
 }
 
 /** Hỏi GitHub có bản mới không. Không có mạng / repo chưa công khai → 'error', không làm phiền. */
