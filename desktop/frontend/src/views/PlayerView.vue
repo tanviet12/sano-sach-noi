@@ -16,7 +16,7 @@ import { fmtClock, fmtLong } from '../lib/position'
 import { go, state } from '../lib/store'
 import { m4bBusy, startM4B, useM4B } from '../lib/m4b'
 import {
-  SPEEDS as speeds, forgetBook, lyricIndex, lyrics, pause, pctTrack, pick, player, seek, seekFrac, setSpeed as applySpeed, skip, toggle, totalSec,
+  SPEEDS as speeds, bookHasLyrics, forgetBook, lyricIndex, lyrics, pause, pctTrack, pick, player, seek, seekFrac, setSpeed as applySpeed, skip, toggle, totalSec,
   track, tracks,
 } from '../lib/player'
 
@@ -97,7 +97,7 @@ async function act(fn: (slug: string) => Promise<void>) {
         <span v-else class="flex items-center gap-2"><Loader2 class="w-4 h-4 animate-spin" /> Đang mở sách…</span>
       </div>
       <div v-else class="flex-1 flex flex-col items-center justify-center">
-        <div class="aspect-[3/4] rounded-xl shadow-2xl overflow-hidden" :class="lyrics ? 'w-40' : 'w-48'">
+        <div class="aspect-[3/4] rounded-xl shadow-2xl overflow-hidden" :class="bookHasLyrics ? 'w-40' : 'w-48'">
           <img v-if="player.detail.coverUrl" :src="player.detail.coverUrl" :alt="player.detail.title" class="h-full w-full object-cover" />
           <BookCover v-else :title="player.detail.title" :author="player.detail.author" class="h-full w-full rounded-xl shadow-none" />
         </div>
@@ -106,13 +106,21 @@ async function act(fn: (slug: string) => Promise<void>) {
           {{ player.detail.author }}<template v-if="player.detail.author && player.detail.voice"> ·</template>
           <span v-if="player.detail.voice" class="inline-flex items-center gap-1"><Mic class="w-3.5 h-3.5" /> Giọng {{ player.detail.voice }}</span>
         </p>
-        <p class="text-sm text-muted-foreground">{{ track?.title }}</p>
-        <button v-if="lyrics" class="group mt-4 w-full max-w-md rounded-lg border border-border bg-muted/30 hover:bg-muted/60 px-4 py-3 text-left" @click="lyricsOpen = true">
+        <p class="text-sm text-muted-foreground max-w-md truncate" :title="track?.title">{{ track?.title }}</p>
+        <!-- Chiều cao cố định (2 dòng câu đang đọc + 1 dòng câu kế) để không đẩy nút phía dưới. -->
+        <button v-if="bookHasLyrics" class="group mt-4 w-full max-w-md rounded-lg border border-border bg-muted/30 hover:bg-muted/60 px-4 py-3 text-left disabled:cursor-default disabled:hover:bg-muted/30"
+          :disabled="!lyrics" @click="lyricsOpen = true">
           <span class="flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Lời đọc <span class="normal-case font-normal tracking-normal text-primary opacity-0 group-hover:opacity-100">Xem cả lời →</span>
+            Lời đọc <span v-if="lyrics" class="normal-case font-normal tracking-normal text-primary opacity-0 group-hover:opacity-100">Xem cả lời →</span>
           </span>
-          <span class="mt-1 block text-sm font-medium leading-snug line-clamp-2">{{ lyrics.sentences[lyricIndex]?.text }}</span>
-          <span class="mt-0.5 block text-sm text-muted-foreground leading-snug line-clamp-1">{{ lyrics.sentences[lyricIndex + 1]?.text }}</span>
+          <template v-if="lyrics">
+            <span class="mt-1 block h-[2.75em] text-sm font-medium leading-snug line-clamp-2">{{ lyrics.sentences[lyricIndex]?.text }}</span>
+            <span class="mt-0.5 block h-[1.375em] text-sm text-muted-foreground leading-snug line-clamp-1">{{ lyrics.sentences[lyricIndex + 1]?.text }}</span>
+          </template>
+          <template v-else>
+            <span class="mt-1 block h-[2.75em] text-sm text-muted-foreground leading-snug">Tiểu mục này không có chữ để hiện.</span>
+            <span class="mt-0.5 block h-[1.375em]"></span>
+          </template>
         </button>
         <div class="mt-5 w-full max-w-md">
           <div class="h-1.5 rounded-full bg-muted overflow-hidden cursor-pointer" role="slider" aria-label="Vị trí nghe" :aria-valuenow="Math.round(pctTrack)" @click="seekTo">
