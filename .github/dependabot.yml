@@ -1,0 +1,49 @@
+# Dependabot: mỗi thứ Hai kiểm thư viện Go, npm và GitHub Actions có bản mới,
+# mở PR nâng bản (CI chạy như PR thường). Bản nhỏ/vá gộp chung một PR mỗi nhóm
+# cho đỡ ồn; bản lớn (đổi số đầu) tách PR riêng để đọc kỹ trước khi merge.
+# Lỗi bảo mật thì Dependabot mở PR ngay, không đợi lịch (cần bật "Dependabot
+# security updates" trong Settings → Code security của repo).
+#
+# Actions đang ghim theo SHA commit: Dependabot tự đổi SHA + chú thích phiên bản.
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: /
+    schedule: { interval: weekly, day: monday, time: "07:00", timezone: Asia/Ho_Chi_Minh }
+    open-pull-requests-limit: 5
+    commit-message: { prefix: "chore(deps)" }
+    groups:
+      go-goc: { update-types: [minor, patch] }
+
+  # Wails: CI cài Wails CLI đúng phiên bản trong desktop/go.mod nên nâng an toàn.
+  - package-ecosystem: gomod
+    directory: /desktop
+    schedule: { interval: weekly, day: monday, time: "07:00", timezone: Asia/Ho_Chi_Minh }
+    open-pull-requests-limit: 5
+    commit-message: { prefix: "chore(deps)" }
+    groups:
+      go-desktop: { update-types: [minor, patch] }
+
+  - package-ecosystem: npm
+    directory: /desktop/frontend
+    schedule: { interval: weekly, day: monday, time: "07:00", timezone: Asia/Ho_Chi_Minh }
+    open-pull-requests-limit: 5
+    commit-message: { prefix: "chore(deps)" }
+    groups:
+      npm-desktop: { update-types: [minor, patch] }
+
+  - package-ecosystem: npm
+    directory: /docs
+    schedule: { interval: weekly, day: monday, time: "07:00", timezone: Asia/Ho_Chi_Minh }
+    open-pull-requests-limit: 5
+    commit-message: { prefix: "chore(deps)" }
+    groups:
+      npm-docs: { update-types: [minor, patch] }
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly, day: monday, time: "07:00", timezone: Asia/Ho_Chi_Minh }
+    open-pull-requests-limit: 5
+    commit-message: { prefix: "chore(ci)" }
+    groups:
+      actions: { update-types: [minor, patch] }
