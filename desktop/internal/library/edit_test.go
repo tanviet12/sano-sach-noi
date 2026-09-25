@@ -267,3 +267,40 @@ func TestDefault_EnvHome(t *testing.T) {
 		t.Errorf("SANO_HOME phải đổi thư mục gốc: %v %v", lib, err)
 	}
 }
+
+func TestGet_ReadsVoiceFromManifest(t *testing.T) {
+	lib := New(t.TempDir())
+	makeFullBook(t, lib, "sach-thu", testMeta)
+	d, err := lib.Get("sach-thu")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if d.Voice != "Trúc Ly" {
+		t.Errorf("Voice = %q, muốn %q", d.Voice, "Trúc Ly")
+	}
+	if d.DurationSec == 0 {
+		t.Errorf("vẫn phải đọc được thời lượng cùng lượt, got 0")
+	}
+	books, err := lib.List()
+	if err != nil || len(books) != 1 || books[0].Voice != "Trúc Ly" {
+		t.Errorf("List phải có Voice, got %+v err=%v", books, err)
+	}
+}
+
+func TestGet_NoZipNoVoice(t *testing.T) {
+	lib := New(t.TempDir())
+	dir := filepath.Join(lib.BooksRoot(), "khong-zip")
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "metadata.json"), []byte(testMeta), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	d, err := lib.Get("khong-zip")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if d.Voice != "" {
+		t.Errorf("không có gói zip thì Voice rỗng, got %q", d.Voice)
+	}
+}

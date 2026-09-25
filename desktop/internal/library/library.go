@@ -70,6 +70,7 @@ type Book struct {
 	Chapters    int    `json:"chapters"`
 	Sections    int    `json:"sections"`
 	DurationSec int    `json:"durationSec"`
+	Voice       string `json:"voice"`     // giọng đọc (manifest.voice_id trong gói zip); trống nếu không rõ
 	CreatedAt   string `json:"createdAt"` // RFC3339
 }
 
@@ -179,7 +180,7 @@ func (l *Library) Get(slug string) (*Detail, error) {
 	durations := map[string]int{}
 	if zipName != "" {
 		d.Zip = rel(zipName)
-		durations = zipDurations(filepath.Join(dir, zipName))
+		durations, d.Voice = zipInfo(filepath.Join(dir, zipName))
 	}
 	for ci, ch := range m.Chapters {
 		for si, sec := range ch.Sections {
@@ -321,24 +322,46 @@ func findZip(dir string) string {
 // zipDurations đọc thời lượng từng tiểu mục từ chapters.json trong gói zip,
 // khoá "chương/tiểu mục" (đánh số từ 1).
 func zipDurations(zipPath string) map[string]int {
+	out, _ := zipInfo(zipPath)
+	return out
+}
+
+// zipInfo đọc trong một lần mở gói zip: thời lượng từng tiểu mục (xem
+// zipDurations) và giọng đọc (manifest.json → voice_id).
+func zipInfo(zipPath string) (map[string]int, string) {
 	out := map[string]int{}
+	voice := ""
 	zr, err := zip.OpenReader(zipPath)
 	if err != nil {
-		return out
+		return out, voice
 	}
 	defer func() { _ = zr.Close() }()
 	if len(zr.File) > maxZipEntries {
-		return out // gói lạ: quá nhiều mục, bỏ qua thời lượng
+		return out, voice // gói lạ: quá nhiều mục, bỏ qua
 	}
+	// Chỉ đọc mục đầu tiên mỗi tên: gói độc có thể chứa hàng nghìn mục trùng tên
+	// cùng trỏ vào một luồng nén → giải nén lặp gần như vô hạn.
+	seenManifest, seenChapters := false, false
 	for _, f := range zr.File {
-		if f.Name != "chapters.json" {
+		if f.Name == "manifest.json" && !seenManifest {
+			seenManifest = true
+			if data, err := readZipJSON(f); err == nil {
+				var man struct {
+					VoiceID string `json:"voice_id"`
+				}
+				if json.Unmarshal(data, &man) == nil {
+					voice = strings.TrimSpace(man.VoiceID)
+				}
+			}
 			continue
 		}
-		// Chỉ đọc chapters.json đầu tiên: gói độc có thể chứa hàng nghìn mục
-		// trùng tên cùng trỏ vào một luồng nén → giải nén lặp gần như vô hạn.
+		if f.Name != "chapters.json" || seenChapters {
+			continue
+		}
+		seenChapters = true
 		data, err := readZipJSON(f)
 		if err != nil {
-			return out // quá lớn / hỏng: bỏ qua, không làm hỏng cả thư viện
+			continue // quá lớn / hỏng: bỏ qua thời lượng, không làm hỏng cả thư viện
 		}
 		var cj struct {
 			Chapters []struct {
@@ -350,16 +373,15 @@ func zipDurations(zipPath string) map[string]int {
 			} `json:"chapters"`
 		}
 		if err := json.Unmarshal(data, &cj); err != nil {
-			return out
+			continue
 		}
 		for _, ch := range cj.Chapters {
 			for _, s := range ch.Sections {
 				out[strconv.Itoa(ch.Order)+"/"+strconv.Itoa(s.Order)] = s.DurationSec
 			}
 		}
-		break
 	}
-	return out
+	return out, voice
 }
 
 // maxZipJSONBytes — dung lượng tối đa khi đọc chapters.json / manifest.json
