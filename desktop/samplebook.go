@@ -32,7 +32,7 @@ type sampleBook struct {
 var sampleBooks = []sampleBook{
 	{"gioi-thieu-sano", "Trúc Ly"},
 	{"nghe-de-nho", "Hải Đăng"},
-	{"tiem-ca-phe-thu-hai", "Trúc Ly"},
+	{"tiem-ca-phe-thu-hai", "Mỹ Duyên"},
 }
 
 const (
