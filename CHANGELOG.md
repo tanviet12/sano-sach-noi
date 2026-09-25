@@ -1,5 +1,10 @@
 # Changelog
 
+## Chưa phát hành
+
+### Tính năng
+- **Giọng khuyên dùng:** bước chọn giọng mở sẵn tab **Khuyên dùng** với 3 giọng trong, không rè: Hải Đăng, Thiện Minh (nam, miền Bắc), Mỹ Duyên (nữ, miền Nam). Ở các tab miền, 3 giọng này nằm trên cùng, có nhãn Khuyên dùng
+
 ## v0.1.9 (26/09/2026)
 
 ### Tính năng
