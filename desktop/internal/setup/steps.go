@@ -145,7 +145,7 @@ func NeedsResync(l tts.Layout, pins map[string]string, scripts fs.FS) bool {
 	return readRaw(filepath.Join(l.Venv(), syncedMarker)) != syncedWant(pins, sum)
 }
 
-// vieneuProject đọc pyproject.toml + uv.lock Sano nhúng (scripts/tts/vieneu/),
+// vieneuProject đọc pyproject.toml + uv.lock Sano nhúng (scripts/tts/vieneu-project/),
 // trả kèm SHA256 chung của hai file.
 func vieneuProject(scripts fs.FS) (map[string][]byte, string, error) {
 	if scripts == nil {

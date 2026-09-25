@@ -15,7 +15,7 @@ Mọi phiên bản nằm ở **`scripts/tts/versions.env`** (một nguồn duy n
 | Thành phần | Ghim |
 |---|---|
 | VieNeu-TTS | commit `VIENEU_COMMIT` (bản 3.8.3) của `https://github.com/pnnbao97/VieNeu-TTS` |
-| Thư viện Python | `scripts/tts/vieneu/uv.lock` — `uv.lock` của đúng commit đó + ghi đè của Sano (`scripts/tts/vieneu-overrides.txt`: bỏ giao diện web gradio, bản vá bảo mật), dựng bằng `scripts/tts/vieneu-lock.sh`; bản đọc được: `scripts/tts/requirements.txt` |
+| Thư viện Python | `scripts/tts/vieneu-project/uv.lock` — `uv.lock` của đúng commit đó + ghi đè của Sano (`scripts/tts/vieneu-overrides.txt`: bỏ giao diện web gradio, bản vá bảo mật), dựng bằng `scripts/tts/vieneu-lock.sh`; bản đọc được: `scripts/tts/requirements.txt` |
 | Model HF | `HF_BACKBONE_REVISION`, `HF_CODEC_REVISION` + danh sách file — `scripts/tts/models.py` tải đúng revision và nạp offline |
 | uv / Python | `UV_VERSION`, `PYTHON_VERSION` (3.12) |
 
@@ -28,7 +28,7 @@ Mọi phiên bản nằm ở **`scripts/tts/versions.env`** (một nguồn duy n
 source scripts/tts/versions.env
 git clone "$VIENEU_REPO" ~/VieNeu-TTS-v3
 git -C ~/VieNeu-TTS-v3 checkout "$VIENEU_COMMIT"
-cp scripts/tts/vieneu/pyproject.toml scripts/tts/vieneu/uv.lock ~/VieNeu-TTS-v3/   # ghi đè của Sano
+cp scripts/tts/vieneu-project/pyproject.toml scripts/tts/vieneu-project/uv.lock ~/VieNeu-TTS-v3/   # ghi đè của Sano
 (cd ~/VieNeu-TTS-v3 && uv sync --frozen --no-dev --python "$PYTHON_VERSION")
 
 # 2. Tải model ghim (~580 MB, 1 lần, không cần HF_TOKEN)

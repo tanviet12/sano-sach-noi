@@ -18,20 +18,20 @@ import (
 )
 
 // Files — các file bộ đọc cần lúc chạy. requirements.txt và file mẫu không nhúng
-// (chỉ để đọc/đối chiếu, xem docs/tts-build-guide.md). Thư mục vieneu/ là
+// (chỉ để đọc/đối chiếu, xem docs/tts-build-guide.md). Thư mục vieneu-project/ (không đặt tên vieneu: trùng gói Python vieneu khi PYTHONPATH=scripts/tts) là
 // pyproject.toml + uv.lock Sano chép đè vào mã VieNeu-TTS trước `uv sync`
 // (VieNeuProjectFiles); không giải nén cùng script.
 //
-//go:embed audio_gen.py audio_gen_batch.py models.py models.sha256 versions.env vieneu/pyproject.toml vieneu/uv.lock
+//go:embed audio_gen.py audio_gen_batch.py models.py models.sha256 versions.env vieneu-project/pyproject.toml vieneu-project/uv.lock
 var Files embed.FS
 
-// VieNeuProjectFiles — file trong vieneu/ chép vào thư mục mã VieNeu-TTS: bỏ
+// VieNeuProjectFiles — file trong vieneu-project/ chép vào thư mục mã VieNeu-TTS: bỏ
 // giao diện web gradio và ép bản vá bảo mật (scripts/tts/vieneu-overrides.txt,
 // dựng bằng scripts/tts/vieneu-lock.sh).
 var VieNeuProjectFiles = []string{"pyproject.toml", "uv.lock"}
 
 // VieNeuDir — thư mục con trong Files chứa VieNeuProjectFiles.
-const VieNeuDir = "vieneu"
+const VieNeuDir = "vieneu-project"
 
 // VersionsFile — tên file ghim phiên bản.
 const VersionsFile = "versions.env"

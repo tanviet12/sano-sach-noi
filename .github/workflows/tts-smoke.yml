@@ -77,14 +77,14 @@ jobs:
           test "$(git -C "$VIENEU_DIR" rev-parse HEAD)" = "$VIENEU_COMMIT"
           printf 'clone_vieneu\t%s\n' $(( $(date +%s) - t0 )) >> "$OUT/timing.tsv"
 
-      # Sano chép pyproject.toml + uv.lock của mình (scripts/tts/vieneu/: bỏ gradio,
+      # Sano chép pyproject.toml + uv.lock của mình (scripts/tts/vieneu-project/: bỏ gradio,
       # ép bản vá bảo mật) đè lên bản của VieNeu trước khi sync — làm y như app.
-      - name: Kiểm scripts/tts/vieneu/ + requirements.txt khớp ghi đè
+      - name: Kiểm scripts/tts/vieneu-project/ + requirements.txt khớp ghi đè
         if: runner.os == 'Linux'
         run: scripts/tts/vieneu-lock.sh --check
 
       - name: Chép pyproject.toml + uv.lock của Sano
-        run: cp scripts/tts/vieneu/pyproject.toml scripts/tts/vieneu/uv.lock "$VIENEU_DIR/"
+        run: cp scripts/tts/vieneu-project/pyproject.toml scripts/tts/vieneu-project/uv.lock "$VIENEU_DIR/"
 
       - name: Cài VieNeu-TTS (uv sync --frozen)
         run: |

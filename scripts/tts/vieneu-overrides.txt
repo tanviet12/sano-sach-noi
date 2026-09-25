@@ -1,6 +1,6 @@
 # Ghi đè thư viện Python của VieNeu-TTS khi Sano cài bộ đọc (mỗi dòng một chuỗi
 # TOML thêm vào [tool.uv] override-dependencies của pyproject.toml VieNeu).
-# Sửa file này rồi chạy scripts/tts/vieneu-lock.sh để dựng lại scripts/tts/vieneu/.
+# Sửa file này rồi chạy scripts/tts/vieneu-lock.sh để dựng lại scripts/tts/vieneu-project/.
 #
 # Bỏ giao diện web (gradio và fastapi, starlette, uvicorn, python-multipart,
 # pillow... kéo theo): Sano chỉ dùng thư viện vieneu, không mở máy chủ web.
