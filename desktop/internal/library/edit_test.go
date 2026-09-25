@@ -304,3 +304,30 @@ func TestGet_NoZipNoVoice(t *testing.T) {
 		t.Errorf("không có gói zip thì Voice rỗng, got %q", d.Voice)
 	}
 }
+
+func TestTexts_AlignedWithTracks(t *testing.T) {
+	lib := New(t.TempDir())
+	dir, _ := makeFullBook(t, lib, "sach-thu", testMeta)
+	chapters := `{"chapters":[
+ {"order":1,"sections":[{"order":1,"duration_sec":10,"original_text":"Câu một. Câu hai."},{"order":2,"duration_sec":20,"reading_script":"chỉ có bản đọc"}]},
+ {"order":2,"sections":[{"order":1,"duration_sec":30}]}]}`
+	if err := rewriteZipEntry(filepath.Join(dir, "book-sach-thu.zip"), "chapters.json", func([]byte) ([]byte, error) { return []byte(chapters), nil }); err != nil {
+		t.Fatal(err)
+	}
+	got, err := lib.Texts("sach-thu")
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := []SectionText{{Text: "Câu một. Câu hai."}, {Text: "chỉ có bản đọc", Script: "chỉ có bản đọc"}, {}}
+	if len(got) != len(want) {
+		t.Fatalf("got %d mục, muốn %d: %+v", len(got), len(want), got)
+	}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Errorf("mục %d = %+v, muốn %+v", i, got[i], want[i])
+		}
+	}
+	if _, err := lib.Texts("khong-co"); !errors.Is(err, ErrNotFound) {
+		t.Errorf("sách không có phải ErrNotFound, got %v", err)
+	}
+}

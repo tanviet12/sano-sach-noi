@@ -75,6 +75,12 @@ func (a *App) Book(slug string) (*BookDetail, error) {
 	return out, nil
 }
 
+// BookTexts trả chữ của từng tiểu mục (cùng thứ tự Tracks) cho chế độ xem lời.
+// Gọi riêng khi mở màn nghe để việc tải Thư viện không phải đọc chữ cả cuốn.
+func (a *App) BookTexts(slug string) ([]library.SectionText, error) {
+	return a.lib.Texts(slug)
+}
+
 func (a *App) bookView(b library.Book) BookView {
 	v := BookView{Book: b}
 	if b.Cover != "" {

@@ -455,3 +455,90 @@ func fileExists(p string) bool {
 	info, err := os.Stat(p)
 	return err == nil && !info.IsDir()
 }
+
+// SectionText — chữ một tiểu mục cho chế độ xem lời: Text để hiện (original_text,
+// trống thì lấy lời đọc), Script là lời đã đọc thật (reading_script: có tên tiểu
+// mục ở đầu, số viết thành chữ) để ước lượng thời điểm từng câu.
+type SectionText struct {
+	Text   string `json:"text"`
+	Script string `json:"script"`
+}
+
+// Texts trả chữ của từng tiểu mục theo đúng thứ tự Detail.Tracks (chữ chạy theo
+// ở màn nghe). Không có gói zip / tiểu mục không có chữ → phần tử rỗng.
+func (l *Library) Texts(slug string) ([]SectionText, error) {
+	d, err := l.Get(slug)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]SectionText, len(d.Tracks))
+	if d.Zip == "" {
+		return out, nil
+	}
+	texts := zipTexts(filepath.Join(l.root, filepath.FromSlash(d.Zip)))
+	dir, _ := l.Dir(slug)
+	data, err := readJSONFile(filepath.Join(dir, "metadata.json"))
+	if err != nil {
+		return out, nil
+	}
+	var m metadata
+	if json.Unmarshal(data, &m) != nil {
+		return out, nil
+	}
+	i := 0
+	for ci, ch := range m.Chapters {
+		for si := range ch.Sections {
+			if i < len(out) {
+				out[i] = texts[strconv.Itoa(ci+1)+"/"+strconv.Itoa(si+1)]
+			}
+			i++
+		}
+	}
+	return out, nil
+}
+
+// zipTexts đọc chữ từng tiểu mục trong chapters.json, khoá "chương/tiểu mục".
+func zipTexts(zipPath string) map[string]SectionText {
+	out := map[string]SectionText{}
+	zr, err := zip.OpenReader(zipPath)
+	if err != nil {
+		return out
+	}
+	defer func() { _ = zr.Close() }()
+	if len(zr.File) > maxZipEntries {
+		return out
+	}
+	for _, f := range zr.File {
+		if f.Name != "chapters.json" {
+			continue
+		}
+		data, err := readZipJSON(f) // chỉ mục đầu tiên (xem zipInfo)
+		if err != nil {
+			return out
+		}
+		var cj struct {
+			Chapters []struct {
+				Order    int `json:"order"`
+				Sections []struct {
+					Order         int    `json:"order"`
+					OriginalText  string `json:"original_text"`
+					ReadingScript string `json:"reading_script"`
+				} `json:"sections"`
+			} `json:"chapters"`
+		}
+		if json.Unmarshal(data, &cj) != nil {
+			return out
+		}
+		for _, ch := range cj.Chapters {
+			for _, s := range ch.Sections {
+				st := SectionText{Text: strings.TrimSpace(s.OriginalText), Script: strings.TrimSpace(s.ReadingScript)}
+				if st.Text == "" {
+					st.Text = st.Script
+				}
+				out[strconv.Itoa(ch.Order)+"/"+strconv.Itoa(s.Order)] = st
+			}
+		}
+		break
+	}
+	return out
+}
