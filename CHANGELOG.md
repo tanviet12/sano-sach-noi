@@ -1,9 +1,12 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.6 (25/09/2026)
 
 ### Cải thiện
 - **Ngắt nghỉ ở dấu phẩy đều hơn:** câu dài nhiều dấu phẩy trước đây đôi khi bị đọc một mạch; nay bộ đọc cắt câu ở dấu phẩy và nghỉ khoảng 0,3 giây. Sách dài thêm khoảng 1–2%, tốc độ tạo sách không đổi
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.5**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.6 và cài đè một lần. Sách đã tạo không tự đọc lại; muốn nghe cách ngắt mới thì tạo lại sách
 
 ## v0.1.5 (25/09/2026)
 
