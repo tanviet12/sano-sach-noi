@@ -40,10 +40,11 @@ func (a *App) PreviewBookZip(path string) (*library.ImportPreview, error) {
 	return a.lib.PreviewImport(path)
 }
 
-// ImportBookZip nhập gói vào thư viện. replace: thư viện đã có cuốn cùng mã thì
-// chuyển cuốn cũ vào Thùng rác rồi thay; không thì giữ cả hai ("Tên (2)").
-// Mỗi lúc chỉ một lượt nhập. Trả mã sách đã nhập.
-func (a *App) ImportBookZip(path string, replace bool) (string, error) {
+// ImportBookZip nhập gói vào thư viện. replaceSlug: mã cuốn trùng mà người dùng đã
+// thấy ở hộp xem trước và chọn Thay thế (rỗng = giữ cả hai nếu trùng). Chỉ chuyển
+// cuốn cũ vào Thùng rác khi gói hiện tại đúng là trùng cuốn đó — gói bị tráo sau
+// lúc xem trước thì dừng. Mỗi lúc chỉ một lượt nhập. Trả mã sách đã nhập.
+func (a *App) ImportBookZip(path, replaceSlug string) (string, error) {
 	ctx, cancel := context.WithCancel(a.context())
 	a.mu.Lock()
 	if a.importCancel != nil {
@@ -60,12 +61,8 @@ func (a *App) ImportBookZip(path string, replace bool) (string, error) {
 		cancel()
 	}()
 
-	pv, err := a.lib.PreviewImport(path)
-	if err != nil {
-		return "", err
-	}
-	dup := pv.ExistingSlug != ""
-	work, slug, err := a.lib.PrepareImport(ctx, path, dup && !replace, func(done, total int) {
+	replace := replaceSlug != ""
+	work, slug, existing, err := a.lib.PrepareImport(ctx, path, replace, func(done, total int) {
 		a.emit(eventImportProgress, ImportProgress{Done: done, Total: total})
 	})
 	if err != nil {
@@ -74,8 +71,16 @@ func (a *App) ImportBookZip(path string, replace bool) (string, error) {
 		}
 		return "", err
 	}
-	if dup && replace {
-		dir, derr := a.lib.Dir(pv.ExistingSlug)
+	if ctx.Err() != nil {
+		a.lib.CancelPrepared(work)
+		return "", errors.New("đã huỷ nhập sách")
+	}
+	if replace && existing != "" {
+		if existing != replaceSlug {
+			a.lib.CancelPrepared(work)
+			return "", errors.New("gói sách đã thay đổi sau lúc xem trước, hãy chọn lại file")
+		}
+		dir, derr := a.lib.Dir(existing)
 		if derr == nil {
 			if _, derr = trashBook(dir, a.lib.Root()); derr != nil {
 				a.lib.CancelPrepared(work)

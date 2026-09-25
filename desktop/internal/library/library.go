@@ -542,3 +542,20 @@ func zipTexts(zipPath string) map[string]SectionText {
 	}
 	return out
 }
+
+// CleanStaleWork xoá thư mục làm dở (".dang-lam-*": render, nhập sách) cũ hơn
+// maxAge — sót lại khi app bị tắt giữa chừng. Gọi lúc khởi động.
+func (l *Library) CleanStaleWork(maxAge time.Duration) {
+	entries, err := os.ReadDir(l.BooksRoot())
+	if err != nil {
+		return
+	}
+	for _, e := range entries {
+		if !e.IsDir() || !strings.HasPrefix(e.Name(), workPrefix) {
+			continue
+		}
+		if info, err := e.Info(); err == nil && time.Since(info.ModTime()) > maxAge {
+			_ = os.RemoveAll(filepath.Join(l.BooksRoot(), e.Name()))
+		}
+	}
+}

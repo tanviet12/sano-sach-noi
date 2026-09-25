@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"time"
 
 	wruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 
@@ -58,6 +59,8 @@ func (a *App) startup(ctx context.Context) {
 	if err := seedSampleBook(a.lib); err != nil {
 		log.Printf("sách mẫu: %v", err)
 	}
+	// Thư mục render / nhập dở do app bị tắt đột ngột (có thể vài GB).
+	a.lib.CleanStaleWork(6 * time.Hour)
 }
 
 // searchRoots — nơi bắt đầu tìm VERSION và scripts/tts: thư mục hiện tại và

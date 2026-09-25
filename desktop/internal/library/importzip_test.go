@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strings"
 	"testing"
+	"time"
 )
 
 // fakeMP3 — ID3 + vài byte: đủ qua kiểm chữ ký đầu file (thời lượng đọc ra 0).
@@ -82,9 +83,9 @@ func writeImportZip(t *testing.T, dir string, entries []zipEntry) string {
 	return p
 }
 
-func importAll(t *testing.T, lib *Library, path string, keepBoth bool) (string, error) {
+func importAll(t *testing.T, lib *Library, path string, replace bool) (string, error) {
 	t.Helper()
-	work, slug, err := lib.PrepareImport(context.Background(), path, keepBoth, nil)
+	work, slug, _, err := lib.PrepareImport(context.Background(), path, replace, nil)
 	if err != nil {
 		return "", err
 	}
@@ -162,7 +163,7 @@ func TestImport_RoundTrip(t *testing.T) {
 	if err != nil || pv2.ExistingSlug != slug {
 		t.Fatalf("phải báo trùng %q, got %+v err=%v", slug, pv2, err)
 	}
-	slug2, err := importAll(t, lib, p, true)
+	slug2, err := importAll(t, lib, p, false) // trùng + không thay thế = giữ cả hai
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -340,7 +341,7 @@ func TestImport_CancelCleansUp(t *testing.T) {
 	p := writeImportZip(t, t.TempDir(), goodEntries("Sách"))
 	ctx, cancel := context.WithCancel(context.Background())
 	calls := 0
-	_, _, err := lib.PrepareImport(ctx, p, false, func(done, total int) {
+	_, _, _, err := lib.PrepareImport(ctx, p, false, func(done, total int) {
 		calls++
 		cancel()
 	})
@@ -377,5 +378,77 @@ func TestSlugFor_WindowsReservedNames(t *testing.T) {
 		if got := BookSlug(title); got != want {
 			t.Errorf("BookSlug(%q) = %q, muốn %q", title, got, want)
 		}
+	}
+}
+
+func TestImport_ReplaceKeepsSlugAndReportsExisting(t *testing.T) {
+	lib := New(t.TempDir())
+	p := writeImportZip(t, t.TempDir(), goodEntries("Sách"))
+	slug, err := importAll(t, lib, p, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	work, s2, existing, err := lib.PrepareImport(context.Background(), p, true, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer lib.CancelPrepared(work)
+	if existing != slug || s2 != slug {
+		t.Fatalf("thay thế phải giữ mã %q và báo trùng, got slug=%q existing=%q", slug, s2, existing)
+	}
+}
+
+// Bom zip chồng lấn: sửa bảng mục lục để mục thứ hai trỏ vào vùng dữ liệu của mục đầu.
+func TestImport_RejectsOverlappingEntries(t *testing.T) {
+	lib := New(t.TempDir())
+	p := writeImportZip(t, t.TempDir(), goodEntries("Sách"))
+	data, _ := os.ReadFile(p)
+	var offs []int // vị trí trường "offset local header" của từng mục trong bảng mục lục
+	for i := 0; i+46 <= len(data); i++ {
+		if string(data[i:i+4]) == "PK\x01\x02" {
+			offs = append(offs, i+42)
+		}
+	}
+	if len(offs) < 5 {
+		t.Fatalf("không đọc được bảng mục lục (%d mục)", len(offs))
+	}
+	// mục 4 (audio/ch01/sec02.mp3) trỏ vào local header của mục 3 (audio/ch01/sec01.mp3)
+	copy(data[offs[4]:offs[4]+4], data[offs[3]:offs[3]+4])
+	if err := os.WriteFile(p, data, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	_, err := lib.PreviewImport(p)
+	wantBad(t, err, "chồng dữ liệu")
+	_, err = importAll(t, lib, p, false)
+	wantBad(t, err, "chồng dữ liệu")
+	assertNoLeftovers(t, lib)
+}
+
+func TestImport_RejectsJSONBomb(t *testing.T) {
+	lib := New(t.TempDir())
+	es := goodEntries("Sách")
+	es[1].data = []byte(`{"chapters":[` + strings.Repeat(`{},`, 1<<20) + `{}]}`)
+	_, err := lib.PreviewImport(writeImportZip(t, t.TempDir(), es))
+	wantBad(t, err, "nén bất thường")
+}
+
+func TestCleanStaleWork(t *testing.T) {
+	lib := New(t.TempDir())
+	old, _ := lib.NewWorkDir("cu")
+	fresh, _ := lib.NewWorkDir("moi")
+	past := time.Now().Add(-7 * time.Hour)
+	_ = os.Chtimes(old, past, past)
+	book := filepath.Join(lib.BooksRoot(), "sach-that")
+	_ = os.MkdirAll(book, 0o755)
+	_ = os.Chtimes(book, past, past)
+	lib.CleanStaleWork(6 * time.Hour)
+	if _, err := os.Stat(old); !errors.Is(err, os.ErrNotExist) {
+		t.Error("thư mục làm dở cũ phải bị xoá")
+	}
+	if _, err := os.Stat(fresh); err != nil {
+		t.Error("thư mục làm dở mới (có thể đang chạy) phải giữ")
+	}
+	if _, err := os.Stat(book); err != nil {
+		t.Error("không được đụng thư mục sách thật")
 	}
 }

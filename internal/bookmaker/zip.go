@@ -2,6 +2,7 @@ package bookmaker
 
 import (
 	"archive/zip"
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -330,7 +331,9 @@ func docxMP3DurationSec(path string) (int, error) {
 	}
 	defer func() { _ = f.Close() }()
 
-	dec := mp3.NewDecoder(f)
+	// Bộ đệm: bộ dò khung đọc từng vài byte; đọc thẳng file = mỗi lần một lời gọi
+	// hệ thống, rất chậm với dữ liệu rác (gói zip người khác gửi).
+	dec := mp3.NewDecoder(bufio.NewReaderSize(f, 256<<10))
 	var total time.Duration
 	var frame mp3.Frame
 	skipped := 0

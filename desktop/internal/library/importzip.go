@@ -45,6 +45,7 @@ var (
 	maxImportChapters          = 1000
 	maxImportSections          = 5000
 	maxImportRatio      uint64 = 20 // mp3/ảnh hầu như không nén được: tỉ lệ cao = đáng ngờ
+	maxJSONRatio        uint64 = 50
 )
 
 const (
@@ -129,7 +130,7 @@ func (l *Library) PreviewImport(path string) (*ImportPreview, error) {
 		return nil, err
 	}
 	defer func() { _ = zr.Close() }()
-	p, err := planImport(zr)
+	p, err := planImport(zr, size)
 	if err != nil {
 		return nil, err
 	}
@@ -157,22 +158,27 @@ type ImportProgress func(done, total int)
 
 // PrepareImport kiểm lại gói (file có thể đổi sau lúc xem trước) rồi giải nén vào
 // thư mục tạm ẩn trong thư viện, ghi metadata.json và đóng gói lại zip sạch.
-// Trả thư mục tạm + mã sách đề xuất; gọi Commit (giữ cả hai) hoặc CommitReplace.
+// Trả thư mục tạm, mã sách để Commit, và mã cuốn đang có trùng (existing, rỗng
+// nếu không trùng). Trùng + !replace → giữ cả hai ("Tên (2)", slug-2); trùng +
+// replace → giữ mã cũ, người gọi chuyển cuốn cũ vào Thùng rác rồi Commit.
 // Lỗi / huỷ (ctx) → thư mục tạm đã bị xoá.
-func (l *Library) PrepareImport(ctx context.Context, path string, keepBothTitle bool, progress ImportProgress) (workDir, slug string, err error) {
-	zr, _, err := openImportZip(path)
+func (l *Library) PrepareImport(ctx context.Context, path string, replace bool, progress ImportProgress) (workDir, slug, existing string, err error) {
+	zr, size, err := openImportZip(path)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	defer func() { _ = zr.Close() }()
-	p, err := planImport(zr)
+	p, err := planImport(zr, size)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
 	slug = BookSlug(p.title)
 	title := p.title
-	if keepBothTitle {
+	if _, serr := os.Stat(filepath.Join(l.BooksRoot(), slug)); serr == nil {
+		existing = slug
+	}
+	if existing != "" && !replace {
 		// Giữ cả hai: tên và mã sách theo số thứ tự chưa dùng ("Tên (2)", slug-2).
 		for i := 2; i < 1000; i++ {
 			s := fmt.Sprintf("%s-%d", slug, i)
@@ -185,9 +191,9 @@ func (l *Library) PrepareImport(ctx context.Context, path string, keepBothTitle 
 
 	workDir, err = l.NewWorkDir(slug)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
-	tmp := workDir // `return "", "", err` gán rỗng cho workDir trước khi defer chạy
+	tmp := workDir // `return "", "", "", err` gán rỗng cho workDir trước khi defer chạy
 	defer func() {
 		if err != nil {
 			_ = os.RemoveAll(tmp)
@@ -202,7 +208,7 @@ func (l *Library) PrepareImport(ctx context.Context, path string, keepBothTitle 
 	if p.cover != nil {
 		name := "cover" + p.coverExt
 		if err = extractEntry(p.cover, filepath.Join(workDir, name), maxImportCoverBytes, &written, isImage); err != nil {
-			return "", "", err
+			return "", "", "", err
 		}
 		meta.Cover = name
 	}
@@ -211,11 +217,11 @@ func (l *Library) PrepareImport(ctx context.Context, path string, keepBothTitle 
 		mc := importMetaChapter{Title: ch.title}
 		for si, sec := range ch.sections {
 			if err = ctx.Err(); err != nil {
-				return "", "", err
+				return "", "", "", err
 			}
 			file := fmt.Sprintf("ch%02d-sec%02d.mp3", ci+1, si+1)
 			if err = extractEntry(sec.audio, filepath.Join(workDir, file), maxImportAudioBytes, &written, isMP3); err != nil {
-				return "", "", err
+				return "", "", "", err
 			}
 			mc.Sections = append(mc.Sections, importMetaSection{Title: sec.title, File: file, OriginalText: sec.original, ReadingScript: sec.script})
 			done++
@@ -228,15 +234,18 @@ func (l *Library) PrepareImport(ctx context.Context, path string, keepBothTitle 
 
 	data, err := marshalIndent(meta)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	if err = writeNewFile(filepath.Join(workDir, "metadata.json"), bytes.NewReader(data), int64(len(data))+1, &written); err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	if _, err = bookmaker.RepackZip(workDir, filepath.Join(workDir, "book-"+bookmaker.Slugify(title)+".zip"), p.voice, nil); err != nil {
-		return "", "", fmt.Errorf("đóng gói lại sách: %w", err)
+		return "", "", "", fmt.Errorf("đóng gói lại sách: %w", err)
 	}
-	return workDir, slug, nil
+	if err = ctx.Err(); err != nil { // huỷ trong lúc đóng gói lại
+		return "", "", "", err
+	}
+	return workDir, slug, existing, nil
 }
 
 // CancelPrepared xoá thư mục tạm của một lượt nhập chưa đưa vào thư viện.
@@ -306,7 +315,7 @@ type importZip struct {
 func (z *importZip) Close() error { return z.f.Close() }
 
 // planImport đọc và kiểm toàn bộ cấu trúc gói (chưa giải nén mp3).
-func planImport(zr *importZip) (*importPlan, error) {
+func planImport(zr *importZip, zipSize int64) (*importPlan, error) {
 	if len(zr.File) > maxZipEntries {
 		return nil, bad("Gói có quá nhiều file (%d).", len(zr.File))
 	}
@@ -441,8 +450,46 @@ func planImport(zr *importZip) (*importPlan, error) {
 	if total > uint64(maxImportTotalBytes) {
 		return nil, bad("Gói giải nén ra quá lớn (%d MB).", total>>20)
 	}
+	// Cả gói: mp3/ảnh gần như không nén được → tổng giải nén không thể gấp nhiều lần file zip.
+	if total > uint64(zipSize)*maxImportRatio+1<<20 {
+		return nil, bad("Gói nén bất thường, có thể là gói độc. Không nhập.")
+	}
+	// Bom zip chồng lấn: nhiều mục cùng trỏ vào một vùng dữ liệu nén (từng mục vẫn
+	// qua kiểm tỉ lệ). Mọi mục dùng tới phải nằm ở vùng riêng, không đè lên nhau.
+	usedFiles := []*zip.File{mf, cf}
+	if p.cover != nil {
+		usedFiles = append(usedFiles, p.cover)
+	}
+	for _, ch := range p.chapters {
+		for _, sec := range ch.sections {
+			usedFiles = append(usedFiles, sec.audio)
+		}
+	}
+	if err := checkNoOverlap(usedFiles); err != nil {
+		return nil, err
+	}
 	p.size = int64(total)
 	return p, nil
+}
+
+// checkNoOverlap: vùng dữ liệu nén của các mục không được chồng lên nhau.
+func checkNoOverlap(files []*zip.File) error {
+	type span struct{ from, to int64 }
+	spans := make([]span, 0, len(files))
+	for _, f := range files {
+		off, err := f.DataOffset()
+		if err != nil {
+			return bad("Gói hỏng (%s).", clip(f.Name, 80))
+		}
+		spans = append(spans, span{off, off + int64(f.CompressedSize64)})
+	}
+	sort.Slice(spans, func(i, j int) bool { return spans[i].from < spans[j].from })
+	for i := 1; i < len(spans); i++ {
+		if spans[i].from < spans[i-1].to {
+			return bad("Gói có các file chồng dữ liệu lên nhau, có thể là gói độc. Không nhập.")
+		}
+	}
+	return nil
 }
 
 // checkEntry kiểm một mục trước khi đọc: không mã hoá, không phải thư mục/symlink,
@@ -466,6 +513,11 @@ func checkEntry(f *zip.File, limit int64) error {
 func readSmallEntry(f *zip.File, limit int64) ([]byte, error) {
 	if f.Flags&0x1 != 0 || f.UncompressedSize64 > uint64(limit) {
 		return nil, bad("%s trong gói không hợp lệ hoặc quá lớn.", f.Name)
+	}
+	// Chữ thật nén cỡ 3–8 lần; JSON rác lặp lại ("[{},{},…]") nén cả nghìn lần và
+	// giải mã ra hàng triệu phần tử → tốn bộ nhớ.
+	if f.UncompressedSize64 > 1<<20 && f.CompressedSize64 > 0 && f.UncompressedSize64/f.CompressedSize64 > maxJSONRatio {
+		return nil, bad("%s trong gói nén bất thường, có thể là gói độc. Không nhập.", f.Name)
 	}
 	rc, err := f.Open()
 	if err != nil {

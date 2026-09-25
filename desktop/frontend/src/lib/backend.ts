@@ -284,7 +284,7 @@ interface GoApp {
   BookTexts(slug: string): Promise<SectionText[]>
   ChooseBookZip(): Promise<string>
   PreviewBookZip(path: string): Promise<ImportPreview>
-  ImportBookZip(path: string, replace: boolean): Promise<string>
+  ImportBookZip(path: string, replaceSlug: string): Promise<string>
   CancelImport(): Promise<void>
   OpenBookFolder(slug: string): Promise<void>
   DeleteBook(slug: string): Promise<string>
@@ -559,9 +559,10 @@ export async function chooseBookZip(): Promise<string> {
 export async function previewBookZip(path: string): Promise<ImportPreview> {
   return need().PreviewBookZip(path)
 }
-/** Nhập gói; trả mã sách đã nhập. replace: thay cuốn trùng (cuốn cũ vào Thùng rác). */
-export async function importBookZip(path: string, replace: boolean): Promise<string> {
-  return need().ImportBookZip(path, replace)
+/** Nhập gói; trả mã sách đã nhập. replaceSlug: mã cuốn trùng người dùng chọn Thay thế
+ *  (cuốn cũ vào Thùng rác); rỗng = giữ cả hai nếu trùng. */
+export async function importBookZip(path: string, replaceSlug: string): Promise<string> {
+  return need().ImportBookZip(path, replaceSlug)
 }
 export async function cancelImport(): Promise<void> {
   return need().CancelImport()

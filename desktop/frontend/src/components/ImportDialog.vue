@@ -43,12 +43,12 @@ const createdOn = computed(() => {
 
 async function start() {
   if (!pv.value) return
-  const replace = !!pv.value.existingSlug && choice.value === 'replace'
-  if (replace) forgetBook(pv.value.existingSlug) // đang phát cuốn cũ → dừng trước khi thay
+  const replaceSlug = pv.value.existingSlug && choice.value === 'replace' ? pv.value.existingSlug : ''
+  if (replaceSlug) forgetBook(replaceSlug) // đang phát cuốn cũ → dừng trước khi thay
   stage.value = 'importing'
   progress.value = { done: 0, total: pv.value.sections }
   try {
-    emit('imported', await importBookZip(props.path, replace))
+    emit('imported', await importBookZip(props.path, replaceSlug))
   } catch (e) {
     error.value = errText(e)
     stage.value = 'error'
