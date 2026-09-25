@@ -75,10 +75,15 @@ Trên máy Mac, mở file `.m4b` bằng app Sách là nghe được ngay.
 
 ## Android
 
-1. Chép file `.m4b` vào điện thoại: cắm cáp USB (chọn chế độ *Truyền tệp*) rồi chép vào một thư mục riêng, ví dụ `Audiobooks/Tên sách/`; hoặc tải lên Google Drive rồi tải về máy.
-2. Mở bằng một app nghe sách nói đọc được M4B, ví dụ **Voice** (miễn phí, mã nguồn mở). Trong app, chọn thư mục gốc là `Audiobooks/`, app tự nhận sách, mục lục chương và bìa.
+1. Cài **BookPlayer** từ [Google Play](https://play.google.com/store/apps/details?id=com.tortugapower.audiobookplayer) (miễn phí, mã nguồn mở), cùng app như trên iPhone.
+2. Chép file `.m4b` vào điện thoại: cắm cáp USB (chọn chế độ *Truyền tệp*) rồi chép vào một thư mục riêng, ví dụ `Audiobooks/`; hoặc tải lên Google Drive rồi tải về máy.
+3. Mở BookPlayer, thêm sách bằng cách chọn file hoặc cả thư mục `Audiobooks/`; hoặc từ app Tệp / Drive, bấm **Chia sẻ** file `.m4b` rồi chọn BookPlayer.
 
-Trên xe có **Android Auto**: chọn app có ghi hỗ trợ Android Auto, sách hiện ở mục nghe của xe kèm tên chương.
+BookPlayer hiện bìa, mục lục chương, nhớ chỗ nghe dở, chỉnh tốc độ, hẹn giờ tắt.
+
+Trên xe có **Android Auto**: BookPlayer chạy trên màn hình xe, chọn sách và chọn chương giống CarPlay ở trên.
+
+Muốn dùng app khác: **Voice** (miễn phí, mã nguồn mở) cũng đọc được M4B và mục lục chương.
 
 Cả iPhone và Android đều mở được bằng **VLC** (miễn phí, hiện chương), nhưng VLC không nhớ chỗ nghe dở như app sách nói.
 

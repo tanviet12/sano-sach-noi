@@ -15,8 +15,8 @@ import hostLogo from '../assets/sponsors/123host.svg'
 const uses = [
   { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
   { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
-  { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, iPhone nghe bằng BookPlayer (miễn phí), Android bằng Voice' },
-  { t: 'Nghe trên ô tô', d: 'CarPlay qua BookPlayer: chọn sách, chọn chương ngay trên màn hình xe; Android Auto qua app sách nói có hỗ trợ' },
+  { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android)' },
+  { t: 'Nghe trên ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },
   { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
 ]
 

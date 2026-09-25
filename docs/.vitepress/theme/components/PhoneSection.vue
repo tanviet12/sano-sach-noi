@@ -25,9 +25,8 @@ const shots = [
           được, không cần mạng. App nghe tự nhớ chỗ nghe dở, trên xe hiện tên chương.
         </p>
         <ul class="list">
-          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>iPhone:</strong> app BookPlayer (miễn phí, mã nguồn mở) hoặc app Sách của Apple</span></li>
-          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Trên ô tô có CarPlay:</strong> BookPlayer hiện thư viện sách, chọn sách, chọn chương ngay trên màn hình xe</span></li>
-          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Android:</strong> Voice (mã nguồn mở) hoặc app nghe sách nói bất kỳ đọc được M4B, có Android Auto</span></li>
+          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>iPhone và Android:</strong> app BookPlayer (miễn phí, mã nguồn mở); iPhone dùng được cả app Sách của Apple</span></li>
+          <li><Check :size="16" class="ck" aria-hidden="true" /><span><strong>Trên ô tô:</strong> BookPlayer chạy trên CarPlay và Android Auto, chọn sách, chọn chương ngay trên màn hình xe</span></li>
           <li><Check :size="16" class="ck" aria-hidden="true" /><span>Khoảng 29 MB cho mỗi giờ nghe</span></li>
         </ul>
         <div class="actions">
@@ -45,7 +44,7 @@ const shots = [
         </div>
         <figure class="car">
           <img :src="imgCar" alt="BookPlayer trên màn hình xe qua CarPlay: tên chương, bìa, nút tua và chuyển chương" loading="lazy" />
-          <figcaption class="sano-muted">Trên ô tô qua CarPlay: chọn sách, chọn chương ngay trên màn hình xe</figcaption>
+          <figcaption class="sano-muted">Trên ô tô (ảnh CarPlay): chọn sách, chọn chương ngay trên màn hình xe</figcaption>
         </figure>
       </div>
     </div>
