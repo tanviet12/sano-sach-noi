@@ -26,11 +26,13 @@ type App struct {
 	ctx context.Context
 	lib *library.Library
 
-	mu     sync.Mutex // bảo vệ job, voices, setup, m4b, uninstalling, ttsUsers, ttsChecks
+	mu     sync.Mutex // bảo vệ job, voices, setup, m4b, importCancel, uninstalling, ttsUsers, ttsChecks
 	job    *renderJob
 	voices []bookmaker.Voice
 	setup  *setupJob
 	m4b    *m4bJob
+	// importCancel — huỷ lượt nhập sách đang chạy (nil = không có lượt nào).
+	importCancel context.CancelFunc
 	// uninstalling — đang xoá bộ đọc; ttsUsers — số lượt dùng bộ đọc ngắn đang
 	// chạy (nghe thử, câu mẫu, hỏi giọng). Hai bên loại trừ nhau (xem setup.go).
 	uninstalling bool

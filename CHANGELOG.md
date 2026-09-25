@@ -1,5 +1,14 @@
 # Changelog
 
+## Chưa phát hành
+
+### Tính năng
+- **Nhập sách từ gói zip:** nút **Nhập sách** ở Thư viện (hoặc kéo thả file .zip vào cửa sổ). Xem trước bìa, tên, giọng, số chương, thời lượng; trùng sách thì chọn Giữ cả hai / Thay thế. Sách nhập giữ đủ mục lục, bìa, tên giọng, chữ chạy theo
+  - Gói zip là file người khác gửi nên được kiểm chặt: chỉ đọc đúng file của gói sách, chặn đường dẫn ra ngoài thư mục, tên trùng, file mã hoá, file quá lớn hoặc nén bất thường; mp3 và ảnh bìa phải đúng định dạng (không nhận SVG); giải nén vào thư mục tạm rồi đóng gói lại sạch
+
+### Sửa lỗi
+- Sách tên trùng tên thiết bị của Windows ("Con", "Nul"…) không tạo được thư mục; nay thêm hậu tố
+
 ## v0.1.7 (25/09/2026)
 
 ### Tính năng

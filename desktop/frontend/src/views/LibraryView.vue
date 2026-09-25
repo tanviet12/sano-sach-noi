@@ -4,11 +4,11 @@
 // mục (chỉ hiện khi có từ 2 danh mục), hàng "Nghe tiếp", menu ⋯ trên bìa.
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
-  Check, ChevronDown, FilePlus2, FolderOpen, Mic, MoreHorizontal, Pencil, Play, Search, Trash2, X,
+  Check, ChevronDown, FileArchive, FilePlus2, FolderOpen, Mic, MoreHorizontal, Pencil, Play, Search, Trash2, Upload, X,
 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import BookCover from '@/components/sano/BookCover.vue'
-import { deleteBook, errText, openBookFolder, openLibraryFolder, type LibraryBook } from '../lib/backend'
+import { chooseBookZip, deleteBook, errText, onFileDrop, openBookFolder, openLibraryFolder, type LibraryBook } from '../lib/backend'
 import {
   ago, categoryCounts, isListening, loadSort, matches, mergeCategory, saveSort, sortBooks, SORTS, type ShelfBook, type SortKey,
 } from '../lib/find'
@@ -16,6 +16,7 @@ import { fmtLong, loadPosition } from '../lib/position'
 import { go, openBook, refreshLibrary, state } from '../lib/store'
 import { forgetBook } from '../lib/player'
 import EditBookDialog from '../components/EditBookDialog.vue'
+import ImportDialog from '../components/ImportDialog.vue'
 
 onMounted(() => void refreshLibrary())
 
@@ -119,10 +120,74 @@ async function trash(b: LibraryBook) {
   }
 }
 
+// ── Nhập sách từ gói zip (wireframe D6) ─────────────────────────────────
+const importPath = ref('')
+const imported = ref<{ slug: string; title: string } | null>(null)
+const dragging = ref(false)
+let toastTimer = 0
+
+async function pickZip() {
+  actionError.value = ''
+  try {
+    const p = await chooseBookZip()
+    if (p) importPath.value = p
+  } catch (e) {
+    actionError.value = errText(e)
+  }
+}
+async function onImported(slug: string) {
+  importPath.value = ''
+  await refreshLibrary()
+  query.value = ''
+  filter.value = 'all'
+  const b = books.value.find((x) => x.slug === slug)
+  imported.value = { slug, title: b?.title ?? slug }
+  window.clearTimeout(toastTimer)
+  toastTimer = window.setTimeout(() => (imported.value = null), 10000)
+}
+
+// Kéo thả: chỉ nhận một file .zip; file khác báo lỗi nhẹ (Word thì vào Tạo sách mới).
+let offDrop: (() => void) | null = null
+let dragDepth = 0
+const hasFiles = (e: DragEvent) => !!e.dataTransfer && [...e.dataTransfer.types].includes('Files')
+function onDragEnter(e: DragEvent) {
+  if (!hasFiles(e)) return
+  dragDepth++
+  dragging.value = true
+}
+function onDragLeave() {
+  dragDepth = Math.max(0, dragDepth - 1)
+  if (!dragDepth) dragging.value = false
+}
+function onDropHtml() {
+  dragDepth = 0
+  dragging.value = false
+}
+onMounted(() => {
+  offDrop = onFileDrop((paths) => {
+    dragging.value = false
+    dragDepth = 0
+    if (importPath.value || editing.value) return
+    const zip = paths.find((p) => /\.zip$/i.test(p))
+    if (zip) importPath.value = zip
+    else if (paths.length) actionError.value = /\.docx$/i.test(paths[0]) ? 'File Word thì vào Tạo sách mới. Ở đây chỉ nhập gói sách .zip.' : 'Chỉ nhập được gói sách .zip.'
+  })
+  window.addEventListener('dragenter', onDragEnter)
+  window.addEventListener('dragleave', onDragLeave)
+  window.addEventListener('drop', onDropHtml)
+})
+onBeforeUnmount(() => {
+  offDrop?.()
+  window.removeEventListener('dragenter', onDragEnter)
+  window.removeEventListener('dragleave', onDragLeave)
+  window.removeEventListener('drop', onDropHtml)
+  window.clearTimeout(toastTimer)
+})
+
 // Bấm ra ngoài hoặc Esc thì đóng menu ⋯ và menu sắp xếp.
 function closeMenus(e: Event) {
   if (e instanceof KeyboardEvent) {
-    if (e.key !== 'Escape' || editing.value) return
+    if (e.key !== 'Escape' || editing.value || importPath.value) return
     menuFor.value = null
     sortOpen.value = false
     return
@@ -142,7 +207,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
 </script>
 
 <template>
-  <section class="flex-1 min-h-0 flex flex-col">
+  <section class="relative flex-1 min-h-0 flex flex-col">
     <div class="px-6 pt-6">
       <div class="flex items-center justify-between">
         <div>
@@ -152,7 +217,10 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
             <button class="hover:text-foreground hover:underline" :title="state.library?.dir" @click="openLibraryFolder().catch(() => {})">{{ dir }}</button>
           </p>
         </div>
-        <Button @click="go('create')"><FilePlus2 class="w-4 h-4" /> Tạo sách mới</Button>
+        <div class="flex gap-2">
+          <Button variant="outline" title="Nhập gói sách (.zip) người khác gửi hoặc bản sao lưu" @click="pickZip"><Upload class="w-4 h-4" /> Nhập sách</Button>
+          <Button @click="go('create')"><FilePlus2 class="w-4 h-4" /> Tạo sách mới</Button>
+        </div>
       </div>
       <p v-if="state.libraryError" class="mt-4 text-sm text-destructive">{{ state.libraryError }}</p>
       <p v-if="actionError" class="mt-4 text-sm text-destructive">{{ actionError }}</p>
@@ -191,9 +259,10 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
       <!-- Thư viện trống -->
       <div v-if="state.library && !books.length" class="mt-10 rounded-xl border-2 border-dashed border-border p-10 text-center">
         <p class="font-medium">Chưa có cuốn nào</p>
-        <p class="mt-1 text-sm text-muted-foreground">Nạp một file Word để tạo cuốn sách nói đầu tiên.</p>
+        <p class="mt-1 text-sm text-muted-foreground">Tạo sách nói từ file Word, hoặc nhập gói sách (.zip) người khác gửi cho bạn.</p>
         <div class="mt-4 flex justify-center gap-2">
           <Button @click="go('create')"><FilePlus2 class="w-4 h-4" /> Tạo sách mới</Button>
+          <Button variant="outline" @click="pickZip"><Upload class="w-4 h-4" /> Nhập sách</Button>
           <Button variant="ghost" @click="openLibraryFolder().catch(() => {})"><FolderOpen class="w-4 h-4" /> Mở thư mục</Button>
         </div>
       </div>
@@ -222,7 +291,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
 
         <!-- Lưới sách -->
         <div v-if="shown.length" class="mt-3 grid grid-cols-5 gap-4">
-          <div v-for="b in shown" :key="b.slug" class="text-left group relative">
+          <div v-for="b in shown" :key="b.slug" class="text-left group relative rounded-lg" :class="imported?.slug === b.slug && 'ring-2 ring-primary ring-offset-4 ring-offset-background'">
             <button class="block w-full aspect-[3/4] rounded-lg shadow-md group-hover:shadow-xl group-hover:-translate-y-0.5 transition overflow-hidden" :aria-label="`Nghe ${b.title}`" @click="openBook(b.slug)">
               <img v-if="b.coverUrl" :src="b.coverUrl" :alt="b.title" class="h-full w-full object-cover" />
               <BookCover v-else :title="b.title" :author="b.author" class="h-full w-full shadow-none" />
@@ -260,5 +329,20 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
     </div>
 
     <EditBookDialog v-if="editing" :book="editing" :categories="categories" @close="editing = null" @saved="onSaved" />
+    <ImportDialog v-if="importPath" :path="importPath" @close="importPath = ''" @imported="onImported" />
+
+    <div v-if="dragging && !importPath" class="pointer-events-none absolute inset-3 rounded-xl border-2 border-dashed border-primary bg-primary/5 grid place-items-center z-30">
+      <div class="text-center">
+        <FileArchive class="w-10 h-10 mx-auto text-primary" />
+        <p class="mt-3 font-medium">Thả gói sách (.zip) để nhập vào thư viện</p>
+        <p class="mt-1 text-sm text-muted-foreground">File .docx thì vào Tạo sách mới</p>
+      </div>
+    </div>
+
+    <div v-if="imported" role="status" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-3 rounded-lg border border-border bg-background shadow-lg pl-4 pr-2 py-2 text-sm z-20">
+      <Check class="w-4 h-4 text-rag-green" /> <span class="max-w-72 truncate">Đã nhập “{{ imported.title }}”</span>
+      <Button size="sm" @click="openBook(imported.slug, true); imported = null"><Play class="w-4 h-4" /> Nghe ngay</Button>
+      <button aria-label="Đóng thông báo" class="h-8 w-8 grid place-items-center rounded-md text-muted-foreground hover:bg-muted" @click="imported = null"><X class="w-4 h-4" /></button>
+    </div>
   </section>
 </template>

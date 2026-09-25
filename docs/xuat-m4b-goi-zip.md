@@ -30,7 +30,15 @@ Muốn xem file M4B do Sano tạo trông thế nào trước khi cài? Bản ph�
 
 Mỗi cuốn sách có sẵn một file `book-<tên-sách>.zip` trong thư mục của nó: gồm audio từng mục, bìa và thông tin sách. Bấm **Xuất gói zip** (trong trình phát hoặc ngay khi render xong), Sano mở trình quản lý file và chọn sẵn file zip đó để bạn chép đi sao lưu.
 
-Phiên bản hiện tại chưa có nút nhập gói zip vào Sano. Muốn chuyển cả thư viện sang máy khác, chép nguyên thư mục `~/Sano/Sach` sang cùng vị trí trên máy mới. Cấu trúc gói zip ghi ở [Định dạng gói zip](./book-zip-format).
+### Nhập gói zip (từ 0.1.8)
+
+Nhận gói zip từ người khác, hoặc lấy lại bản sao lưu: vào **Thư viện**, bấm **Nhập sách** rồi chọn file `.zip` (hoặc kéo thả file vào cửa sổ). Sano cho xem trước tên sách, giọng đọc, số chương, thời lượng, rồi mới nhập. Sách nhập vào giữ đủ mục lục, bìa, tên giọng và chữ chạy theo.
+
+- **Trùng sách đã có:** chọn **Giữ cả hai** (cuốn mới mang tên "… (2)") hoặc **Thay thế** (cuốn cũ vào Thùng rác, lấy lại được).
+- **An toàn:** Sano chỉ đọc đúng các file của gói sách (thông tin sách, mục lục, bìa ảnh, file mp3), kiểm từng file đúng định dạng và giới hạn dung lượng, rồi đóng gói lại. Gói lạ, bị sửa hay có file nằm ngoài chỗ quy định bị từ chối, không có gì được thêm vào thư viện.
+- Chỉ nhập sách bạn có quyền nghe: sách tự làm, sách được tác giả cho phép chia sẻ, hoặc tác phẩm đã hết bản quyền.
+
+Người nhận không dùng Sano thì gửi file M4B: nghe được bằng app sách nói bất kỳ. Muốn chuyển cả thư viện sang máy khác, chép nguyên thư mục `~/Sano/Sach` sang cùng vị trí trên máy mới. Cấu trúc gói zip ghi ở [Định dạng gói zip](./book-zip-format).
 
 ## Dùng dòng lệnh
 

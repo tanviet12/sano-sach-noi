@@ -282,6 +282,10 @@ interface GoApp {
   LibrarySize(): Promise<number>
   Book(slug: string): Promise<BookDetail>
   BookTexts(slug: string): Promise<SectionText[]>
+  ChooseBookZip(): Promise<string>
+  PreviewBookZip(path: string): Promise<ImportPreview>
+  ImportBookZip(path: string, replace: boolean): Promise<string>
+  CancelImport(): Promise<void>
   OpenBookFolder(slug: string): Promise<void>
   DeleteBook(slug: string): Promise<string>
   UpdateBookInfo(slug: string, info: BookInfo): Promise<LibraryBook>
@@ -523,6 +527,44 @@ export async function library(): Promise<LibraryInfo> {
 
 export async function book(slug: string): Promise<BookDetail> {
   return need().Book(slug)
+}
+
+/** Xem trước gói sách trước khi nhập — khớp library.ImportPreview bên Go. */
+export interface ImportPreview {
+  path: string
+  fileName: string
+  title: string
+  author: string
+  category: string
+  voice: string
+  chapters: number
+  sections: number
+  durationSec: number
+  sizeBytes: number
+  hasCover: boolean
+  coverDataUrl: string // ảnh bìa đã kiểm (PNG/JPEG/WebP), trống nếu không có
+  existingSlug: string // trống = chưa có trong thư viện
+  existingTitle: string
+  existingCreatedAt: string
+}
+export interface ImportProgress {
+  done: number
+  total: number
+}
+
+/** Mở hộp chọn gói sách (.zip); huỷ → chuỗi rỗng. */
+export async function chooseBookZip(): Promise<string> {
+  return need().ChooseBookZip()
+}
+export async function previewBookZip(path: string): Promise<ImportPreview> {
+  return need().PreviewBookZip(path)
+}
+/** Nhập gói; trả mã sách đã nhập. replace: thay cuốn trùng (cuốn cũ vào Thùng rác). */
+export async function importBookZip(path: string, replace: boolean): Promise<string> {
+  return need().ImportBookZip(path, replace)
+}
+export async function cancelImport(): Promise<void> {
+  return need().CancelImport()
 }
 
 /** Chữ một tiểu mục — khớp library.SectionText bên Go. */
