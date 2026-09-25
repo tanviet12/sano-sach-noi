@@ -1,0 +1,225 @@
+{
+  "title": "Nghe Để Nhớ",
+  "narrator": "VieNeu-TTS (Hải Đăng)",
+  "language": "vi",
+  "category": "Kỹ năng",
+  "cover": "cover.png",
+  "visibility": "private",
+  "chapters": [
+    {
+      "title": "Nghe Để Nhớ",
+      "sections": [
+        {
+          "title": "Nghe Để Nhớ",
+          "file": "ch01-sec01.mp3",
+          "original_text": "Bạn đang nghe sách nói.\n\nCuốn sách: Nghe Để Nhớ.",
+          "reading_script": "Bạn đang nghe sách nói.\n\nCuốn sách: Nghe Để Nhớ."
+        }
+      ]
+    },
+    {
+      "title": "Lời mở đầu",
+      "sections": [
+        {
+          "title": "Trước khi bắt đầu",
+          "file": "ch02-sec01.mp3",
+          "original_text": "Bạn đã bao giờ nghe xong một cuốn sách hay, gật gù tâm đắc, rồi một tuần sau không nhớ nổi ba ý chính của nó chưa?\n\nNếu có, bạn không đơn độc. Và lỗi cũng không nằm ở trí nhớ của bạn. Nó nằm ở cách nghe.\n\nCuốn sách nhỏ này dài hơn mười phút một chút. Trong đó có bốn thói quen giúp những gì bạn nghe ở lại lâu hơn, và một cách ghép chúng lại với nhau. Bạn sẽ được thử ngay một thói quen, trong lúc đang nghe.\n\nMột lời nhắc trước khi bắt đầu. Nếu bạn đang chạy xe máy, đừng đeo tai nghe, hãy để dành cuốn sách này cho lúc khác. Nếu bạn lái ô tô, hãy chỉ nghe thôi. Những việc như dừng lại, ghi chép, để dành cho lúc đã đỗ xe an toàn.\n\nCác nhân vật trong sách là hư cấu. Còn những gì họ gặp phải, thì có lẽ bạn sẽ thấy rất quen.\n\nMình bắt đầu nhé.",
+          "reading_script": "Trước khi bắt đầu.\n\nBạn đã bao giờ nghe xong một cuốn sách hay, gật gù tâm đắc, rồi một tuần sau không nhớ nổi ba ý chính của nó chưa?\n\nNếu có, bạn không đơn độc. Và lỗi cũng không nằm ở trí nhớ của bạn. Nó nằm ở cách nghe.\n\nCuốn sách nhỏ này dài hơn mười phút một chút. Trong đó có bốn thói quen giúp những gì bạn nghe ở lại lâu hơn, và một cách ghép chúng lại với nhau. Bạn sẽ được thử ngay một thói quen, trong lúc đang nghe.\n\nMột lời nhắc trước khi bắt đầu. Nếu bạn đang chạy xe máy, đừng đeo tai nghe, hãy để dành cuốn sách này cho lúc khác. Nếu bạn lái ô tô, hãy chỉ nghe thôi. Những việc như dừng lại, ghi chép, để dành cho lúc đã đỗ xe an toàn.\n\nCác nhân vật trong sách là hư cấu. Còn những gì họ gặp phải, thì có lẽ bạn sẽ thấy rất quen.\n\nMình bắt đầu nhé."
+        }
+      ]
+    },
+    {
+      "title": "Chương 1. Vì sao nghe xong lại quên",
+      "sections": [
+        {
+          "title": "Chuyện của chị Lan",
+          "file": "ch03-sec01.mp3",
+          "original_text": "Thử hình dung chị Lan, làm văn phòng ở Thành phố Hồ Chí Minh. Mỗi ngày chị mất gần một tiếng ngồi xe buýt. Chị tận dụng thời gian đó để nghe sách.\n\nMột năm, chị nghe hơn ba mươi cuốn. Nghe thì rất nhiều. Nhưng một hôm, bạn chị hỏi: cuốn sách về quản lý thời gian chị khen hồi tháng trước nói gì vậy?\n\nChị Lan im lặng một lúc. Chị chỉ nhớ là nó hay. Còn hay chỗ nào, chị không nói được.\n\nChị không lười. Chị cũng không kém trí nhớ. Chị chỉ đang gặp một thứ mà ai cũng gặp.",
+          "reading_script": "Chuyện của chị Lan.\n\nThử hình dung chị Lan, làm văn phòng ở Thành phố Hồ Chí Minh. Mỗi ngày chị mất gần một tiếng ngồi xe buýt. Chị tận dụng thời gian đó để nghe sách.\n\nMột năm, chị nghe hơn ba mươi cuốn. Nghe thì rất nhiều. Nhưng một hôm, bạn chị hỏi: cuốn sách về quản lý thời gian chị khen hồi tháng trước nói gì vậy?\n\nChị Lan im lặng một lúc. Chị chỉ nhớ là nó hay. Còn hay chỗ nào, chị không nói được.\n\nChị không lười. Chị cũng không kém trí nhớ. Chị chỉ đang gặp một thứ mà ai cũng gặp."
+        },
+        {
+          "title": "Đường cong quên lãng",
+          "file": "ch03-sec02.mp3",
+          "original_text": "Hơn một trăm năm trước, có một nhà tâm lý học người Đức tên là Hermann Ebbinghaus. Ông làm một việc mà ít ai đủ kiên nhẫn: tự học thuộc hàng nghìn âm tiết vô nghĩa trong nhiều năm, rồi đo xem mình quên nhanh tới đâu. Năm 1885, ông công bố kết quả.\n\nKết quả khá bất ngờ. Trí nhớ tụt rất nhanh ngay trong những giờ đầu. Sau một ngày, phần lớn đã rơi rụng. Sau đó tốc độ quên chậm hẳn lại. Phần còn sót lại có thể ở lâu, nhưng chỉ là một phần nhỏ.\n\nNgười ta gọi đó là đường cong quên lãng. Hơn một thế kỷ sau, năm 2015, hai nhà nghiên cứu ở Hà Lan làm lại thí nghiệm này, và nhận được kết quả gần giống.\n\nVì Ebbinghaus dùng âm vô nghĩa, con số cụ thể không áp nguyên vào mọi thứ ta học. Nhưng xu hướng thì đúng với hầu hết chúng ta. Không làm gì thêm, điều vừa học sẽ trôi đi rất nhanh.",
+          "reading_script": "Đường cong quên lãng.\n\nHơn một trăm năm trước, có một nhà tâm lý học người Đức tên là Hermann Ebbinghaus. Ông làm một việc mà ít ai đủ kiên nhẫn: tự học thuộc hàng nghìn âm tiết vô nghĩa trong nhiều năm, rồi đo xem mình quên nhanh tới đâu. Năm 1885, ông công bố kết quả.\n\nKết quả khá bất ngờ. Trí nhớ tụt rất nhanh ngay trong những giờ đầu. Sau một ngày, phần lớn đã rơi rụng. Sau đó tốc độ quên chậm hẳn lại. Phần còn sót lại có thể ở lâu, nhưng chỉ là một phần nhỏ.\n\nNgười ta gọi đó là đường cong quên lãng. Hơn một thế kỷ sau, năm 2015, hai nhà nghiên cứu ở Hà Lan làm lại thí nghiệm này, và nhận được kết quả gần giống.\n\nVì Ebbinghaus dùng âm vô nghĩa, con số cụ thể không áp nguyên vào mọi thứ ta học. Nhưng xu hướng thì đúng với hầu hết chúng ta. Không làm gì thêm, điều vừa học sẽ trôi đi rất nhanh."
+        },
+        {
+          "title": "Vì sao não lại quên",
+          "file": "ch03-sec03.mp3",
+          "original_text": "Nghe thì có vẻ phí. Nhưng quên thật ra là một tính năng, không phải lỗi.\n\nMỗi ngày, não bạn nhận vào vô số thứ: tiếng xe, biển quảng cáo, câu chuyện của người ngồi bên cạnh, hàng chục tin nhắn. Nếu cái gì cũng giữ lại, đầu óc sẽ rối tung. Nên não phải chọn.\n\nVà nó chọn theo một nguyên tắc khá đơn giản: thứ gì được dùng lại, thì giữ. Thứ gì chỉ gặp một lần rồi thôi, thì cho qua.\n\nTức là, khi bạn nghe một cuốn sách đúng một lần, với não, nó cũng giống như một biển quảng cáo bên đường. Thấy đó, rồi quên đó.\n\nMuốn não giữ lại, bạn phải cho nó một tín hiệu rõ ràng: cái này quan trọng, mình sẽ còn cần tới nó.",
+          "reading_script": "Vì sao não lại quên.\n\nNghe thì có vẻ phí. Nhưng quên thật ra là một tính năng, không phải lỗi.\n\nMỗi ngày, não bạn nhận vào vô số thứ: tiếng xe, biển quảng cáo, câu chuyện của người ngồi bên cạnh, hàng chục tin nhắn. Nếu cái gì cũng giữ lại, đầu óc sẽ rối tung. Nên não phải chọn.\n\nVà nó chọn theo một nguyên tắc khá đơn giản: thứ gì được dùng lại, thì giữ. Thứ gì chỉ gặp một lần rồi thôi, thì cho qua.\n\nTức là, khi bạn nghe một cuốn sách đúng một lần, với não, nó cũng giống như một biển quảng cáo bên đường. Thấy đó, rồi quên đó.\n\nMuốn não giữ lại, bạn phải cho nó một tín hiệu rõ ràng: cái này quan trọng, mình sẽ còn cần tới nó."
+        },
+        {
+          "title": "Nghe một lần là chưa học",
+          "file": "ch03-sec04.mp3",
+          "original_text": "Vậy vấn đề của chị Lan nằm ở đâu? Ở chỗ chị nghe mỗi cuốn đúng một lần, rồi chuyển sang cuốn khác.\n\nNghe một lần giống như đi ngang qua một con đường. Bạn có thấy nó. Nhưng muốn nhớ đường, bạn phải đi lại vài lần.\n\nTin vui là không cần đi lại nhiều. Chỉ cần đi lại đúng lúc. Đó là chuyện của chương sau.",
+          "reading_script": "Nghe một lần là chưa học.\n\nVậy vấn đề của chị Lan nằm ở đâu? Ở chỗ chị nghe mỗi cuốn đúng một lần, rồi chuyển sang cuốn khác.\n\nNghe một lần giống như đi ngang qua một con đường. Bạn có thấy nó. Nhưng muốn nhớ đường, bạn phải đi lại vài lần.\n\nTin vui là không cần đi lại nhiều. Chỉ cần đi lại đúng lúc. Đó là chuyện của chương sau."
+        },
+        {
+          "title": "Ba ý cần nhớ",
+          "file": "ch03-sec05.mp3",
+          "original_text": "Một. Quên là chuyện tự nhiên của não, không phải do bạn kém.\n\nHai. Trí nhớ tụt nhanh nhất trong những giờ và ngày đầu tiên, rồi mới chậm lại.\n\nBa. Nghe một lần mới là đi ngang qua. Muốn nhớ, phải quay lại.",
+          "reading_script": "Ba ý cần nhớ.\n\nMột. Quên là chuyện tự nhiên của não, không phải do bạn kém.\n\nHai. Trí nhớ tụt nhanh nhất trong những giờ và ngày đầu tiên, rồi mới chậm lại.\n\nBa. Nghe một lần mới là đi ngang qua. Muốn nhớ, phải quay lại."
+        }
+      ]
+    },
+    {
+      "title": "Chương 2. Quay lại đúng lúc",
+      "sections": [
+        {
+          "title": "Người thợ tưới cây",
+          "file": "ch04-sec01.mp3",
+          "original_text": "Thử tưởng tượng một người thợ trồng cây. Cây mới trồng thì ngày nào anh cũng tưới. Khi rễ đã bám, anh tưới cách ngày. Rồi mỗi tuần một lần. Rồi thỉnh thoảng mới ghé.\n\nAnh không tưới đều như nhau. Anh tưới dày lúc đầu, thưa dần về sau.\n\nTrí nhớ cũng cần được tưới theo cách gần như vậy.",
+          "reading_script": "Người thợ tưới cây.\n\nThử tưởng tượng một người thợ trồng cây. Cây mới trồng thì ngày nào anh cũng tưới. Khi rễ đã bám, anh tưới cách ngày. Rồi mỗi tuần một lần. Rồi thỉnh thoảng mới ghé.\n\nAnh không tưới đều như nhau. Anh tưới dày lúc đầu, thưa dần về sau.\n\nTrí nhớ cũng cần được tưới theo cách gần như vậy."
+        },
+        {
+          "title": "Nhồi một lúc, quên một lèo",
+          "file": "ch04-sec02.mp3",
+          "original_text": "Hồi đi học, chắc bạn từng thức khuya ôn thi. Nhồi cả chương vào một đêm. Sáng hôm sau vào phòng thi, vẫn nhớ khá ổn.\n\nNhưng một tháng sau thì sao? Gần như không còn gì.\n\nCác nhà nghiên cứu đã so sánh hai cách này trong hàng trăm thí nghiệm. Học dồn một lúc giúp nhớ tốt trong vài ngày, rồi rơi rụng rất nhanh. Còn chia ra nhiều lần, có khoảng cách giữa các lần, thì giữ được lâu hơn hẳn.",
+          "reading_script": "Nhồi một lúc, quên một lèo.\n\nHồi đi học, chắc bạn từng thức khuya ôn thi. Nhồi cả chương vào một đêm. Sáng hôm sau vào phòng thi, vẫn nhớ khá ổn.\n\nNhưng một tháng sau thì sao? Gần như không còn gì.\n\nCác nhà nghiên cứu đã so sánh hai cách này trong hàng trăm thí nghiệm. Học dồn một lúc giúp nhớ tốt trong vài ngày, rồi rơi rụng rất nhanh. Còn chia ra nhiều lần, có khoảng cách giữa các lần, thì giữ được lâu hơn hẳn."
+        },
+        {
+          "title": "Lặp lại ngắt quãng",
+          "file": "ch04-sec03.mp3",
+          "original_text": "Cách này có tên là lặp lại ngắt quãng. Thay vì ôn dồn, bạn ôn nhiều lần, mỗi lần cách nhau một khoảng.\n\nMột lịch đơn giản bạn có thể dùng ngay: nghe lần đầu. Sau một ngày, nghe lại phần tóm tắt. Sau ba ngày, nghe lại lần nữa.\n\nSau một tuần, rồi sau một tháng.\n\nKhông có lịch nào là chuẩn tuyệt đối. Điều quan trọng nhất là có khoảng cách giữa các lần ôn. Lịch này chỉ là một cách dễ nhớ, dễ theo.",
+          "reading_script": "Lặp lại ngắt quãng.\n\nCách này có tên là lặp lại ngắt quãng. Thay vì ôn dồn, bạn ôn nhiều lần, mỗi lần cách nhau một khoảng.\n\nMột lịch đơn giản bạn có thể dùng ngay: nghe lần đầu. Sau một ngày, nghe lại phần tóm tắt. Sau ba ngày, nghe lại lần nữa.\n\nSau một tuần, rồi sau một tháng.\n\nKhông có lịch nào là chuẩn tuyệt đối. Điều quan trọng nhất là có khoảng cách giữa các lần ôn. Lịch này chỉ là một cách dễ nhớ, dễ theo."
+        },
+        {
+          "title": "Không cần nghe lại cả cuốn",
+          "file": "ch04-sec04.mp3",
+          "original_text": "Nghe tới đây, có thể bạn lo: nghe lại cả cuốn năm lần thì lấy đâu ra thời gian?\n\nKhông cần vậy. Lần đầu nghe trọn. Những lần sau, chỉ nghe lại phần quan trọng nhất: đoạn tóm tắt, hay những ý bạn thấy đáng giá. Mỗi lần có khi chỉ năm phút.\n\nĐó cũng là lý do mỗi chương của cuốn sách này kết bằng ba ý cần nhớ. Lần sau quay lại, bạn chỉ cần nghe phần đó.\n\nMột mẹo nhỏ nữa: mốc sau một ngày rất hợp với giấc ngủ. Nhiều nghiên cứu cho thấy giấc ngủ giúp não sắp xếp và củng cố những gì vừa học trong ngày. Nên nghe lại phần tóm tắt vào buổi tối, rồi sáng hôm sau tự hỏi lại mình, là một cặp rất ăn ý.",
+          "reading_script": "Không cần nghe lại cả cuốn.\n\nNghe tới đây, có thể bạn lo: nghe lại cả cuốn năm lần thì lấy đâu ra thời gian?\n\nKhông cần vậy. Lần đầu nghe trọn. Những lần sau, chỉ nghe lại phần quan trọng nhất: đoạn tóm tắt, hay những ý bạn thấy đáng giá. Mỗi lần có khi chỉ năm phút.\n\nĐó cũng là lý do mỗi chương của cuốn sách này kết bằng ba ý cần nhớ. Lần sau quay lại, bạn chỉ cần nghe phần đó.\n\nMột mẹo nhỏ nữa: mốc sau một ngày rất hợp với giấc ngủ. Nhiều nghiên cứu cho thấy giấc ngủ giúp não sắp xếp và củng cố những gì vừa học trong ngày. Nên nghe lại phần tóm tắt vào buổi tối, rồi sáng hôm sau tự hỏi lại mình, là một cặp rất ăn ý."
+        },
+        {
+          "title": "Ba ý cần nhớ",
+          "file": "ch04-sec05.mp3",
+          "original_text": "Một. Nhồi một lúc thì nhớ nhanh, quên cũng nhanh. Chia ra nhiều lần thì giữ lâu hơn.\n\nHai. Lịch dễ theo: một ngày, ba ngày, một tuần, một tháng. Quan trọng nhất là có khoảng cách.\n\nBa. Không cần nghe lại cả cuốn. Chỉ cần quay lại phần cốt lõi.",
+          "reading_script": "Ba ý cần nhớ.\n\nMột. Nhồi một lúc thì nhớ nhanh, quên cũng nhanh. Chia ra nhiều lần thì giữ lâu hơn.\n\nHai. Lịch dễ theo: một ngày, ba ngày, một tuần, một tháng. Quan trọng nhất là có khoảng cách.\n\nBa. Không cần nghe lại cả cuốn. Chỉ cần quay lại phần cốt lõi."
+        }
+      ]
+    },
+    {
+      "title": "Chương 3. Tự hỏi mình",
+      "sections": [
+        {
+          "title": "Hai cách ôn bài",
+          "file": "ch05-sec01.mp3",
+          "original_text": "Hai học sinh cùng ôn một bài. Người thứ nhất đọc đi đọc lại nhiều lần. Càng đọc càng thấy quen, càng thấy mình đã thuộc.\n\nNgười thứ hai đọc một lần, rồi gập sách lại, tự hỏi mình. Bài này nói gì? Có mấy ý? Chỗ nào không nhớ thì mở ra xem, rồi lại gập vào.\n\nMột tuần sau, ai nhớ tốt hơn?",
+          "reading_script": "Hai cách ôn bài.\n\nHai học sinh cùng ôn một bài. Người thứ nhất đọc đi đọc lại nhiều lần. Càng đọc càng thấy quen, càng thấy mình đã thuộc.\n\nNgười thứ hai đọc một lần, rồi gập sách lại, tự hỏi mình. Bài này nói gì? Có mấy ý? Chỗ nào không nhớ thì mở ra xem, rồi lại gập vào.\n\nMột tuần sau, ai nhớ tốt hơn?"
+        },
+        {
+          "title": "Cái bẫy của cảm giác quen",
+          "file": "ch05-sec02.mp3",
+          "original_text": "Năm 2006, hai nhà tâm lý học người Mỹ làm đúng thí nghiệm này. Kết quả có một cú lật rất thú vị.\n\nNếu kiểm tra ngay sau năm phút, nhóm đọc lại còn nhỉnh hơn một chút. Nhưng kiểm tra sau một tuần, nhóm tự hỏi mình nhớ tốt hơn hẳn.\n\nĐiều đáng chú ý nhất nằm ở chỗ khác. Khi được hỏi trước, nhóm đọc lại lại tin rằng mình sẽ nhớ tốt hơn.\n\nĐó chính là cái bẫy. Đọc lại hay nghe lại tạo ra cảm giác quen. Và cảm giác quen rất dễ đánh lừa ta rằng mình đã nhớ.",
+          "reading_script": "Cái bẫy của cảm giác quen.\n\nNăm 2006, hai nhà tâm lý học người Mỹ làm đúng thí nghiệm này. Kết quả có một cú lật rất thú vị.\n\nNếu kiểm tra ngay sau năm phút, nhóm đọc lại còn nhỉnh hơn một chút. Nhưng kiểm tra sau một tuần, nhóm tự hỏi mình nhớ tốt hơn hẳn.\n\nĐiều đáng chú ý nhất nằm ở chỗ khác. Khi được hỏi trước, nhóm đọc lại lại tin rằng mình sẽ nhớ tốt hơn.\n\nĐó chính là cái bẫy. Đọc lại hay nghe lại tạo ra cảm giác quen. Và cảm giác quen rất dễ đánh lừa ta rằng mình đã nhớ."
+        },
+        {
+          "title": "Mỗi lần lấy ra là một lần cất vào",
+          "file": "ch05-sec03.mp3",
+          "original_text": "Còn khi tự hỏi, bạn buộc não phải đi tìm lại thông tin. Chính cái công đi tìm đó làm trí nhớ chắc thêm. Người ta gọi đây là luyện gợi nhớ.\n\nNói đơn giản: mỗi lần lấy ra, là một lần cất vào sâu hơn.\n\nCó một điều nữa. Nếu bạn phải cố mới nhớ ra, đừng nản. Cảm giác chật vật đó không phải là thất bại. Các nhà nghiên cứu gọi nó là cái khó đáng có: khó một chút, nhưng chính nhờ vậy mà nhớ lâu.",
+          "reading_script": "Mỗi lần lấy ra là một lần cất vào.\n\nCòn khi tự hỏi, bạn buộc não phải đi tìm lại thông tin. Chính cái công đi tìm đó làm trí nhớ chắc thêm. Người ta gọi đây là luyện gợi nhớ.\n\nNói đơn giản: mỗi lần lấy ra, là một lần cất vào sâu hơn.\n\nCó một điều nữa. Nếu bạn phải cố mới nhớ ra, đừng nản. Cảm giác chật vật đó không phải là thất bại. Các nhà nghiên cứu gọi nó là cái khó đáng có: khó một chút, nhưng chính nhờ vậy mà nhớ lâu."
+        },
+        {
+          "title": "Hỏi trước khi nghe",
+          "file": "ch05-sec04.mp3",
+          "original_text": "Có một biến thể thú vị của cách này: hỏi trước, rồi mới nghe.\n\nTrước khi bấm nghe một chương mới, bạn tự đặt ra một hai câu hỏi. Chương này sẽ giải quyết vấn đề gì? Mình đoán câu trả lời là gì?\n\nĐoán sai cũng không sao. Thậm chí đoán sai lại tốt. Các thí nghiệm cho thấy người được hỏi trước, dù trả lời sai, sau đó vẫn nhớ bài tốt hơn người chỉ ngồi nghe.\n\nLý do là câu hỏi mở ra một chỗ trống trong đầu. Khi nghe tới câu trả lời, não chộp lấy nó ngay, như nhặt được mảnh ghép còn thiếu.",
+          "reading_script": "Hỏi trước khi nghe.\n\nCó một biến thể thú vị của cách này: hỏi trước, rồi mới nghe.\n\nTrước khi bấm nghe một chương mới, bạn tự đặt ra một hai câu hỏi. Chương này sẽ giải quyết vấn đề gì? Mình đoán câu trả lời là gì?\n\nĐoán sai cũng không sao. Thậm chí đoán sai lại tốt. Các thí nghiệm cho thấy người được hỏi trước, dù trả lời sai, sau đó vẫn nhớ bài tốt hơn người chỉ ngồi nghe.\n\nLý do là câu hỏi mở ra một chỗ trống trong đầu. Khi nghe tới câu trả lời, não chộp lấy nó ngay, như nhặt được mảnh ghép còn thiếu."
+        },
+        {
+          "title": "Thử ngay bây giờ",
+          "file": "ch05-sec05.mp3",
+          "original_text": "Với sách nói, cách làm rất dễ. Nghe xong một chương, bấm dừng. Tự hỏi: chương này có mấy ý chính? Rồi thử nói ra, dù chỉ nói thầm.\n\nNhớ được hai trên ba ý cũng tốt. Ý nào quên, nghe lại đúng đoạn đó.\n\nBạn thử luôn nhé. Chương trước nói về một lịch ôn. Lịch đó gồm những mốc nào?\n\nNếu bạn vừa nhẩm ra một ngày, ba ngày, một tuần, một tháng, thì bạn vừa luyện gợi nhớ rồi đấy.",
+          "reading_script": "Thử ngay bây giờ.\n\nVới sách nói, cách làm rất dễ. Nghe xong một chương, bấm dừng. Tự hỏi: chương này có mấy ý chính? Rồi thử nói ra, dù chỉ nói thầm.\n\nNhớ được hai trên ba ý cũng tốt. Ý nào quên, nghe lại đúng đoạn đó.\n\nBạn thử luôn nhé. Chương trước nói về một lịch ôn. Lịch đó gồm những mốc nào?\n\nNếu bạn vừa nhẩm ra một ngày, ba ngày, một tuần, một tháng, thì bạn vừa luyện gợi nhớ rồi đấy."
+        },
+        {
+          "title": "Ba ý cần nhớ",
+          "file": "ch05-sec06.mp3",
+          "original_text": "Một. Nghe lại tạo cảm giác quen, nhưng quen chưa phải là nhớ.\n\nHai. Tự hỏi mình buộc não đi tìm lại thông tin. Mỗi lần lấy ra là một lần cất vào sâu hơn. Thấy khó một chút là dấu hiệu tốt.\n\nBa. Nghe xong mỗi chương, dừng lại và nói ra các ý chính.",
+          "reading_script": "Ba ý cần nhớ.\n\nMột. Nghe lại tạo cảm giác quen, nhưng quen chưa phải là nhớ.\n\nHai. Tự hỏi mình buộc não đi tìm lại thông tin. Mỗi lần lấy ra là một lần cất vào sâu hơn. Thấy khó một chút là dấu hiệu tốt.\n\nBa. Nghe xong mỗi chương, dừng lại và nói ra các ý chính."
+        }
+      ]
+    },
+    {
+      "title": "Chương 4. Giảng lại cho người khác",
+      "sections": [
+        {
+          "title": "Cậu con trai hỏi bố",
+          "file": "ch06-sec01.mp3",
+          "original_text": "Thử hình dung anh Minh, vừa nghe xong một cuốn sách về tiết kiệm. Cậu con trai tám tuổi chạy tới hỏi: bố ơi, sách đó nói gì?\n\nAnh định trả lời thật nhanh. Nhưng rồi anh khựng lại. Những từ quen thuộc trong sách, lãi kép, quỹ dự phòng, anh không biết giải thích sao cho một đứa trẻ hiểu.\n\nAnh phải nghĩ một lúc. Rồi anh nói: con tưởng tượng có một hạt giống. Con không ăn nó, mà đem trồng. Nó ra cây, cây ra thêm hạt. Tiền để dành cũng vậy, nếu con để nó sinh ra thêm tiền.\n\nCậu bé à lên. Còn anh Minh thì nhận ra: đến lúc đó, chính anh mới thật sự hiểu điều mình vừa nghe.",
+          "reading_script": "Cậu con trai hỏi bố.\n\nThử hình dung anh Minh, vừa nghe xong một cuốn sách về tiết kiệm. Cậu con trai tám tuổi chạy tới hỏi: bố ơi, sách đó nói gì?\n\nAnh định trả lời thật nhanh. Nhưng rồi anh khựng lại. Những từ quen thuộc trong sách, lãi kép, quỹ dự phòng, anh không biết giải thích sao cho một đứa trẻ hiểu.\n\nAnh phải nghĩ một lúc. Rồi anh nói: con tưởng tượng có một hạt giống. Con không ăn nó, mà đem trồng. Nó ra cây, cây ra thêm hạt. Tiền để dành cũng vậy, nếu con để nó sinh ra thêm tiền.\n\nCậu bé à lên. Còn anh Minh thì nhận ra: đến lúc đó, chính anh mới thật sự hiểu điều mình vừa nghe."
+        },
+        {
+          "title": "Tưởng mình hiểu",
+          "file": "ch06-sec02.mp3",
+          "original_text": "Chuyện của anh Minh xảy ra với tất cả chúng ta. Có một thí nghiệm nổi tiếng: người ta hỏi mọi người có hiểu cái khóa kéo trên áo hoạt động thế nào không. Hầu hết đều tự tin nói có.\n\nRồi người ta yêu cầu giải thích từng bước. Lúc đó, đa số mới nhận ra mình không biết. Các nhà nghiên cứu gọi đây là ảo tưởng hiểu sâu.\n\nNghe xong một cuốn sách cũng vậy. Ta thấy mình hiểu, cho đến khi phải nói lại.",
+          "reading_script": "Tưởng mình hiểu.\n\nChuyện của anh Minh xảy ra với tất cả chúng ta. Có một thí nghiệm nổi tiếng: người ta hỏi mọi người có hiểu cái khóa kéo trên áo hoạt động thế nào không. Hầu hết đều tự tin nói có.\n\nRồi người ta yêu cầu giải thích từng bước. Lúc đó, đa số mới nhận ra mình không biết. Các nhà nghiên cứu gọi đây là ảo tưởng hiểu sâu.\n\nNghe xong một cuốn sách cũng vậy. Ta thấy mình hiểu, cho đến khi phải nói lại."
+        },
+        {
+          "title": "Giảng lại để hiểu",
+          "file": "ch06-sec03.mp3",
+          "original_text": "Có một cách học thường được gắn với nhà vật lý Richard Feynman, người nổi tiếng vì giảng được những điều rất khó bằng lời rất dễ. Thật ra chính ông không đặt ra quy trình này. Người đời sau tóm lại từ cách ông học và giảng.\n\nÝ tưởng gói trong bốn bước. Bước một, chọn một ý bạn muốn hiểu. Bước hai, giảng lại nó bằng lời thật đơn giản, như đang nói với một đứa trẻ.\n\nBước ba, chỗ nào bạn bị vấp, phải dùng lại từ khó, thì đó là chỗ bạn chưa hiểu. Quay lại tài liệu, học lại đúng chỗ đó. Bước bốn, giảng lại lần nữa, gọn hơn.\n\nThử áp dụng với chính chương một nhé. Nếu phải giải thích đường cong quên lãng cho một đứa trẻ, bạn sẽ nói sao?\n\nCó thể thế này: con học một bài, hôm sau con quên gần hết. Nhưng nếu hôm sau con ôn lại một chút, con sẽ quên chậm hơn. Ôn thêm vài lần nữa, thì bài đó ở lại với con rất lâu.\n\nNếu bạn nói được như vậy, bạn đã hiểu chương một. Nếu bị vấp ở đâu đó, thì biết cần nghe lại đoạn nào rồi.",
+          "reading_script": "Giảng lại để hiểu.\n\nCó một cách học thường được gắn với nhà vật lý Richard Feynman, người nổi tiếng vì giảng được những điều rất khó bằng lời rất dễ. Thật ra chính ông không đặt ra quy trình này. Người đời sau tóm lại từ cách ông học và giảng.\n\nÝ tưởng gói trong bốn bước. Bước một, chọn một ý bạn muốn hiểu. Bước hai, giảng lại nó bằng lời thật đơn giản, như đang nói với một đứa trẻ.\n\nBước ba, chỗ nào bạn bị vấp, phải dùng lại từ khó, thì đó là chỗ bạn chưa hiểu. Quay lại tài liệu, học lại đúng chỗ đó. Bước bốn, giảng lại lần nữa, gọn hơn.\n\nThử áp dụng với chính chương một nhé. Nếu phải giải thích đường cong quên lãng cho một đứa trẻ, bạn sẽ nói sao?\n\nCó thể thế này: con học một bài, hôm sau con quên gần hết. Nhưng nếu hôm sau con ôn lại một chút, con sẽ quên chậm hơn. Ôn thêm vài lần nữa, thì bài đó ở lại với con rất lâu.\n\nNếu bạn nói được như vậy, bạn đã hiểu chương một. Nếu bị vấp ở đâu đó, thì biết cần nghe lại đoạn nào rồi."
+        },
+        {
+          "title": "Không cần có người nghe",
+          "file": "ch06-sec04.mp3",
+          "original_text": "Bạn không cần lúc nào cũng có người để giảng. Nói với chính mình cũng được. Viết ba dòng tóm tắt vào điện thoại sau khi nghe xong cũng được.\n\nThậm chí có nghiên cứu cho thấy: chỉ cần học với tâm thế lát nữa sẽ phải giảng lại cho người khác, người ta đã học tốt hơn.\n\nĐiều quan trọng là bạn tự sắp xếp lại ý bằng lời của mình. Nghe là nhận vào. Giảng lại là tiêu hóa.",
+          "reading_script": "Không cần có người nghe.\n\nBạn không cần lúc nào cũng có người để giảng. Nói với chính mình cũng được. Viết ba dòng tóm tắt vào điện thoại sau khi nghe xong cũng được.\n\nThậm chí có nghiên cứu cho thấy: chỉ cần học với tâm thế lát nữa sẽ phải giảng lại cho người khác, người ta đã học tốt hơn.\n\nĐiều quan trọng là bạn tự sắp xếp lại ý bằng lời của mình. Nghe là nhận vào. Giảng lại là tiêu hóa."
+        },
+        {
+          "title": "Ba ý cần nhớ",
+          "file": "ch06-sec05.mp3",
+          "original_text": "Một. Ai cũng dễ tưởng mình hiểu. Phải nói lại được mới là hiểu thật.\n\nHai. Giảng lại bằng lời đơn giản. Chỗ nào bị vấp là chỗ cần học lại.\n\nBa. Không cần người nghe. Nói với chính mình, hay viết ba dòng tóm tắt, cũng đủ.",
+          "reading_script": "Ba ý cần nhớ.\n\nMột. Ai cũng dễ tưởng mình hiểu. Phải nói lại được mới là hiểu thật.\n\nHai. Giảng lại bằng lời đơn giản. Chỗ nào bị vấp là chỗ cần học lại.\n\nBa. Không cần người nghe. Nói với chính mình, hay viết ba dòng tóm tắt, cũng đủ."
+        }
+      ]
+    },
+    {
+      "title": "Chương 5. Ghép lại thành một thói quen",
+      "sections": [
+        {
+          "title": "Tủ tài liệu chưa bao giờ mở",
+          "file": "ch07-sec01.mp3",
+          "original_text": "Nhiều người có một cái tủ như vậy, trên máy tính. Tài liệu khóa học đã đóng tiền. Báo cáo công ty. Ghi chép từ những buổi hội thảo. Tất cả đều hay, đều cần. Và tất cả đều nằm im.\n\nKhông phải vì bạn không muốn đọc. Mà vì ngồi đọc cần thời gian, cần yên tĩnh. Hai thứ đó người bận rộn thiếu nhất.\n\nTrong khi đó, mỗi ngày bạn có không ít khoảng thời gian rảnh tay: đi bộ, nấu ăn, ngồi xe buýt. Những khoảng đó cộng lại, có khi được cả tiếng đồng hồ.",
+          "reading_script": "Tủ tài liệu chưa bao giờ mở.\n\nNhiều người có một cái tủ như vậy, trên máy tính. Tài liệu khóa học đã đóng tiền. Báo cáo công ty. Ghi chép từ những buổi hội thảo. Tất cả đều hay, đều cần. Và tất cả đều nằm im.\n\nKhông phải vì bạn không muốn đọc. Mà vì ngồi đọc cần thời gian, cần yên tĩnh. Hai thứ đó người bận rộn thiếu nhất.\n\nTrong khi đó, mỗi ngày bạn có không ít khoảng thời gian rảnh tay: đi bộ, nấu ăn, ngồi xe buýt. Những khoảng đó cộng lại, có khi được cả tiếng đồng hồ."
+        },
+        {
+          "title": "Chị Lan làm lại từ đầu",
+          "file": "ch07-sec02.mp3",
+          "original_text": "Quay lại với chị Lan. Chị có một bộ tài liệu khóa học về bán hàng, đóng tiền từ năm ngoái, chưa đọc được bao nhiêu.\n\nLần này chị làm khác. Chị chia tài liệu thành những chương ngắn, mỗi chương chừng mười phút. Cuối mỗi chương, chị thêm vài dòng tóm tắt ý chính.\n\nRồi chị biến nó thành sách nói, để nghe trên xe buýt. Mỗi tối, chị nghe lại phần tóm tắt của chương hôm trước, trước khi đi ngủ. Sáng hôm sau, trên đường đi làm, chị tự hỏi mình vài câu, rồi mới nghe chương mới.",
+          "reading_script": "Chị Lan làm lại từ đầu.\n\nQuay lại với chị Lan. Chị có một bộ tài liệu khóa học về bán hàng, đóng tiền từ năm ngoái, chưa đọc được bao nhiêu.\n\nLần này chị làm khác. Chị chia tài liệu thành những chương ngắn, mỗi chương chừng mười phút. Cuối mỗi chương, chị thêm vài dòng tóm tắt ý chính.\n\nRồi chị biến nó thành sách nói, để nghe trên xe buýt. Mỗi tối, chị nghe lại phần tóm tắt của chương hôm trước, trước khi đi ngủ. Sáng hôm sau, trên đường đi làm, chị tự hỏi mình vài câu, rồi mới nghe chương mới."
+        },
+        {
+          "title": "Ba bước cho tài liệu của bạn",
+          "file": "ch07-sec03.mp3",
+          "original_text": "Bạn cũng có thể làm y như vậy.\n\nBước một, chọn một tài liệu bạn thật sự cần nhớ. Đừng chọn nhiều. Một cuốn làm tới nơi còn hơn mười cuốn nghe lướt.\n\nBước hai, chia nó thành những chương ngắn, mỗi chương năm đến mười phút. Cuối mỗi chương, thêm vài dòng tóm tắt. Đó chính là phần bạn sẽ quay lại nghe theo lịch ôn.\n\nBước ba, biến nó thành sách nói. Cuốn sách bạn đang nghe được làm đúng theo cách đó: bằng phần mềm Sano, từ một tài liệu Word bình thường, ngay trên máy tính. Bạn chỉ cần đặt tiêu đề chương, chọn một giọng đọc, và để máy làm phần còn lại. Tài liệu không gửi đi đâu cả.",
+          "reading_script": "Ba bước cho tài liệu của bạn.\n\nBạn cũng có thể làm y như vậy.\n\nBước một, chọn một tài liệu bạn thật sự cần nhớ. Đừng chọn nhiều. Một cuốn làm tới nơi còn hơn mười cuốn nghe lướt.\n\nBước hai, chia nó thành những chương ngắn, mỗi chương năm đến mười phút. Cuối mỗi chương, thêm vài dòng tóm tắt. Đó chính là phần bạn sẽ quay lại nghe theo lịch ôn.\n\nBước ba, biến nó thành sách nói. Cuốn sách bạn đang nghe được làm đúng theo cách đó: bằng phần mềm Sano, từ một tài liệu Word bình thường, ngay trên máy tính. Bạn chỉ cần đặt tiêu đề chương, chọn một giọng đọc, và để máy làm phần còn lại. Tài liệu không gửi đi đâu cả."
+        },
+        {
+          "title": "Một cuốn sách, bốn tuần",
+          "file": "ch07-sec04.mp3",
+          "original_text": "Nếu bạn thích có lịch cụ thể, đây là một cách chia cho một cuốn sách dài chừng hai tiếng.\n\nTuần đầu, mỗi ngày nghe một chương mới, và tối đó nghe lại phần tóm tắt. Tuần thứ hai, tiếp tục các chương còn lại, mỗi sáng tự hỏi mình về chương hôm trước.\n\nTuần thứ ba, không nghe gì mới. Chỉ nghe lại phần tóm tắt của mọi chương, và thử giảng lại cho một người thân. Tuần thứ tư, nghe lại một lần những chương bạn thấy khó nhất.\n\nHết bốn tuần, bạn không chỉ nghe xong một cuốn sách. Bạn giữ được nó.",
+          "reading_script": "Một cuốn sách, bốn tuần.\n\nNếu bạn thích có lịch cụ thể, đây là một cách chia cho một cuốn sách dài chừng hai tiếng.\n\nTuần đầu, mỗi ngày nghe một chương mới, và tối đó nghe lại phần tóm tắt. Tuần thứ hai, tiếp tục các chương còn lại, mỗi sáng tự hỏi mình về chương hôm trước.\n\nTuần thứ ba, không nghe gì mới. Chỉ nghe lại phần tóm tắt của mọi chương, và thử giảng lại cho một người thân. Tuần thứ tư, nghe lại một lần những chương bạn thấy khó nhất.\n\nHết bốn tuần, bạn không chỉ nghe xong một cuốn sách. Bạn giữ được nó."
+        },
+        {
+          "title": "Vòng lặp bốn nhịp",
+          "file": "ch07-sec05.mp3",
+          "original_text": "Giờ thì bạn đã có đủ đồ nghề. Ghép lại, nó thành một vòng lặp bốn nhịp.\n\nNhịp một, nghe trọn một chương. Nhịp hai, dừng lại, tự hỏi ý chính.\n\nNhịp ba, giảng lại bằng vài câu của mình. Nhịp bốn, quay lại nghe phần tóm tắt sau một ngày, ba ngày, một tuần, một tháng.",
+          "reading_script": "Vòng lặp bốn nhịp.\n\nGiờ thì bạn đã có đủ đồ nghề. Ghép lại, nó thành một vòng lặp bốn nhịp.\n\nNhịp một, nghe trọn một chương. Nhịp hai, dừng lại, tự hỏi ý chính.\n\nNhịp ba, giảng lại bằng vài câu của mình. Nhịp bốn, quay lại nghe phần tóm tắt sau một ngày, ba ngày, một tuần, một tháng."
+        },
+        {
+          "title": "Ba ý cần nhớ",
+          "file": "ch07-sec06.mp3",
+          "original_text": "Một. Chọn một tài liệu thật sự cần nhớ, chia thành chương ngắn, mỗi chương có tóm tắt.\n\nHai. Nghe, tự hỏi, giảng lại, rồi quay lại đúng lúc.\n\nBa. Những khoảng rảnh tay mỗi ngày có thể đủ để học kỹ một cuốn sách mỗi tháng.",
+          "reading_script": "Ba ý cần nhớ.\n\nMột. Chọn một tài liệu thật sự cần nhớ, chia thành chương ngắn, mỗi chương có tóm tắt.\n\nHai. Nghe, tự hỏi, giảng lại, rồi quay lại đúng lúc.\n\nBa. Những khoảng rảnh tay mỗi ngày có thể đủ để học kỹ một cuốn sách mỗi tháng."
+        },
+        {
+          "title": "Lời kết",
+          "file": "ch07-sec07.mp3",
+          "original_text": "Năm nay, chị Lan không nghe ba mươi cuốn nữa. Chị chọn mười cuốn. Cuốn nào chị cũng nghe, dừng, tự hỏi, rồi quay lại theo lịch.\n\nChị nghe ít hơn. Nhưng lần này, bạn chị hỏi cuốn nào, chị cũng kể được.\n\nNghe nhiều không làm ta giỏi hơn. Nhớ được, và dùng được, mới làm ta giỏi hơn.\n\nChúc bạn nghe vui, và nhớ lâu.",
+          "reading_script": "Lời kết.\n\nNăm nay, chị Lan không nghe ba mươi cuốn nữa. Chị chọn mười cuốn. Cuốn nào chị cũng nghe, dừng, tự hỏi, rồi quay lại theo lịch.\n\nChị nghe ít hơn. Nhưng lần này, bạn chị hỏi cuốn nào, chị cũng kể được.\n\nNghe nhiều không làm ta giỏi hơn. Nhớ được, và dùng được, mới làm ta giỏi hơn.\n\nChúc bạn nghe vui, và nhớ lâu."
+        }
+      ]
+    }
+  ]
+}

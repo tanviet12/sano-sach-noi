@@ -56,7 +56,7 @@ func NewApp() *App {
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	if err := seedSampleBook(a.lib); err != nil {
+	if err := seedSampleBooks(a.lib); err != nil {
 		log.Printf("sách mẫu: %v", err)
 	}
 	// Thư mục render / nhập dở do app bị tắt đột ngột (có thể vài GB).

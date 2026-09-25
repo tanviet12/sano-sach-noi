@@ -1,5 +1,10 @@
 # Changelog
 
+## Chưa phát hành
+
+### Tính năng
+- **3 sách mẫu mới có sẵn trong thư viện:** "Giới thiệu Sano" (3 phút, giọng Trúc Ly), "Nghe Để Nhớ" (12 phút, giọng Hải Đăng), "Tiệm Cà Phê Thứ Hai" (12 phút, giọng Trúc Ly), thay cho cuốn "Kỹ năng mềm cho người trẻ". Máy đã cài Sano cũng nhận 3 cuốn mới khi cập nhật; cuốn nào đã xoá thì không tự thêm lại
+
 ## v0.1.8 (26/09/2026)
 
 ### Tính năng
