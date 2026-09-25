@@ -25,13 +25,9 @@ Sano là phần mềm cài trên máy tính để tạo sách nói bằng AI t�
 
 ## Tải bản cài
 
-Vào [trang Releases](https://github.com/tanviet12/sano-sach-noi/releases/latest), chọn file đúng máy:
+Chọn file đúng máy:
 
-| Máy | File |
-|---|---|
-| Windows 10/11 | `Sano-<phiên bản>-windows-amd64-setup.exe` (bộ cài, không cần quyền quản trị) hoặc `…-portable.zip` (giải nén là chạy) |
-| macOS | `Sano-<phiên bản>-macos-universal.dmg` |
-| Linux | `Sano-<phiên bản>-linux-amd64.AppImage` |
+<DownloadTable />
 
 ## Cài theo hệ điều hành
 

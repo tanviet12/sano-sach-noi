@@ -5,8 +5,9 @@ import { computed, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { Apple, BookOpen, Check, Download, ExternalLink, Laptop, Monitor } from 'lucide-vue-next'
 import libraryShot from '../../../images/app/thu-vien.jpg'
+import { REPO, RELEASES, useRelease, type Asset } from './release'
 
-const REPO = 'https://github.com/tanviet12/sano-sach-noi'
+const { version, links } = useRelease()
 
 // Sano dùng để làm gì — cùng nội dung với trang Cài đặt, mục Giới thiệu trong app và README
 const uses = [
@@ -17,13 +18,12 @@ const uses = [
   { t: '25 giọng đọc AI tiếng Việt', d: 'nam, nữ, giọng Bắc, giọng Nam' },
   { t: 'Không cần API key, không tốn tiền token', d: 'mô hình AI tải về một lần rồi chạy ngay trên máy bạn, không cần tài khoản ChatGPT hay dịch vụ AI nào' },
 ]
-const RELEASES = REPO + '/releases/latest'
 
 type OS = 'mac' | 'win' | 'linux'
-const builds: Record<OS, { label: string; file: string; note: string; icon: typeof Apple }> = {
-  mac: { label: 'macOS', file: 'Sano-<phiên bản>-macos-universal.dmg', note: 'Apple Silicon và Intel', icon: Apple },
-  win: { label: 'Windows', file: 'Sano-<phiên bản>-windows-amd64-setup.exe', note: 'Windows 10/11 · không cần quyền quản trị', icon: Monitor },
-  linux: { label: 'Linux', file: 'Sano-<phiên bản>-linux-amd64.AppImage', note: 'x86_64 · cần WebKitGTK 4.1', icon: Laptop },
+const builds: Record<OS, { label: string; asset: Asset; note: string; icon: typeof Apple }> = {
+  mac: { label: 'macOS', asset: 'mac', note: 'Apple Silicon và Intel', icon: Apple },
+  win: { label: 'Windows', asset: 'win', note: 'Windows 10/11 · không cần quyền quản trị', icon: Monitor },
+  linux: { label: 'Linux', asset: 'linux', note: 'x86_64 · cần WebKitGTK 4.1', icon: Laptop },
 }
 
 // null = chưa biết (SSR) · 'mobile' = điện thoại/máy tính bảng (Sano chỉ cài trên máy tính)
@@ -40,6 +40,8 @@ onMounted(() => {
 })
 
 const build = computed(() => (os.value && os.value !== 'mobile' ? builds[os.value] : null))
+// Máy tính đã nhận ra hệ điều hành: tải thẳng file cài. Điện thoại / chưa rõ máy: trang Releases.
+const mainHref = computed(() => (build.value ? links.value[build.value.asset].url : RELEASES))
 const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== os.value))
 </script>
 
@@ -60,7 +62,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
         </ul>
 
         <div class="actions">
-          <a :href="RELEASES" target="_blank" rel="noopener" class="sano-btn brand block-sm dl">
+          <a :href="mainHref" v-bind="build ? {} : { target: '_blank', rel: 'noopener' }" class="sano-btn brand block-sm dl">
             <Download :size="20" aria-hidden="true" />
             <span class="dl-text">
               <span class="dl-main">{{ build ? `Tải cho ${build.label}` : os === 'mobile' ? 'Tải cho máy tính' : 'Tải Sano' }}</span>
@@ -75,7 +77,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
         <p class="others">
           <template v-if="build">
             <span>Bản khác:</span>
-            <a v-for="k in others" :key="k" :href="RELEASES" target="_blank" rel="noopener" class="os-link">
+            <a v-for="k in others" :key="k" :href="links[builds[k].asset].url" class="os-link">
               <component :is="builds[k].icon" :size="14" aria-hidden="true" /> {{ builds[k].label }}
             </a>
             <span class="sep">·</span>
@@ -84,7 +86,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
         </p>
         <p class="file">
           <template v-if="os === 'mobile'">Sano cài trên máy tính Windows, macOS, Linux; nghe trên điện thoại bằng file M4B.</template>
-          <template v-else-if="build">File <code>{{ build.file }}</code> trên GitHub Releases.</template>
+          <template v-else-if="build">Tải thẳng <code>{{ links[build.asset].name }}</code> (bản {{ version }}).</template>
           <template v-else>Bản cài trên GitHub Releases.</template>
           Bản cài chưa ký số —
           <a :href="withBase('/mo-app-lan-dau')">cách mở lần đầu</a>.

@@ -7,7 +7,9 @@ import imgPlayer from '../../../images/nghe-tren-dien-thoai/3-trinh-phat.jpg'
 import imgChapters from '../../../images/nghe-tren-dien-thoai/4-muc-luc-chuong.jpg'
 import imgCar from '../../../images/nghe-tren-dien-thoai/5-carplay-dang-nghe.jpg'
 
-const RELEASES = 'https://github.com/tanviet12/sano-sach-noi/releases/latest'
+import { useRelease } from './release'
+
+const { links } = useRelease()
 const shots = [
   { src: imgLibrary, alt: 'Sách nói Sano trong thư viện BookPlayer', cap: 'Thư viện' },
   { src: imgPlayer, alt: 'Đang nghe, hiện bìa và tên chương', cap: 'Đang nghe' },
@@ -30,7 +32,7 @@ const shots = [
           <li><Check :size="16" class="ck" aria-hidden="true" /><span>Khoảng 29 MB cho mỗi giờ nghe</span></li>
         </ul>
         <div class="actions">
-          <a :href="RELEASES" target="_blank" rel="noopener" class="sano-btn brand block-sm"><Download :size="16" aria-hidden="true" /> Tải M4B mẫu</a>
+          <a :href="links.m4b.url" class="sano-btn brand block-sm"><Download :size="16" aria-hidden="true" /> Tải M4B mẫu</a>
           <a :href="withBase('/nghe-tren-dien-thoai')" class="sano-btn outline block-sm">Hướng dẫn chi tiết <ArrowRight :size="16" aria-hidden="true" /></a>
         </div>
         <p class="note sano-muted">File M4B mẫu (sách “Kỹ năng mềm cho người trẻ”, khoảng 4 phút 30 giây) đính kèm trong bản phát hành.</p>
