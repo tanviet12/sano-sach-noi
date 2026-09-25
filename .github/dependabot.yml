@@ -41,6 +41,10 @@ updates:
       # Kiểu Node theo đúng bản Node dùng build (22 trong CI).
       - dependency-name: "@types/node"
         update-types: [version-update:semver-major]
+      # TypeScript 7 (bản viết lại bằng Go) bỏ lib/tsc mà vue-tsc cần → build hỏng.
+      # Chờ vue-tsc hỗ trợ TypeScript 7.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: npm
     directory: /docs
