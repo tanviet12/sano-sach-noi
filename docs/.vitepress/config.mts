@@ -67,12 +67,18 @@ export default defineConfig({
   // demo-books: văn bản thô để render audio mẫu; prompts: lời nhắc mẫu app nhúng (?raw)
   srcExclude: ['demo-books/**', 'prompts/**', 'README.md'],
 
-  sitemap: { hostname: SITE },
+  sitemap: {
+    hostname: SITE,
+    // trang viết cho lập trình viên: không đưa vào sitemap
+    transformItems: (items) =>
+      items.filter((i) => !/(design-system|tts-build-guide|vieneu-tts-patch|book-zip-format)$/.test(i.url)),
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/sano-sach-noi/favicon.svg' }],
     ['link', { rel: 'apple-touch-icon', href: '/sano-sach-noi/og-image.png' }],
     ['meta', { name: 'theme-color', content: '#c60505' }],
+    ['meta', { name: 'google-site-verification', content: 'bt9HLADxcVs75XtEjF_0izZDGD3qOJRO4Zd2gWyMvbo' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Sano' }],
     ['meta', { property: 'og:locale', content: 'vi_VN' }],
