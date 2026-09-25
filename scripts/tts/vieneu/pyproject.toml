@@ -1,0 +1,193 @@
+# Sano: pyproject.toml của VieNeu-TTS commit c1390abbdb2eedcdf58eafb546966c06ce27af71 + ghi đè thư viện (scripts/tts/vieneu-lock.sh)
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+required-environments = [
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+override-dependencies = [
+    # Sano (scripts/tts/vieneu-overrides.txt):
+    "gradio; sys_platform == 'never'",
+    "filelock>=3.20.3,<4",
+    "idna>=3.15,<4",
+    "msgpack>=1.2.1,<2",
+    "protobuf>=6.33.5,<7",
+    "requests>=2.33.0,<3",
+    "urllib3>=2.7.0,<3",
+    "nvidia-nccl-cu12; sys_platform == 'linux'",
+]
+# uv mặc định cài nhóm `dev`; đặt rỗng để `uv sync` chỉ cài core torch-free.
+# Muốn dev/test: `uv sync --group dev`. Muốn dev GPU đầy đủ: `uv sync --group gpu`
+default-groups = []
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
+[[tool.uv.index]]
+name = "llama-cpp-metal"
+url = "https://abetlen.github.io/llama-cpp-python/whl/metal/"
+explicit = true
+
+[project]
+name = "vieneu"
+version = "3.8.3"
+description = "Advanced on-device Vietnamese TTS with instant voice cloning"
+readme = "README_PYPI.md"
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Operating System :: OS Independent",
+]
+keywords = [
+    "text-to-speech",
+    "tts",
+    "vietnamese",
+    "voice-cloning",
+    "speech-synthesis",
+    "real-time",
+    "on-device"
+]
+authors = [
+    { name = "Phạm Nguyễn Ngọc Bảo", email = "pnnbao@gmail.com" }
+]
+requires-python = ">=3.10"
+# Minimal, TORCH-FREE core. `pip install vieneu` runs VieNeu-TTS v3 Turbo on CPU
+# via ONNX Runtime. GPU (v3 Turbo PyTorch backend): `pip install vieneu[cuda]`;
+# legacy backends (llama-cpp, lmdeploy, librosa, neucodec) live in the [legacy] extra.
+dependencies = [
+    "sea-g2p>=0.9.1", # phonemizer (Rust, torch-free) — cần hàm punc_norm() (>=0.7.11)
+    "onnxruntime>=1.20.0", # runs the v3 transformers + MOSS codec
+    "numpy",
+    "soundfile", # audio I/O
+    "soxr", # lightweight resampling for voice cloning
+    "kaldi-native-fbank>=1.20", # speaker-encoder fbank front-end (torch-free voice cloning)
+    "tokenizers>=0.20", # phoneme tokenizer (torch-free)
+    "huggingface_hub", # fetch ONNX / config / tokenizer / voices
+    "PyYAML", # gradio config.yaml
+    "gradio>=5.49.1", # web UI (vieneu-web)
+    "librosa>=0.11.0",
+    # NOTE: audio watermarking is opt-in via `pip install vieneu[watermark]` (resemble-perth,
+    # needs torch/torchaudio). The PyPI package literally named `perth` is an unrelated
+    # threading helper and must NOT be listed here (issue #191).
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pnnbao97/VieNeu-TTS"
+"Repository" = "https://github.com/pnnbao97/VieNeu-TTS"
+"Bug Tracker" = "https://github.com/pnnbao97/VieNeu-TTS/issues"
+"Documentation" = "https://github.com/pnnbao97/VieNeu-TTS/blob/main/README.md"
+"Source Code" = "https://github.com/pnnbao97/VieNeu-TTS"
+"Changelog" = "https://github.com/pnnbao97/VieNeu-TTS/releases"
+
+[project.optional-dependencies]
+legacy = [
+    "torch",
+    "torchaudio",
+    "transformers",
+    "neucodec>=0.0.4",  
+    "accelerate; sys_platform == 'darwin'",
+]
+
+# PDF text extraction. Separate from core to keep the minimal install torch-free.
+# Install with: pip install vieneu[pdf]
+pdf = [
+    "PyMuPDF>=1.25.0",
+]
+
+# Optional Resemble Perth audio watermark (needs torch + torchaudio; Perth runs at 32 kHz,
+# so 48 kHz v3 output is resampled 48k→32k→48k around the watermark step).
+# Install with: pip install vieneu[watermark]
+watermark = [
+    "resemble-perth>=1.0.1",
+]
+
+# v3 Turbo on CUDA (PyTorch backend) — what the docker/Dockerfile.gpu image installs.
+# Install with: uv sync --extra cuda   (or: pip install vieneu[cuda])
+cuda = [
+    "transformers",
+    "safetensors",
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+]
+
+# LoRA fine-tuning of v3 Turbo (finetune/): GPU only.
+# Install with: uv sync --extra finetune   (or: pip install vieneu[finetune])
+finetune = [
+    "torch",
+    "transformers",
+    "peft>=0.13",
+    "accelerate",
+    "safetensors",
+    "pyarrow",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    # Test-only deps for the GPU/standard/xpu backend tests (NOT in the runtime
+    # install — `pip install vieneu` stays minimal/torch-free). CI installs the dev
+    # group, so these tests can import librosa/transformers/neucodec-based engines.
+    "librosa>=0.11.0",
+    "transformers",
+    "neucodec>=0.0.4",
+]
+gpu = [
+    "neucodec>=0.0.4",
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "datasets>=3.2.0",
+    "transformers; sys_platform == 'darwin'",
+    "accelerate; sys_platform == 'darwin'",
+    "trafilatura>=2.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]   # finetune/tests runs in its own process (see tests/test_finetune_lora.py)
+pythonpath = ["src"]
+
+[project.scripts]
+vieneu-web = "apps.gradio_main:main"
+vieneu-stream = "apps.web_stream:main"
+
+[tool.setuptools]
+package-dir = {"" = "src", "apps" = "apps", "examples" = "examples"}
+
+[tool.setuptools.packages.find]
+where = ["src", "."]
+include = ["vieneu*", "vieneu_utils*", "apps*", "examples*"]
+
+[tool.setuptools.package-data]
+vieneu = ["assets/*.json", "assets/samples/*"]
+examples = ["audio_ref/*.wav", "srt/*.srt"]  # samples the Gradio app (vieneu-web) offers
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch", marker = "sys_platform != 'darwin'" },
+    { index = "pypi", marker = "sys_platform == 'darwin'" }
+]
+torchaudio = [
+    { index = "pytorch", marker = "sys_platform != 'darwin'" },
+    { index = "pypi", marker = "sys_platform == 'darwin'" }
+]

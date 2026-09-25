@@ -84,3 +84,34 @@ func TestParsePins_LoiThieuDauBang(t *testing.T) {
 		t.Error("phải báo lỗi dòng thiếu =")
 	}
 }
+
+// scripts/tts/vieneu/ phải dựng cho đúng VIENEU_COMMIT đang ghim (đổi commit
+// mà quên chạy vieneu-lock.sh thì app sẽ chép pyproject của commit cũ).
+func TestVieNeuProject_DungCommit(t *testing.T) {
+	pins, err := Pins()
+	if err != nil {
+		t.Fatal(err)
+	}
+	py, err := Files.ReadFile(VieNeuDir + "/pyproject.toml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	first, _, _ := strings.Cut(string(py), "\n")
+	if !strings.Contains(first, pins["VIENEU_COMMIT"]) {
+		t.Errorf("vieneu/pyproject.toml dựng cho commit khác (%q), cần %s — chạy scripts/tts/vieneu-lock.sh", first, pins["VIENEU_COMMIT"])
+	}
+	lock, err := Files.ReadFile(VieNeuDir + "/uv.lock")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, want := range []string{`name = "vieneu"`, `name = "onnxruntime"`} {
+		if !strings.Contains(string(lock), want) {
+			t.Errorf("vieneu/uv.lock thiếu %s", want)
+		}
+	}
+	for _, name := range VieNeuProjectFiles {
+		if _, err := Files.ReadFile(VieNeuDir + "/" + name); err != nil {
+			t.Errorf("thiếu vieneu/%s", name)
+		}
+	}
+}

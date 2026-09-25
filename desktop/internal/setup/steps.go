@@ -2,7 +2,11 @@ package setup
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -10,6 +14,7 @@ import (
 	"time"
 
 	"sano/desktop/internal/tts"
+	ttsscripts "sano/scripts/tts"
 )
 
 // Kích thước đo trên máy dev (macOS arm64, 09/2026) — chỉ để báo trước dung lượng
@@ -120,6 +125,46 @@ func (in *Installer) pythonReady(ctx context.Context, ver string) bool {
 
 // ── Mã VieNeu-TTS + thư viện ─────────────────────────────────────────────
 
+// syncedWant — nội dung dấu "đã sync" (<venv>/.sano-synced). Gồm cả mã băm
+// pyproject/uv.lock của Sano: đổi ghi đè thư viện (vd vá bảo mật) thì máy đã cài
+// bị coi là cần sync lại (NeedsResync).
+func syncedWant(pins map[string]string, projectSum string) string {
+	return pins["VIENEU_COMMIT"] + "\n" + pins["PYTHON_VERSION"] + "\n" + pins["UV_VERSION"] + "\n" + projectSum + "\n"
+}
+
+// NeedsResync báo bộ đọc app đã cài (có python trong venv) nhưng thư viện chưa
+// khớp bản Sano này — cần chạy lại bước cài (chỉ sync thư viện, mô hình giữ nguyên).
+func NeedsResync(l tts.Layout, pins map[string]string, scripts fs.FS) bool {
+	if !fileExists(l.Python()) {
+		return false
+	}
+	_, sum, err := vieneuProject(scripts)
+	if err != nil {
+		return false
+	}
+	return readRaw(filepath.Join(l.Venv(), syncedMarker)) != syncedWant(pins, sum)
+}
+
+// vieneuProject đọc pyproject.toml + uv.lock Sano nhúng (scripts/tts/vieneu/),
+// trả kèm SHA256 chung của hai file.
+func vieneuProject(scripts fs.FS) (map[string][]byte, string, error) {
+	if scripts == nil {
+		return nil, "", errors.New("bản này không kèm pyproject.toml/uv.lock cho VieNeu-TTS")
+	}
+	files := map[string][]byte{}
+	h := sha256.New()
+	for _, name := range ttsscripts.VieNeuProjectFiles {
+		data, err := fs.ReadFile(scripts, ttsscripts.VieNeuDir+"/"+name)
+		if err != nil {
+			return nil, "", fmt.Errorf("thiếu %s/%s nhúng trong app: %w", ttsscripts.VieNeuDir, name, err)
+		}
+		files[name] = data
+		fmt.Fprintf(h, "%s %d\n", name, len(data))
+		h.Write(data)
+	}
+	return files, hex.EncodeToString(h.Sum(nil)), nil
+}
+
 const (
 	commitMarker = ".sano-commit"
 	syncedMarker = ".sano-synced"
@@ -132,7 +177,11 @@ func (in *Installer) stepVieNeu(ctx context.Context) error {
 		return err
 	}
 	short := commit[:7]
-	wantSynced := commit + "\n" + pins["PYTHON_VERSION"] + "\n" + pins["UV_VERSION"] + "\n"
+	project, projectSum, err := vieneuProject(in.cfg.Scripts)
+	if err != nil {
+		return err
+	}
+	wantSynced := syncedWant(pins, projectSum)
 	srcOK := readTrim(filepath.Join(l.VieNeu(), commitMarker)) == commit
 	if srcOK && fileExists(l.Python()) && readRaw(filepath.Join(l.Venv(), syncedMarker)) == wantSynced {
 		in.skip(StepVieNeu, "Đã cài VieNeu-TTS (commit "+short+")")
@@ -167,6 +216,14 @@ func (in *Installer) stepVieNeu(ctx context.Context) error {
 		}
 		if err := os.WriteFile(filepath.Join(l.VieNeu(), commitMarker), []byte(commit+"\n"), 0o644); err != nil {
 			return err
+		}
+	}
+
+	// Chép pyproject.toml + uv.lock của Sano đè lên bản của VieNeu (sau khi đã
+	// kiểm tree hash mã gốc): bỏ giao diện web gradio, ép bản vá bảo mật.
+	for name, data := range project {
+		if err := os.WriteFile(filepath.Join(l.VieNeu(), name), data, 0o644); err != nil {
+			return fmt.Errorf("ghi %s cho VieNeu-TTS: %w", name, err)
 		}
 	}
 
