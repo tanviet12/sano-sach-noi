@@ -13,7 +13,8 @@ export SANO_DATA_DIR="$RUNNER_TEMP/sano-data-$MODE" HOME="$RUNNER_TEMP/home-$MOD
 mkdir -p "$SANO_DATA_DIR" "$HOME" "$RUNNER_TEMP/fake-tts"
 printf '{"acceptedVersion": 99, "acceptedAt": "2026-09-25T00:00:00Z"}\n' >"$SANO_DATA_DIR/terms.json"
 printf 'import sys\nprint("Đủ mô hình (giả)")\nsys.exit(0)\n' >"$RUNNER_TEMP/fake-tts/models.py"
-export SANO_TTS_PYTHON="$(command -v python3)" SANO_TTS_SCRIPTS="$RUNNER_TEMP/fake-tts"
+SANO_TTS_PYTHON="$(command -v python3)"
+export SANO_TTS_PYTHON SANO_TTS_SCRIPTS="$RUNNER_TEMP/fake-tts"
 
 n=0
 shot() { n=$((n + 1)); import -window root "$OUT/$(printf '%02d' $n)-$1.png"; echo "ảnh $n: $1"; }
@@ -33,8 +34,8 @@ else
   before=$(sha256sum "$HOME/Apps/Sano.AppImage" | cut -d' ' -f1)
   pid=$(run_app "$HOME/Apps/Sano.AppImage"); sleep 15; shot co-ban-moi
   click 100 646 3; shot hop-cap-nhat
-  click 691 419 30; shot tai-xong
-  click 691 470 3; shot bam-khoi-dong-lai
+  click 687 490 30; shot tai-xong
+  click 683 453 3; shot bam-khoi-dong-lai
   sleep 20; shot sau-mo-lai
   after=$(sha256sum "$HOME/Apps/Sano.AppImage" | cut -d' ' -f1)
   echo "trước: $before"; echo "sau:   $after"; echo "cần:   $WANT"
