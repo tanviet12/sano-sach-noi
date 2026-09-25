@@ -176,6 +176,45 @@ jobs:
       - name: Đóng gói
         run: scripts/release/package-${{ matrix.target }}.sh "$VERSION" "${{ matrix.arch }}"
 
+      # Tự cập nhật trên Windows (P3-7): phần Go chỉ chạy được trên máy Windows
+      # thật, và bộ cài NSIS đã sửa phải đợi Sano thoát rồi mới chép, cài xong
+      # mở lại Sano (/sano-mo-lai). Thư mục cài có dấu cách để thử /D= không ngoặc.
+      - name: Thử tự cập nhật (Go, Windows)
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        run: go test -count=1 -run 'WinInstall|SetupCmdLine|ApplyUpdate_Portable|ExtractExe|VerifySums|SumFor|PlanUpdate|RunUpdateDownload|OldPID|ProcessAlive' .
+      - name: Thử cài đè im lặng khi Sano đang chạy (bộ cài NSIS)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $setup = (Get-ChildItem desktop/build/bin/release/*-setup.exe | Select-Object -First 1).FullName
+          $dir = Join-Path $env:RUNNER_TEMP 'Sano Thu Cap Nhat'
+          $exe = Join-Path $dir 'Sano.exe'
+          $p = Start-Process -FilePath $setup -ArgumentList "/S /D=$dir" -PassThru -Wait
+          if ($p.ExitCode -ne 0 -or -not (Test-Path $exe)) { throw "cài lần đầu hỏng (mã $($p.ExitCode))" }
+          $app = Start-Process -FilePath $exe -PassThru
+          Start-Sleep -Seconds 5
+          if ($app.HasExited) { throw 'Sano không chạy được sau khi cài' }
+          # Đúng dòng lệnh app dùng (setupCmdLine): bộ cài phải đợi Sano thoát.
+          $inst = Start-Process -FilePath $setup -ArgumentList "/S /sano-mo-lai /D=$dir" -PassThru
+          Start-Sleep -Seconds 4
+          if ($inst.HasExited) { throw "bộ cài không đợi Sano thoát (mã $($inst.ExitCode))" }
+          Stop-Process -Id $app.Id -Force
+          if (-not $inst.WaitForExit(60000)) { throw 'bộ cài treo sau khi Sano thoát' }
+          if ($inst.ExitCode -ne 0) { throw "bộ cài trả mã $($inst.ExitCode)" }
+          $new = $null
+          foreach ($i in 1..20) {
+            $new = Get-Process Sano -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $exe -and $_.Id -ne $app.Id }
+            if ($new) { break }
+            Start-Sleep -Milliseconds 500
+          }
+          if (-not $new) { throw 'cài xong không tự mở lại Sano' }
+          Write-Host "Đạt: bộ cài đợi Sano thoát, cài đè, mở lại Sano (pid $($new.Id))"
+          $new | Stop-Process -Force
+          Start-Sleep -Seconds 2
+          Start-Process -FilePath (Join-Path $dir 'uninstall.exe') -ArgumentList '/S' -Wait
+
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: sano-${{ matrix.target }}-${{ matrix.arch }}
