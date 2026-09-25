@@ -8,7 +8,7 @@ import {
   Library, FilePlus2, Settings, Upload, FileText, AlertTriangle, Copy, Check, ChevronRight, ChevronLeft,
   Play, Pause, Loader2, Download, FolderOpen, Trash2, Sun, Moon, HardDrive, RefreshCw, SkipBack,
   SkipForward, RotateCcw, RotateCw, Gauge, BookOpen, Package, X, Info, Cpu, Clock, Volume2, Pencil,
-  ShieldCheck, ArrowUpCircle, LifeBuoy, ExternalLink, Github, Bug, Scale,
+  ShieldCheck, ShieldAlert, ArrowUpCircle, LifeBuoy, ExternalLink, Github, Bug, Scale,
 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -29,10 +29,14 @@ const renderDone = ref(false)
 const DOCS = 'https://tanviet12.github.io/sano-sach-noi'
 const REPO = 'https://github.com/tanviet12/sano-sach-noi'
 const AUTHOR_FB = 'https://www.facebook.com/buitanviet'
-// Cập nhật app: 'closed' | 'info' | 'downloading' | 'ready'
-type UpdateState = 'closed' | 'info' | 'downloading' | 'ready'
-const update = ref<UpdateState>(q.get('update') ? 'info' : 'closed')
+// Cập nhật app: 'closed' | 'info' | 'downloading' | 'ready' | 'error'
+// (bổ sung 25/09 cho P3-7: 'error' = tải/kiểm chữ ký hỏng; manualUpdate = máy
+// không tự thay được → nút "Mở trang tải"; laterUpdate = đã chọn "Khởi động lại sau")
+type UpdateState = 'closed' | 'info' | 'downloading' | 'ready' | 'error'
+const update = ref<UpdateState>((q.get('update') as UpdateState | null) === 'error' ? 'error' : q.get('update') ? 'info' : 'closed')
 const updateAfterRender = ref(false)
+const manualUpdate = ref(q.get('manual') === '1')
+const laterUpdate = ref(false)
 const changelog = [
   'Nghe thử được bất kỳ đoạn nào, không giới hạn 3 đoạn',
   'Xuất M4B nhanh hơn khoảng 2 lần',
@@ -227,8 +231,9 @@ function copyPrompt() {
             <div class="mt-2 h-1.5 rounded-full bg-muted overflow-hidden"><div class="h-full w-[42%] bg-primary rounded-full"></div></div>
             <div class="mt-1 flex justify-between text-[11px] text-muted-foreground tabular-nums"><span>42%</span><span>còn ~4 phút</span></div>
           </button>
-          <button class="mx-3 mb-2 flex items-center gap-2 rounded-md px-2 h-8 text-xs text-primary hover:bg-primary/10" @click="update = 'info'">
-            <ArrowUpCircle class="w-4 h-4" /> Có bản mới 0.2.0
+          <button class="mx-3 mb-2 flex items-center gap-2 rounded-md px-2 h-8 text-xs text-primary hover:bg-primary/10" @click="update = laterUpdate ? 'ready' : 'info'">
+            <template v-if="laterUpdate"><RefreshCw class="w-4 h-4" /> Khởi động lại để cập nhật</template>
+            <template v-else><ArrowUpCircle class="w-4 h-4" /> Có bản mới 0.2.0</template>
           </button>
           <div class="px-4 pb-3 text-[11px] text-muted-foreground leading-relaxed">
             Phiên bản 0.1.0 · mã nguồn mở<br />
@@ -592,7 +597,7 @@ Tác giả: Nguyễn Văn A.</textarea>
             <div class="flex items-center gap-3">
               <div class="h-10 w-10 rounded-full bg-primary/10 grid place-items-center"><ArrowUpCircle class="w-5 h-5 text-primary" /></div>
               <div>
-                <h2 id="upd-title" class="font-semibold">{{ update === 'ready' ? 'Sẵn sàng cập nhật' : 'Có bản mới 0.2.0' }}</h2>
+                <h2 id="upd-title" class="font-semibold">{{ update === 'ready' ? 'Sẵn sàng cập nhật' : update === 'error' ? 'Không cập nhật được' : 'Có bản mới 0.2.0' }}</h2>
                 <p class="text-xs text-muted-foreground">Đang dùng 0.1.0 · phát hành 20/10/2026 · 18 MB</p>
               </div>
             </div>
@@ -612,12 +617,20 @@ Tác giả: Nguyễn Văn A.</textarea>
               <label class="mt-2 flex items-center gap-2"><input v-model="updateAfterRender" type="checkbox" class="h-4 w-4 accent-[hsl(var(--primary))]" /> Tự cập nhật khi render xong</label>
             </div>
 
+            <!-- Máy không tự thay được (chạy từ .dmg, thư mục không ghi được...) -->
+            <p v-if="manualUpdate" class="mt-4 rounded-lg border border-border bg-muted/40 p-3 text-sm text-foreground/80 flex gap-2">
+              <Info class="w-4 h-4 mt-0.5 shrink-0 text-muted-foreground" />
+              <span>Sano đang chạy thẳng từ file .dmg nên không tự cập nhật được. Tải bản cài mới rồi cài đè — sách, tiến độ nghe và bộ đọc giữ nguyên.</span>
+            </p>
+
             <div class="mt-6 flex justify-end gap-2">
               <Button variant="outline" @click="update = 'closed'">Để sau</Button>
-              <Button v-if="rendering && !renderDone" :disabled="!updateAfterRender" @click="update = 'closed'">Hẹn cập nhật</Button>
+              <Button v-if="manualUpdate" @click="update = 'closed'"><ExternalLink class="w-4 h-4" /> Mở trang tải</Button>
+              <Button v-else-if="rendering && !renderDone" :disabled="!updateAfterRender" @click="update = 'closed'">Hẹn cập nhật</Button>
               <Button v-else @click="update = 'downloading'">Cập nhật ngay</Button>
             </div>
             <button v-if="rendering && !renderDone" class="mt-3 w-full text-center text-[11px] text-muted-foreground hover:text-foreground" @click="update = 'downloading'">(wireframe) Xem bước tải khi không render</button>
+            <button class="mt-1 w-full text-center text-[11px] text-muted-foreground hover:text-foreground" @click="manualUpdate = !manualUpdate">(wireframe) {{ manualUpdate ? 'Máy tự cập nhật được' : 'Máy không tự cập nhật được' }}</button>
           </template>
 
           <template v-else-if="update === 'downloading'">
@@ -630,7 +643,24 @@ Tác giả: Nguyễn Văn A.</textarea>
             </div>
             <div class="mt-6 flex justify-between">
               <Button variant="ghost" @click="update = 'info'">Huỷ</Button>
-              <Button variant="ghost" @click="update = 'ready'">(wireframe) Tải xong</Button>
+              <span class="flex gap-1">
+                <Button variant="ghost" @click="update = 'error'">(wireframe) Chữ ký sai</Button>
+                <Button variant="ghost" @click="update = 'ready'">(wireframe) Tải xong</Button>
+              </span>
+            </div>
+          </template>
+
+          <!-- Tải hỏng / chữ ký sai / mã SHA256 sai: báo rõ, bản đang dùng giữ nguyên -->
+          <template v-else-if="update === 'error'">
+            <div class="mt-5 rounded-lg border border-rag-red/40 bg-rag-red/10 p-3 text-sm">
+              <p class="font-medium text-rag-red flex items-center gap-1.5"><ShieldAlert class="w-4 h-4" /> Chữ ký bản phát hành không hợp lệ</p>
+              <p class="mt-1 text-foreground/80">Đây không phải bản chính thức của Sano nên đã huỷ cập nhật và xoá file tải về.</p>
+            </div>
+            <p class="mt-3 text-xs text-muted-foreground">Bản đang dùng giữ nguyên. Có thể thử lại sau, hoặc tải bản cài ở trang phát hành chính thức.</p>
+            <div class="mt-6 flex justify-end gap-2">
+              <Button variant="outline" @click="update = 'closed'">Đóng</Button>
+              <Button variant="outline" @click="update = 'closed'"><ExternalLink class="w-4 h-4" /> Mở trang tải</Button>
+              <Button @click="update = 'downloading'"><RotateCcw class="w-4 h-4" /> Thử lại</Button>
             </div>
           </template>
 
@@ -641,7 +671,7 @@ Tác giả: Nguyễn Văn A.</textarea>
             </div>
             <p class="mt-3 text-xs text-muted-foreground">Sách, tiến độ nghe và bộ đọc giữ nguyên. Sano sẽ tự mở lại sau vài giây.</p>
             <div class="mt-6 flex justify-end gap-2">
-              <Button variant="outline" @click="update = 'closed'">Khởi động lại sau</Button>
+              <Button variant="outline" @click="laterUpdate = true; update = 'closed'">Khởi động lại sau</Button>
               <Button @click="update = 'closed'"><RefreshCw class="w-4 h-4" /> Khởi động lại</Button>
             </div>
           </template>

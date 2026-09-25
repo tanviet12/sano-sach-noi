@@ -228,11 +228,32 @@ export interface UpdateInfo {
   published: string
   notes: string[]
   url: string
+  /** Tải + thay được ngay trong app; false thì `manual` nói lý do (hiện nút Mở trang tải). */
+  autoUpdate: boolean
+  manual: string
+  /** Dung lượng file cài sẽ tải (byte, 0 nếu không rõ). */
+  size: number
+}
+
+/** Tiến độ tự cập nhật (sự kiện update:progress). */
+export interface UpdateStatus {
+  phase: 'idle' | 'downloading' | 'ready' | 'error'
+  version: string
+  done: number
+  total: number
+  verified: boolean
+  error: string
+  applyOnQuit: boolean
 }
 
 interface GoApp {
   Version(): Promise<string>
   CheckUpdate(): Promise<UpdateInfo>
+  StartUpdate(): Promise<UpdateStatus>
+  CancelUpdate(): Promise<void>
+  UpdateStatus(): Promise<UpdateStatus>
+  ApplyUpdate(): Promise<void>
+  ApplyUpdateOnQuit(): Promise<UpdateStatus>
   CheckTTS(): Promise<TTSStatus>
   SetupInfo(): Promise<SetupInfo>
   SetupStatus(): Promise<SetupStatus>
@@ -316,6 +337,29 @@ export async function checkUpdate(): Promise<UpdateInfo | null> {
   const app = goApp()
   if (!app) return null
   return app.CheckUpdate()
+}
+
+/** Bắt đầu tải bản mới (tiến độ qua sự kiện update:progress). */
+export async function startUpdate(): Promise<UpdateStatus> {
+  return need().StartUpdate()
+}
+
+export async function cancelUpdate(): Promise<void> {
+  await goApp()?.CancelUpdate()
+}
+
+export async function updateStatus(): Promise<UpdateStatus | null> {
+  return (await goApp()?.UpdateStatus()) ?? null
+}
+
+/** Thay bản mới rồi thoát; bản mới tự mở lại. */
+export async function applyUpdate(): Promise<void> {
+  return need().ApplyUpdate()
+}
+
+/** "Khởi động lại sau": thay bản mới khi thoát Sano. */
+export async function applyUpdateOnQuit(): Promise<UpdateStatus> {
+  return need().ApplyUpdateOnQuit()
 }
 
 const mockTTS: TTSStatus = {

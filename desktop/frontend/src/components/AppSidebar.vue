@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Library, FilePlus2, Settings, Info, Loader2, ArrowUpCircle, LifeBuoy, ExternalLink } from 'lucide-vue-next'
+import { Library, FilePlus2, Settings, Info, Loader2, ArrowUpCircle, LifeBuoy, ExternalLink, RefreshCw } from 'lucide-vue-next'
 import faviconUrl from '@/assets/favicon.svg'
 import { AUTHOR_FB, DOCS } from '../lib/mock'
 import { go, remainMin, renderPct, rendering, state, type View } from '../lib/store'
@@ -45,7 +45,8 @@ const nav = [
       <div class="mt-1 flex justify-between text-[11px] text-muted-foreground tabular-nums"><span>{{ renderPct }}%</span><span>còn ~{{ remainMin }} phút</span></div>
     </button>
     <button v-if="state.updateInfo" class="mx-3 mb-2 flex items-center gap-2 rounded-md px-2 h-8 text-xs text-primary hover:bg-primary/10" @click="state.update = 'info'">
-      <ArrowUpCircle class="w-4 h-4" /> Có bản mới {{ state.updateInfo.version }}
+      <template v-if="state.upd.applyOnQuit"><RefreshCw class="w-4 h-4" /> Khởi động lại để cập nhật</template>
+      <template v-else><ArrowUpCircle class="w-4 h-4" /> Có bản mới {{ state.updateInfo.version }}</template>
     </button>
     <div class="px-4 pb-3 text-[11px] text-muted-foreground leading-relaxed">
       Phiên bản {{ state.version || '…' }} · mã nguồn mở<br />
