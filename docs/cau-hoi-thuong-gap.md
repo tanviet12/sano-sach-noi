@@ -43,7 +43,7 @@ Trong Word, đặt kiểu **Heading 1** cho tên chương, **Heading 2** cho tê
 
 ### Có bao nhiêu giọng đọc?
 
-Khoảng 25 giọng Việt của bộ đọc [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS): nam, nữ, giọng Bắc, giọng Nam. Giọng mặc định là Thiện Minh. Nghe thử từng giọng ở bước **Giọng đọc** trước khi chọn.
+Khoảng 25 giọng Việt của bộ đọc [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS): nam, nữ, giọng Bắc, giọng Nam. Giọng mặc định là Hải Đăng. Nghe thử từng giọng ở bước **Giọng đọc** trước khi chọn.
 
 ### Tạo một cuốn mất bao lâu?
 

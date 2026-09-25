@@ -3,6 +3,7 @@
 ## Chưa phát hành
 
 ### Thay đổi
+- Giọng mặc định đổi từ Thiện Minh sang **Hải Đăng** (nam, miền Bắc, tự nhiên)
 - Bước Nghe thử không còn bắt buộc nghe đủ 2 đoạn: chỉ cần tick xác nhận quyền dùng tài liệu là render được cả cuốn
 
 ## v0.1.0 (24/09/2026)

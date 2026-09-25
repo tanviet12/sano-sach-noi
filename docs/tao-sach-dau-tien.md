@@ -52,7 +52,7 @@ Số đầu tiêu đề (như "1.2.") mặc định không đọc. Muốn đọc
 
 ## 3. Giọng đọc
 
-Chọn một trong khoảng 25 giọng Việt, nam và nữ, giọng Bắc và giọng Nam. Mỗi giọng có nút **Nghe mẫu**; câu nghe mẫu sửa được. Giọng mặc định là **Thiện Minh** (nam, miền Bắc, giọng kể chuyện).
+Chọn một trong khoảng 25 giọng Việt, nam và nữ, giọng Bắc và giọng Nam. Mỗi giọng có nút **Nghe mẫu**; câu nghe mẫu sửa được. Giọng mặc định là **Hải Đăng** (nam, miền Bắc, giọng tự nhiên).
 
 <img class="app-shot" src="./images/app/b3-giong-doc.jpg" alt="Bước Giọng đọc: danh sách giọng, nút Nghe mẫu, câu nghe mẫu sửa được" width="1600" height="955">
 

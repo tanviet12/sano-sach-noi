@@ -72,7 +72,7 @@ async function uninstall() {
       <span>Cài bộ đọc (tự tải về, vài phút)</span>
       <Button size="sm" data-testid="tts-install" @click="state.view = 'setup'"><Download class="w-4 h-4" /> Cài bộ đọc</Button>
     </div>
-    <div class="flex items-center justify-between px-4 py-3"><span>Giọng mặc định</span><span class="text-muted-foreground">Thiện Minh · Nam · miền Bắc · kể chuyện</span></div>
+    <div class="flex items-center justify-between px-4 py-3"><span>Giọng mặc định</span><span class="text-muted-foreground">Hải Đăng · Nam · miền Bắc · tự nhiên</span></div>
     <div class="flex items-center justify-between px-4 py-3"><span>Kiểm tra bộ đọc</span><Button variant="outline" size="sm" :disabled="state.ttsChecking" @click="refreshTTS"><RefreshCw class="w-4 h-4" :class="state.ttsChecking && 'animate-spin'" /> Chạy kiểm tra</Button></div>
     <div class="flex items-center justify-between gap-3 px-4 py-3" data-testid="tts-uninstall">
       <span class="text-muted-foreground">

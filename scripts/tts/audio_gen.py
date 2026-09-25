@@ -13,7 +13,7 @@ Usage (chạy bằng python của venv VieNeu-TTS v3):
     python audio_gen.py <input.txt> [voice_name] [output.wav]
 
 Example:
-    python audio_gen.py chuong1.txt "Thiện Minh" chuong1_full.wav
+    python audio_gen.py chuong1.txt "Hải Đăng" chuong1_full.wav
 """
 
 import re
@@ -30,7 +30,7 @@ for _stream in (sys.stdout, sys.stderr):
 
 import models
 
-DEFAULT_VOICE = "Thiện Minh"
+DEFAULT_VOICE = "Hải Đăng"
 
 
 def clean_text(text):
@@ -89,7 +89,7 @@ def synth_file(tts, voice, input_path, output_path):
 def main():
     if len(sys.argv) < 2:
         print('Usage: python audio_gen.py <input.txt> [voice_name] [output.wav]')
-        print('Example: python audio_gen.py chuong1.txt "Thiện Minh" chuong1_full.wav')
+        print('Example: python audio_gen.py chuong1.txt "Hải Đăng" chuong1_full.wav')
         sys.exit(1)
 
     input_file = Path(sys.argv[1])

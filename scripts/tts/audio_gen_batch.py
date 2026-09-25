@@ -8,7 +8,7 @@ Dòng trắng / xuống dòng = ranh giới đoạn → v3 Turbo tự nghỉ dà
 
 Usage (chạy bằng python của venv VieNeu-TTS v3, PYTHONPATH chứa thư mục này):
     python audio_gen_batch.py chuong1.txt chuong2.txt chuong3.txt
-    python audio_gen_batch.py --voice "Thiện Minh" chuong*.txt
+    python audio_gen_batch.py --voice "Hải Đăng" chuong*.txt
     python audio_gen_batch.py --list-voices
 """
 

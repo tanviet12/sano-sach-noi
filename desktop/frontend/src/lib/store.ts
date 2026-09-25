@@ -36,7 +36,7 @@ export interface TocEntry {
 
 /** Mã lời mở đầu khi nghe thử (khớp bookmaker.IntroStem). */
 export const INTRO_STEM = 'intro'
-const DEFAULT_VOICE = 'Thiện Minh'
+const DEFAULT_VOICE = 'Hải Đăng'
 
 // Cho phép mở thẳng một màn qua ?screen=...&step=...&update=1 (giống wireframe) —
 // tiện chụp màn hình so với wireframe khi phát triển. Chỉ khi chạy dev: bản phát

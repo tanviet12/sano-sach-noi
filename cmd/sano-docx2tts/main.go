@@ -7,7 +7,7 @@
 // Ví dụ:
 //
 //	sano-docx2tts --input cam-nang.docx --output-dir /tmp/cam-nang/ \
-//	  --voice "Thiện Minh" --output-zip /tmp/book-cam-nang.zip
+//	  --voice "Hải Đăng" --output-zip /tmp/book-cam-nang.zip
 //
 // Xuất thêm một file M4B (mục lục chương, bìa) để nghe trên điện thoại / xe:
 //
@@ -45,7 +45,7 @@ func main() {
 		category   = flag.String("category", "", "tên hoặc slug danh mục (vd \"Kỹ năng\" → ky-nang; trống = không gán)")
 		visibility = flag.String("visibility", "private", "public|private")
 		tagsCSV    = flag.String("tags", "", "danh sách tag, phân tách dấu phẩy")
-		voice      = flag.String("voice", bookmaker.DefaultVoice, "tên giọng preset VieNeu-TTS v3 Turbo (vd \"Thiện Minh\", \"Thái Sơn\"; xem audio_gen_batch.py --list-voices)")
+		voice      = flag.String("voice", bookmaker.DefaultVoice, "tên giọng preset VieNeu-TTS v3 Turbo (vd \"Hải Đăng\", \"Thái Sơn\"; xem audio_gen_batch.py --list-voices)")
 		ttsMode    = flag.String("tts-mode", bookmaker.TTSModeVieNeu, "vieneu|stub (stub = MP3 im lặng cho smoke)")
 		ttsOnly    = flag.String("tts-only", "", "chỉ render giọng thật cho các stem này (CSV, vd \"ch03-sec01\"); các tiểu mục còn lại sinh stub im lặng. Chỉ áp dụng khi --tts-mode vieneu")
 		ttsPreview = flag.Int("tts-preview-chars", 0, "giới hạn số ký tự render giọng thật cho mỗi tiểu mục trong --tts-only (0 = đọc full; vd 1800 ≈ 1 trang để nghe thử trước khi render full)")

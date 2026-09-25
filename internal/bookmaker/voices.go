@@ -12,7 +12,7 @@ import (
 )
 
 // DefaultVoice — giọng mặc định (khớp DEFAULT_VOICE của scripts/tts/audio_gen.py).
-const DefaultVoice = "Thiện Minh"
+const DefaultVoice = "Hải Đăng"
 
 // Voice — một giọng preset của VieNeu-TTS.
 type Voice struct {

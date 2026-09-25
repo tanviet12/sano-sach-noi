@@ -43,14 +43,14 @@ PY=~/VieNeu-TTS-v3/.venv/bin/python       # Windows: ~/VieNeu-TTS-v3/.venv/Scrip
 
 ### Giọng có sẵn (25 giọng, ⭐ = upstream chọn nổi bật)
 
-In danh sách: `PYTHONPATH=scripts/tts "$PY" scripts/tts/audio_gen_batch.py --list-voices`. Mặc định **Thiện Minh** (nam Bắc, kể chuyện).
+In danh sách: `PYTHONPATH=scripts/tts "$PY" scripts/tts/audio_gen_batch.py --list-voices`. Mặc định **Hải Đăng** (nam Bắc, tự nhiên).
 
 | Nhóm | Giọng |
 |---|---|
 | Nữ Bắc | ⭐Trúc Ly, ⭐Mai Anh, ⭐Ngọc Huyền, Ngọc Linh, Đoan Trang, Quỳnh Anh |
 | Nữ Nam | ⭐Thùy Dung, Thục Đoan, Mỹ Duyên, Kim Thanh |
 | Nữ Trung | ⭐Ngọc Trân |
-| Nam Bắc | ⭐Adam bựa, ⭐Thiện Minh (mặc định), ⭐Hải Đăng, ⭐Thiền Tâm Đức, Minh Đức, Phạm Tuyên, Xuân Vĩnh, Thanh Bình, Quốc Tuấn |
+| Nam Bắc | ⭐Adam bựa, ⭐Hải Đăng (mặc định), ⭐Thiện Minh, ⭐Thiền Tâm Đức, Minh Đức, Phạm Tuyên, Xuân Vĩnh, Thanh Bình, Quốc Tuấn |
 | Nam Nam | Thái Sơn, Minh Triết, Đức Trí, Adam |
 | Nam Trung | ⭐Quang Sơn |
 
@@ -81,7 +81,7 @@ cd /duong-dan/thu-muc-sach            # WAV xuất ra thư mục hiện tại
 PYTHONPATH=/duong-dan/sano-sach-noi/scripts/tts \
   ~/VieNeu-TTS-v3/.venv/bin/python /duong-dan/sano-sach-noi/scripts/tts/audio_gen_batch.py \
   chap1.txt chap2.txt chap3.txt
-# Mặc định giọng "Thiện Minh". Đổi: --voice "Thái Sơn"
+# Mặc định giọng "Hải Đăng". Đổi: --voice "Thái Sơn"
 ```
 
 Tốc độ tham khảo (thời gian đọc / thời lượng audio, đã có model): Mac Apple Silicon ~0,17x; máy 2 lõi (GitHub Actions) Windows/Linux ~0,6–0,7x. Nạp model 1–4s.
@@ -133,7 +133,7 @@ bin/sano-docx2tts \
   --verbose
 ```
 
-Cờ chính: `--voice` (mặc định Thiện Minh) · `--tts-mode vieneu|stub` (stub = MP3 im lặng, thử nhanh không cần model) · `--output-zip <file>` (đóng gói thêm zip chuẩn — [`book-zip-format.md`](book-zip-format.md)) · `--repack-dir <thư mục>` (đóng gói lại zip từ thư mục đã render, không render lại) · `--cover` / `--cover-first-image` (mặc định tự vẽ bìa theo tên sách). Sinh docx mẫu: `--gen-sample-docx /tmp/s.docx`. Xem hết: `bin/sano-docx2tts -h`.
+Cờ chính: `--voice` (mặc định Hải Đăng) · `--tts-mode vieneu|stub` (stub = MP3 im lặng, thử nhanh không cần model) · `--output-zip <file>` (đóng gói thêm zip chuẩn — [`book-zip-format.md`](book-zip-format.md)) · `--repack-dir <thư mục>` (đóng gói lại zip từ thư mục đã render, không render lại) · `--cover` / `--cover-first-image` (mặc định tự vẽ bìa theo tên sách). Sinh docx mẫu: `--gen-sample-docx /tmp/s.docx`. Xem hết: `bin/sano-docx2tts -h`.
 Bộ đọc: `--tts-python` (mặc định `~/VieNeu-TTS-v3/.venv/bin/python`, Windows `.venv\Scripts\python.exe`) · `--tts-script` (mặc định: `bin/../scripts/tts/audio_gen_batch.py` cạnh file chạy; không có thì dùng bản script nhúng sẵn trong chương trình, giải nén vào thư mục cache của máy. Không tìm theo thư mục hiện tại để tránh chạy nhầm script lạ — đang sửa script trong repo thì truyền `--tts-script scripts/tts/audio_gen_batch.py`).
 
 Muốn phần mềm thấy sách vừa tạo: đặt `--output-dir` là một thư mục con trong `~/Sano/Sach/`.
