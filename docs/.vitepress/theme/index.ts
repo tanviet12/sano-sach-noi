@@ -22,6 +22,7 @@ import VoiceGallery from './components/VoiceGallery.vue'
 import VoiceStrip from './components/VoiceStrip.vue'
 import VoiceCredit from './components/VoiceCredit.vue'
 import DownloadTable from './components/DownloadTable.vue'
+import DownloadPage from './components/DownloadPage.vue'
 
 export default {
   extends: DefaultTheme,
@@ -47,6 +48,7 @@ export default {
     app.component('VoiceStrip', VoiceStrip)
     app.component('VoiceCredit', VoiceCredit)
     app.component('DownloadTable', DownloadTable)
+    app.component('DownloadPage', DownloadPage)
   },
   setup() {
     // Bấm ảnh trong bài để phóng to (như khuôn tài liệu cũ)

@@ -27,6 +27,9 @@ function linksFor(v: string): Record<Asset, { name: string; url: string }> {
 // Dùng chung giữa các component: chỉ hỏi GitHub một lần mỗi lần mở trang.
 const version = ref(BUILD_VERSION)
 const links = ref(linksFor(BUILD_VERSION))
+// Dung lượng từng file (byte) và ngày phát hành: chỉ biết sau khi hỏi GitHub (lúc build để trống).
+const sizes = ref<Partial<Record<Asset, number>>>({})
+const published = ref('')
 let asked = false
 
 async function askLatest() {
@@ -37,19 +40,29 @@ async function askLatest() {
       headers: { Accept: 'application/vnd.github+json' },
     })
     if (!res.ok) return
-    const rel = (await res.json()) as { tag_name?: string; assets?: { name: string; browser_download_url: string }[] }
+    const rel = (await res.json()) as {
+      tag_name?: string
+      published_at?: string
+      assets?: { name: string; browser_download_url: string; size?: number }[]
+    }
     const v = (rel.tag_name ?? '').replace(/^v/, '')
     if (!/^\d+\.\d+\.\d+$/.test(v) || !rel.assets?.length) return
     const byName = new Map(rel.assets.map((a) => [a.name, a.browser_download_url]))
+    const sizeByName = new Map(rel.assets.map((a) => [a.name, a.size ?? 0]))
     const next = linksFor(v)
+    const nextSizes: Partial<Record<Asset, number>> = {}
     // Chỉ nhận link của đúng repo, đúng tên file mong đợi; thiếu file nào thì giữ link bản build.
     for (const k of Object.keys(next) as Asset[]) {
       const u = byName.get(next[k].name)
-      if (u && u.startsWith(REPO + '/releases/download/')) next[k].url = u
-      else next[k] = links.value[k]
+      if (u && u.startsWith(REPO + '/releases/download/')) {
+        next[k].url = u
+        if (sizeByName.get(next[k].name)) nextSizes[k] = sizeByName.get(next[k].name)
+      } else next[k] = links.value[k]
     }
     version.value = v
     links.value = next
+    sizes.value = nextSizes
+    if (rel.published_at && !Number.isNaN(Date.parse(rel.published_at))) published.value = rel.published_at
   } catch {
     // không có mạng / bị giới hạn lượt gọi: giữ link theo VERSION
   }
@@ -57,5 +70,5 @@ async function askLatest() {
 
 export function useRelease() {
   onMounted(askLatest)
-  return { version, links }
+  return { version, links, sizes, published }
 }

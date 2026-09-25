@@ -154,10 +154,10 @@ export default defineConfig({
       { text: 'Nghe thử', link: '/demo', activeMatch: '^/demo' },
       {
         text: 'Hướng dẫn',
-        activeMatch: '^/(?!$|demo)',
+        activeMatch: '^/(?!$|demo|tai-ve)',
         items: guide,
       },
-      { text: 'Tải về', link: '/#tai-ve' },
+      { text: 'Tải về', link: '/tai-ve', activeMatch: '^/tai-ve' },
     ],
 
     sidebar: [

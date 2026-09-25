@@ -19,7 +19,7 @@ import { withBase } from 'vitepress'
     <p class="sano-lead demo-lead">5 cuốn sách mẫu, 12 giọng đọc tiếng Việt của bộ đọc mã nguồn mở VieNeu-TTS. Tất cả tạo từ file Word bằng Sano ngay trên máy tính: không cần phòng thu, không cần API key, không tốn tiền token, không gửi tài liệu lên mạng.</p>
     <div class="demo-actions">
       <a href="#tu-sach" class="sano-btn brand block-sm">Nghe ngay</a>
-      <a :href="withBase('/#tai-ve')" class="sano-btn outline block-sm">Tải Sano miễn phí</a>
+      <a :href="withBase('/tai-ve')" class="sano-btn outline block-sm">Tải Sano miễn phí</a>
     </div>
   </div>
 </section>
@@ -56,7 +56,7 @@ import { withBase } from 'vitepress'
     <h2 class="sano-h2">Làm sách nói từ tài liệu của bạn</h2>
     <p class="sano-lead">Miễn phí, mã nguồn mở, không cần API key, chạy trên Windows, macOS, Linux. Nghe trên máy tính, trên điện thoại và trên ô tô qua CarPlay, Android Auto.</p>
     <div class="demo-actions center">
-      <a :href="withBase('/#tai-ve')" class="sano-btn brand block-sm">Tải Sano</a>
+      <a :href="withBase('/tai-ve')" class="sano-btn brand block-sm">Tải Sano</a>
       <a :href="withBase('/cai-dat')" class="sano-btn outline block-sm">Xem hướng dẫn</a>
     </div>
   </div>

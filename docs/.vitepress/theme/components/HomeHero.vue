@@ -1,11 +1,12 @@
 <script setup lang="ts">
 // Hero trang chủ (wireframe WfLanding mục 1). Nút tải đổi theo hệ điều hành người xem.
 // Lúc build (SSR) chưa biết máy → hiện "Tải Sano"; vào trình duyệt mới nhận diện.
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { withBase } from 'vitepress'
-import { Apple, BookOpen, Check, Download, ExternalLink, Laptop, Monitor } from 'lucide-vue-next'
+import { Apple, BookOpen, Check, Download, Laptop, Monitor } from 'lucide-vue-next'
 import libraryShot from '../../../images/app/thu-vien.jpg'
-import { REPO, RELEASES, useRelease, type Asset } from './release'
+import { useRelease, type Asset } from './release'
+import { useVisitorOS, type OS } from './visitorOS'
 
 const { version, links } = useRelease()
 
@@ -19,29 +20,17 @@ const uses = [
   { t: 'Không cần API key, không tốn tiền token', d: 'mô hình AI tải về một lần rồi chạy ngay trên máy bạn, không cần tài khoản ChatGPT hay dịch vụ AI nào' },
 ]
 
-type OS = 'mac' | 'win' | 'linux'
 const builds: Record<OS, { label: string; asset: Asset; note: string; icon: typeof Apple }> = {
   mac: { label: 'macOS', asset: 'mac', note: 'Apple Silicon và Intel', icon: Apple },
   win: { label: 'Windows', asset: 'win', note: 'Windows 10/11 · không cần quyền quản trị', icon: Monitor },
   linux: { label: 'Linux', asset: 'linux', note: 'x86_64 · cần WebKitGTK 4.1', icon: Laptop },
 }
 
-// null = chưa biết (SSR) · 'mobile' = điện thoại/máy tính bảng (Sano chỉ cài trên máy tính)
-const os = ref<OS | 'mobile' | null>(null)
-onMounted(() => {
-  const nav = navigator as Navigator & { userAgentData?: { platform?: string; mobile?: boolean } }
-  const platform = nav.userAgentData?.platform || nav.platform || ''
-  const ua = nav.userAgent
-  const touchMac = /Mac/.test(platform) && nav.maxTouchPoints > 1 // iPadOS báo là Mac
-  if (nav.userAgentData?.mobile || /Android|iPhone|iPad|iPod/i.test(ua) || touchMac) os.value = 'mobile'
-  else if (/Mac/i.test(platform) || /Macintosh/.test(ua)) os.value = 'mac'
-  else if (/Win/i.test(platform) || /Windows/.test(ua)) os.value = 'win'
-  else if (/Linux|X11|CrOS/i.test(platform + ua)) os.value = 'linux'
-})
+const os = useVisitorOS()
 
 const build = computed(() => (os.value && os.value !== 'mobile' ? builds[os.value] : null))
-// Máy tính đã nhận ra hệ điều hành: tải thẳng file cài. Điện thoại / chưa rõ máy: trang Releases.
-const mainHref = computed(() => (build.value ? links.value[build.value.asset].url : RELEASES))
+// Máy tính đã nhận ra hệ điều hành: tải thẳng file cài. Điện thoại / chưa rõ máy: trang Tải về.
+const mainHref = computed(() => (build.value ? links.value[build.value.asset].url : withBase('/tai-ve')))
 const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== os.value))
 </script>
 
@@ -62,7 +51,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
         </ul>
 
         <div class="actions">
-          <a :href="mainHref" v-bind="build ? {} : { target: '_blank', rel: 'noopener' }" class="sano-btn brand block-sm dl">
+          <a :href="mainHref" class="sano-btn brand block-sm dl">
             <Download :size="20" aria-hidden="true" />
             <span class="dl-text">
               <span class="dl-main">{{ build ? `Tải cho ${build.label}` : os === 'mobile' ? 'Tải cho máy tính' : 'Tải Sano' }}</span>
@@ -82,7 +71,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
             </a>
             <span class="sep">·</span>
           </template>
-          <a :href="REPO + '/releases'" target="_blank" rel="noopener" class="all">Mọi phiên bản <ExternalLink :size="12" aria-hidden="true" /></a>
+          <a :href="withBase('/tai-ve')" class="all">Mọi phiên bản</a>
         </p>
         <p class="file">
           <template v-if="os === 'mobile'">Sano cài trên máy tính Windows, macOS, Linux; nghe trên điện thoại bằng file M4B.</template>
