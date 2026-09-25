@@ -7,7 +7,7 @@ description: 'Thư viện trong Sano, phần mềm làm sách nói bằng AI: t�
 
 Mọi cuốn sách nói bạn tạo bằng Sano nằm trong **Thư viện**. Đầu trang cho biết số cuốn, tổng thời lượng và nơi lưu (`~/Sano/Sach`, bấm vào để mở thư mục).
 
-Lần đầu mở Sano, thư viện có sẵn một cuốn mẫu: **Kỹ năng mềm cho người trẻ** (4 phút, giọng Hải Đăng), để bạn nghe thử ngay khi chưa tạo cuốn nào. Không cần thì xoá như sách thường, Sano không tự thêm lại.
+Lần đầu mở Sano, thư viện có sẵn 3 cuốn mẫu để bạn nghe thử ngay khi chưa tạo cuốn nào: **Giới thiệu Sano** (3 phút, giọng Thiện Minh), **Nghe Để Nhớ** (12 phút, giọng Hải Đăng) và **Tiệm Cà Phê Thứ Hai** (18 phút, giọng Mỹ Duyên). Không cần thì xoá như sách thường, Sano không tự thêm lại.
 
 <img class="app-shot" src="./images/app/thu-vien.jpg" alt="Thư viện sách nói trong Sano" width="1600" height="955">
 

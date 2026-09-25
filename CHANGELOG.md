@@ -1,9 +1,12 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.9 (26/09/2026)
 
 ### Tính năng
-- **3 sách mẫu mới có sẵn trong thư viện:** "Giới thiệu Sano" (3 phút, giọng Thiện Minh), "Nghe Để Nhớ" (12 phút, giọng Hải Đăng), "Tiệm Cà Phê Thứ Hai" (18 phút, giọng Mỹ Duyên), thay cho cuốn "Kỹ năng mềm cho người trẻ". Máy đã cài Sano cũng nhận 3 cuốn mới khi cập nhật; cuốn nào đã xoá thì không tự thêm lại
+- **3 sách mẫu mới có sẵn trong thư viện:** "Giới thiệu Sano" (3 phút, giọng Thiện Minh), "Nghe Để Nhớ" (12 phút, giọng Hải Đăng), "Tiệm Cà Phê Thứ Hai" (18 phút, giọng Mỹ Duyên), thay cho cuốn "Kỹ năng mềm cho người trẻ". Máy đã cài Sano cũng nhận 3 cuốn mới khi cập nhật; cuốn nào đã xoá thì không tự thêm lại. Cuốn mẫu cũ còn trong thư viện thì vẫn giữ
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.8**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.9 và cài đè một lần
 
 ## v0.1.8 (26/09/2026)
 
