@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.5 (25/09/2026)
+
+### Bảo mật
+- **Vá thêm thư viện Python của bộ đọc** trên macOS và Windows: anyio 4.11 → 4.14.2 (lỗi có thể giả mạo chứng chỉ TLS), pygments 2.19 → 2.21. Mô hình giọng đọc giữ nguyên
+  - Máy đã cài bộ đọc: mở Sano sẽ thấy **Cập nhật bộ đọc** (khoảng 1 phút). Bỏ qua vẫn tạo sách được; nút cập nhật có trong **Cài đặt → Bộ đọc**
+- Nâng công cụ dựng giao diện (vite 8, vue-tsc 3); giao diện không đổi
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.4**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.5 và cài đè một lần
+
 ## v0.1.4 (25/09/2026)
 
 ### Sửa lỗi
