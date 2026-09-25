@@ -64,7 +64,12 @@ var gradePlusRe = regexp.MustCompile(`\b([A-Z])\+([\s,.;:!?)\]→]|$)`)
 // thường giữ nguyên (vd "nghỉ 4p" = 4 phút thật). KHÔNG dùng \b (RE2 \b chỉ tính
 // ranh giới ASCII → sai với chữ Việt theo sau, xem headingRomanRe). Nhóm 1 giữ ký
 // tự ranh giới trước số (đầu chuỗi / không phải chữ-số), nhóm 3 giữ ranh giới sau.
-var marketingPRe = regexp.MustCompile(`(^|[^\p{L}\d])(\d{1,2})P([^\p{L}]|$)`)
+var marketingPRe = regexp.MustCompile(`(^|[^\p{L}\d])(\d{1,2})Ps?([^\p{L}]|$)`)
+
+// loneLetterPRe khớp chữ "P" HOA đứng riêng ("chữ P đầu tiên", "P thứ hai là
+// giá"): trước/sau không phải chữ cái, chữ số hay "&" (P&L đã có trong từ điển).
+// VieNeu đánh vần chữ P thành "phê" → ép "Pê" như cách đọc tên chữ cái.
+var loneLetterPRe = regexp.MustCompile(`(^|[^\p{L}\d&])P([^\p{L}\d&]|$)`)
 
 // quoteStripper bỏ dấu ngoặc kép khỏi kịch bản đọc — VieNeu đọc dấu " thành
 // "dấu ngoặc kép". Word thường tự đổi " thẳng thành nháy cong “ ”. Bỏ ký tự
@@ -121,6 +126,7 @@ func (n *Normalizer) script(original string) string {
 	s = expandHeadingRomans(s)
 	s = expandGradeSigns(s)
 	s = expandMarketingP(s)
+	s = expandLoneLetterP(s)
 	s = strings.TrimSpace(collapseSpacesKeepLines(s))
 	return s
 }
@@ -160,6 +166,15 @@ func expandMarketingP(s string) string {
 		n, _ := strconv.Atoi(parts[2])
 		return parts[1] + intToViet(n) + " Pê" + parts[3]
 	})
+}
+
+// expandLoneLetterP đổi chữ "P" HOA đứng riêng thành "Pê" (xem loneLetterPRe).
+// Chạy 2 lượt vì ký tự ranh giới bị ăn khi hai chữ P đứng sát ("P P").
+func expandLoneLetterP(s string) string {
+	for i := 0; i < 2; i++ {
+		s = loneLetterPRe.ReplaceAllString(s, "${1}Pê${2}")
+	}
+	return s
 }
 
 // collapseSpacesKeepLines gộp khoảng trắng/tab liền nhau TRONG mỗi dòng thành 1

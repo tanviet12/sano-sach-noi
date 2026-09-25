@@ -79,6 +79,13 @@ func TestExpandMarketingP_ReadsAsPe(t *testing.T) {
 		{"4PM không đụng", "Họp lúc 4PM chiều nay.", "4PM", "Pê"},         // chữ cái theo sau
 		{"4Phương không đụng", "Đi 4Phương tám hướng.", "4Phương", "Pê"},  // chữ cái theo sau
 		{"104P mã số không đụng", "Phòng 104P ở tầng một.", "104P", "Pê"}, // số liền trước
+		{"4Ps số nhiều", "Mô hình 4Ps.", "bốn Pê.", "Ps"},
+		{"P đứng riêng", "Chữ P đầu tiên là Product.", "Chữ Pê đầu", ""},
+		{"P đầu câu", "P thứ hai là giá.", "Pê thứ hai", ""},
+		{"P trong ngoặc", "Giá (P) và kênh (P).", "(Pê) và kênh (Pê)", ""},
+		{"hai P liền", "P P", "Pê Pê", ""},
+		{"P trong từ không đụng", "PR và SEO, Product.", "Product", "Pêroduct"},
+		{"P1 không đụng", "Ưu tiên P1.", "P1", "Pê"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

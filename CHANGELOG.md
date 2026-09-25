@@ -1,5 +1,10 @@
 # Changelog
 
+## Chưa phát hành
+
+### Sửa lỗi
+- Chữ **P** đứng riêng ("chữ P đầu tiên", "P thứ hai là giá") và "4Ps" đọc là "pê" thay vì "phê"
+
 ## v0.1.6 (25/09/2026)
 
 ### Cải thiện
