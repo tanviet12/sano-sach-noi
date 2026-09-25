@@ -39,8 +39,11 @@ type Status struct {
 	FFmpeg        string `json:"ffmpeg"`
 	Source        string `json:"source"`  // env | app | legacy
 	DataDir       string `json:"dataDir"` // thư mục bộ đọc app cài (<dữ liệu app>/tts)
-	Message       string `json:"message"`
-	Detail        string `json:"detail"`
+	// Update — bộ đọc app cài chạy được (Ready) nhưng thư viện Python chưa khớp
+	// bản Sano này (vd bản vá bảo mật): giao diện mời chạy lại màn cài để sync.
+	Update  bool   `json:"update"`
+	Message string `json:"message"`
+	Detail  string `json:"detail"`
 }
 
 // VenvPython trả đường dẫn python trong venv theo hệ điều hành.

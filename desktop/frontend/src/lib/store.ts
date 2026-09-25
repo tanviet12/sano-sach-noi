@@ -515,7 +515,8 @@ export async function init() {
   state.terms = await termsStatus()
   // Lần mở đầu chưa có bộ đọc → màn cài bộ đọc; có rồi mà chưa đồng ý điều khoản
   // (hoặc điều khoản có bản mới) → màn điều khoản. Trừ khi đã chỉ định màn qua URL.
-  if (!q.get('screen') && state.tts && !state.tts.ready) state.view = 'setup'
+  // Chưa có bộ đọc, hoặc bộ đọc cần cập nhật thư viện (bản vá) → màn cài bộ đọc.
+  if (!q.get('screen') && state.tts && (!state.tts.ready || state.tts.update)) state.view = 'setup'
   else if (!q.get('screen') && needTerms()) state.view = 'terms'
   if (state.autoUpdateCheck && !q.get('update')) void checkForUpdate()
   const dev = import.meta.env.DEV ? q.get('docx') : null

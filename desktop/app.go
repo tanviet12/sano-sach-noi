@@ -14,8 +14,10 @@ import (
 	wruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 
 	"sano/desktop/internal/library"
+	"sano/desktop/internal/setup"
 	"sano/desktop/internal/tts"
 	"sano/internal/bookmaker"
+	ttsscripts "sano/scripts/tts"
 )
 
 // App là phần Go gắn (bind) vào giao diện: mỗi method public gọi được từ JS
@@ -97,7 +99,27 @@ func (a *App) CheckTTS() tts.Status {
 		st.Message = "Thiếu ffmpeg"
 		st.Detail = "Sano cần ffmpeg để ghi file MP3. " + tts.FFmpegHint(runtime.GOOS)
 	}
+	// Vẫn Ready: bộ đọc cũ chạy được (không chặn người đang offline), giao diện
+	// mời cập nhật khi mở app và trong Cài đặt.
+	if st.Ready && st.Source == tts.SourceApp && ttsNeedsResync() {
+		st.Update = true
+		st.Message = "Bộ đọc cần cập nhật thư viện"
+		st.Detail = "Bản Sano này vá lỗi bảo mật trong thư viện Python của bộ đọc. Chỉ tải lại vài thư viện, mô hình giọng đọc giữ nguyên."
+	}
 	return st
+}
+
+// ttsNeedsResync — bộ đọc app cài có thư viện Python chưa khớp bản Sano này.
+func ttsNeedsResync() bool {
+	l, err := layout()
+	if err != nil {
+		return false
+	}
+	pins, err := ttsscripts.Pins()
+	if err != nil {
+		return false
+	}
+	return setup.NeedsResync(l, pins, ttsscripts.Files)
 }
 
 // DocxFile mô tả file Word người dùng chọn.
