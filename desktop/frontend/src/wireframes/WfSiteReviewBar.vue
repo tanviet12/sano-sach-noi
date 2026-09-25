@@ -3,7 +3,7 @@
 // bật/tắt chú thích "phần nào VitePress có sẵn, phần nào tự làm", + nút riêng của từng trang (slot).
 import { Eye, EyeOff, Moon, Sun } from 'lucide-vue-next'
 
-defineProps<{ page: 'landing' | 'docs'; dark: boolean; notes: boolean }>()
+defineProps<{ page: 'landing' | 'docs' | 'demo'; dark: boolean; notes: boolean }>()
 defineEmits<{ 'toggle-dark': []; 'toggle-notes': [] }>()
 
 const chip = 'h-7 px-2.5 rounded-full border text-xs flex items-center gap-1.5 transition-colors'
@@ -17,6 +17,7 @@ const off = 'border-border bg-background text-foreground hover:bg-muted'
       <span class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Wireframe · duyệt</span>
       <a href="?wireframe=landing" :class="[chip, page === 'landing' ? on : off]">Trang chủ</a>
       <a href="?wireframe=docs" :class="[chip, page === 'docs' ? on : off]">Trang hướng dẫn mẫu</a>
+      <a href="?wireframe=demo" :class="[chip, page === 'demo' ? on : off]">Trang demo</a>
       <span class="h-4 w-px bg-border" />
       <slot />
       <button type="button" :class="[chip, off]" @click="$emit('toggle-dark')">

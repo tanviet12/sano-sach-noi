@@ -18,7 +18,7 @@ document.addEventListener('click', (e) => {
 })
 
 // Bản dev: ?wireframe=desktop|library|terms mở wireframe đã duyệt thay cho app
-// (đối chiếu giao diện); ?wireframe=landing|docs là wireframe trang tài liệu (VitePress).
+// (đối chiếu giao diện); ?wireframe=landing|docs|demo là wireframe trang tài liệu (VitePress).
 // Cả nhánh này bị loại khỏi bản build production.
 async function mount() {
   if (import.meta.env.DEV) {
@@ -28,6 +28,7 @@ async function mount() {
       terms: () => import('./wireframes/WfDesktopTerms.vue'),
       landing: () => import('./wireframes/WfLanding.vue'),
       docs: () => import('./wireframes/WfDocsPage.vue'),
+      demo: () => import('./wireframes/WfDemo.vue'),
     }
     const load = wireframes[new URLSearchParams(window.location.search).get('wireframe') ?? '']
     if (load) {
