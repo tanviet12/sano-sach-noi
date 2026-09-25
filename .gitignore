@@ -21,6 +21,8 @@ tham-khao/
 *.m4a
 *.wav
 *.aac
+# Sách mẫu nhúng vào phần mềm (desktop/samplebook.go) — phải commit
+!desktop/mau/sach-mau/**/*.mp3
 
 # Gói sách nói đã đóng (book-<slug>.zip) — output của cmd/sano-docx2tts, không commit git
 dong-goi-sach/
