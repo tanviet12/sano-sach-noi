@@ -246,6 +246,7 @@ interface GoApp {
   ChooseDocx(): Promise<DocxFile | null>
   DescribeDocx(path: string): Promise<DocxFile>
   SampleDocx(): Promise<DocxFile>
+  SaveSampleDocx(): Promise<string>
   InspectDocx(path: string, keepHeadingNumbers: boolean): Promise<Outline>
   Voices(): Promise<Voice[]>
   PreviewClips(s: BookSettings, stems: string[]): Promise<Clip[]>
@@ -418,6 +419,13 @@ export async function describeDocx(path: string): Promise<DocxFile> {
 /** Ghi file Word mẫu vào ~/Sano/.tam để thử tạo sách khi chưa có tài liệu. */
 export async function sampleDocx(): Promise<DocxFile> {
   return need().SampleDocx()
+}
+
+/** Lưu file Word mẫu về máy (hộp lưu file, mặc định thư mục Tải về). Huỷ → "". */
+export async function saveSampleDocx(): Promise<string> {
+  const app = goApp()
+  if (!app) return '~/Downloads/Mau-sach-noi-Sano.docx'
+  return app.SaveSampleDocx()
 }
 
 export async function inspectDocx(path: string, keepHeadingNumbers: boolean): Promise<Outline> {

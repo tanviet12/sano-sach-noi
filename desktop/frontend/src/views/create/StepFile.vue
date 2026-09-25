@@ -2,10 +2,10 @@
 // B1 Nạp file: hộp chọn file .docx (Wails) hoặc kéo thả → nạp thật: mục lục,
 // số ký tự, cảnh báo lúc nạp (hình, bảng, tiêu đề gõ tay, viết tắt chưa có).
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { AlertTriangle, Check, CheckCircle2, Copy, FileText, Loader2, ShieldCheck, Sparkles, Upload, X } from 'lucide-vue-next'
+import { AlertTriangle, Check, CheckCircle2, Copy, Download, FileText, Loader2, ShieldCheck, Sparkles, Upload, X } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import BookCover from '@/components/sano/BookCover.vue'
-import { chooseCover, chooseDocx, copyText, describeDocx, errText, onFileDrop, sampleDocx } from '../../lib/backend'
+import { chooseCover, chooseDocx, copyText, describeDocx, errText, onFileDrop, sampleDocx, saveSampleDocx } from '../../lib/backend'
 import { DOCS } from '../../lib/mock'
 import { SAMPLE_PROMPT } from '../../lib/prompt'
 import { categoryCounts } from '../../lib/find'
@@ -45,6 +45,31 @@ onBeforeUnmount(() => offDrop())
 async function copyPrompt() {
   copied.value = await copyText(SAMPLE_PROMPT)
   setTimeout(() => (copied.value = false), 1500)
+}
+
+// Lưu file Word mẫu về máy để làm theo (có sẵn Heading 1/2, lời hướng dẫn).
+const savedSample = ref('')
+// "Mau-sach-noi-Sano.docx" + "Downloads" — không hiện cả đường dẫn dài
+const savedName = computed(() => savedSample.value.split(/[\\/]/).pop() ?? '')
+const savedDir = computed(() => savedSample.value.split(/[\\/]/).slice(-2, -1)[0] ?? '')
+// Nạp đúng file vừa lưu để thử ngay (người dùng không phải đi tìm lại file).
+async function useSaved() {
+  picking.value = true
+  try {
+    await setFile(await describeDocx(savedSample.value))
+  } catch (e) {
+    state.fileError = errText(e)
+  } finally {
+    picking.value = false
+  }
+}
+async function downloadSample() {
+  state.fileError = ''
+  try {
+    savedSample.value = await saveSampleDocx()
+  } catch (e) {
+    state.fileError = errText(e)
+  }
 }
 
 // Chưa có file Word: dùng tài liệu mẫu có sẵn để thử trọn luồng tạo sách.
@@ -94,7 +119,7 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
     <h1 class="text-xl font-semibold tracking-tight">Nạp file Word</h1>
     <p class="text-sm text-muted-foreground">
       Sano đọc mục lục từ kiểu Heading 1 / Heading 2 trong file.
-      <a :href="DOCS + '/chuan-bi-file'" target="_blank" rel="noopener" class="text-primary hover:underline">Cách chuẩn bị file để đọc hay nhất</a>
+      <a :href="DOCS + '/tao-sach-dau-tien#chuan-bi-file'" target="_blank" rel="noopener" class="text-primary hover:underline">Cách chuẩn bị file để đọc hay nhất</a>
     </p>
 
     <template v-if="!state.file">
@@ -106,9 +131,21 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
         </span>
       </button>
       <p v-if="state.fileError" class="mt-3 text-sm text-destructive">{{ state.fileError }}</p>
-      <div class="mt-3 flex items-center justify-between gap-3 rounded-lg border border-border px-4 py-3 text-sm">
-        <span class="text-muted-foreground">Chưa có file Word? Thử với tài liệu mẫu 3 chương để xem Sano làm việc thế nào.</span>
-        <Button variant="outline" size="sm" :disabled="picking" @click="useSample"><Sparkles class="w-4 h-4" /> Thử với tài liệu mẫu</Button>
+      <div class="mt-3 rounded-lg border border-border px-4 py-3 text-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span class="text-muted-foreground flex-1 min-w-[16rem]">Chưa có file Word? Tải file mẫu có sẵn mục lục và hướng dẫn để làm theo, hoặc thử ngay với file mẫu.</span>
+          <div class="flex gap-2">
+            <Button variant="outline" size="sm" :disabled="picking" @click="downloadSample"><Download class="w-4 h-4" /> Tải file Word mẫu</Button>
+            <Button variant="outline" size="sm" :disabled="picking" @click="useSample"><Sparkles class="w-4 h-4" /> Thử với tài liệu mẫu</Button>
+          </div>
+        </div>
+        <div v-if="savedSample" class="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
+          <p class="flex items-start gap-1.5 text-xs text-muted-foreground flex-1 min-w-[16rem]">
+            <CheckCircle2 class="w-3.5 h-3.5 mt-px text-rag-green shrink-0" />
+            <span>Đã lưu <span class="text-foreground font-medium">{{ savedName }}</span> vào thư mục {{ savedDir }}. Mở bằng Word, thay nội dung của bạn rồi nạp vào đây, hoặc nạp luôn để thử.</span>
+          </p>
+          <Button size="sm" :disabled="picking" @click="useSaved"><Upload class="w-4 h-4" /> Nạp file này</Button>
+        </div>
       </div>
       <p class="mt-3 flex items-start gap-1.5 text-xs text-muted-foreground">
         <ShieldCheck class="w-3.5 h-3.5 mt-px shrink-0" />

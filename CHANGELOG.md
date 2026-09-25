@@ -7,7 +7,7 @@ Bản đầu tiên. Tạo sách nói từ file Word của chính bạn, giọng 
 ### Tính năng
 - **Phần mềm máy tính** cho Windows, macOS, Linux (Wails); công cụ dòng lệnh `sano-docx2tts` cho ai muốn tự động hoá
 - **Tự cài bộ đọc lần mở đầu**: báo trước dung lượng và thời gian, tự tải uv → Python → VieNeu-TTS → mô hình → ffmpeg (nếu thiếu), tiến độ từng bước, huỷ và cài tiếp được; mọi thứ ghim phiên bản và kiểm SHA256; gỡ bộ đọc trong Cài đặt
-- **Tạo sách 6 bước**: nạp file Word (đọc mục lục theo Heading, cảnh báo bảng, hình, chữ viết tắt lạ; chặn file có mật khẩu), chọn phần sẽ đọc, chọn giọng (mặc định Thiện Minh), lời mở đầu, **nghe thử bắt buộc** ít nhất 2 đoạn và sửa được lời đọc từng đoạn, render chạy nền huỷ được. Nút "Thử với tài liệu mẫu" cho người chưa có file
+- **Tạo sách 6 bước**: nạp file Word (đọc mục lục theo Heading, cảnh báo bảng, hình, chữ viết tắt lạ; chặn file có mật khẩu), chọn phần sẽ đọc, chọn giọng (mặc định Thiện Minh), lời mở đầu, **nghe thử bắt buộc** ít nhất 2 đoạn và sửa được lời đọc từng đoạn, render chạy nền huỷ được. **File Word mẫu** (đặt sẵn Heading 1/2, có lời hướng dẫn chuẩn bị file): tải về làm theo, hoặc nạp thẳng để thử
 - **Chuẩn hoá lời đọc**: đọc đúng số, ngày tháng, chữ viết tắt, khoảng số ("4-6 tháng" → "4 đến 6 tháng"), dấu "/" theo ngữ cảnh ("300 triệu/năm" → "300 triệu một năm", "2-3 giờ/ngày" → "2 đến 3 giờ một ngày", "có/không" → "có hoặc không")
 - **Thư viện**: tìm không dấu, lọc theo danh mục, sắp xếp, "Đang nghe" để nghe tiếp; trình phát nhớ vị trí, tua, đổi tốc độ, mục lục chương
 - **Xuất M4B** (một file có mục lục chương + bìa, nghe trên Apple Books, BookPlayer, app sách nói Android, màn hình xe) và **gói zip** để sao lưu hoặc chuyển máy
