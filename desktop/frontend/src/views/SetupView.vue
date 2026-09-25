@@ -20,6 +20,8 @@ const gb = (b: number) => (b / 2 ** 30).toFixed(1).replace('.', ',') + ' GB'
 const setup = computed(() => state.setup)
 const running = computed(() => setup.value.running)
 const ready = computed(() => !!state.tts?.ready)
+// Bộ đọc đã cài nhưng thư viện cần sync lại (bản vá bảo mật): đổi chữ, bỏ bảng dung lượng.
+const update = computed(() => !!state.tts?.update && !setup.value.done)
 const failed = computed(() => !running.value && !!setup.value.error)
 // Đã làm dở (lượt này, hoặc lần mở app trước còn để lại > 50 MB) → nút "Cài tiếp".
 const started = computed(
@@ -61,12 +63,18 @@ async function recheck() {
   <div class="flex-1 min-h-0 flex overflow-auto p-6">
     <div class="w-full max-w-lg m-auto">
       <img :src="logoUrl" alt="" class="h-12 w-12 rounded-xl" />
-      <h1 class="mt-5 text-2xl font-semibold tracking-tight">Chào mừng đến với Sano</h1>
-      <p class="mt-2 text-sm text-muted-foreground">
-        Để đọc sách thành giọng nói, Sano cần tải bộ đọc tiếng Việt về máy. Việc này chỉ làm một lần, sau đó dùng không cần mạng.
-      </p>
+      <template v-if="update">
+        <h1 class="mt-5 text-2xl font-semibold tracking-tight">Cập nhật bộ đọc</h1>
+        <p class="mt-2 text-sm text-muted-foreground">{{ state.tts?.detail }} Khoảng 1 phút, cần mạng.</p>
+      </template>
+      <template v-else>
+        <h1 class="mt-5 text-2xl font-semibold tracking-tight">Chào mừng đến với Sano</h1>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Để đọc sách thành giọng nói, Sano cần tải bộ đọc tiếng Việt về máy. Việc này chỉ làm một lần, sau đó dùng không cần mạng.
+        </p>
+      </template>
 
-      <div class="mt-6 rounded-lg border border-border divide-y divide-border text-sm" data-testid="setup-info">
+      <div v-if="!update" class="mt-6 rounded-lg border border-border divide-y divide-border text-sm" data-testid="setup-info">
         <div class="flex items-center justify-between px-4 py-3"><span class="flex items-center gap-2"><HardDrive class="w-4 h-4 text-muted-foreground" />Dung lượng cần</span><span class="font-medium tabular-nums">~{{ gb(state.setupInfo?.needBytes ?? 1500 * 2 ** 20) }}</span></div>
         <div class="flex items-center justify-between px-4 py-3"><span class="flex items-center gap-2"><Clock class="w-4 h-4 text-muted-foreground" />Thời gian tải (mạng 50 Mbps)</span><span class="font-medium tabular-nums">~{{ minutes }} phút</span></div>
         <div class="flex items-center justify-between px-4 py-3"><span class="flex items-center gap-2"><Cpu class="w-4 h-4 text-muted-foreground" />Máy của bạn</span><span class="font-medium" :class="state.setupInfo && !state.setupInfo.enough && 'text-destructive'">{{ machine }}</span></div>
@@ -116,7 +124,7 @@ async function recheck() {
           <template v-else-if="setup.done && ready">
             <Button data-testid="setup-finish" @click="goLibrary">Bắt đầu tạo sách</Button>
           </template>
-          <template v-else-if="ready && !failed">
+          <template v-else-if="ready && !failed && !update">
             <Button variant="outline" :disabled="state.ttsChecking" @click="recheck"><RefreshCw class="w-4 h-4" /> Kiểm tra lại</Button>
             <Button @click="goLibrary">Bộ đọc đã sẵn sàng</Button>
           </template>
@@ -125,6 +133,7 @@ async function recheck() {
             <Button data-testid="setup-start" :disabled="!isDesktop() || (state.setupInfo !== null && !state.setupInfo.enough)" @click="startSetup">
               <template v-if="failed">Thử lại</template>
               <template v-else-if="started">Cài tiếp</template>
+              <template v-else-if="update">Cập nhật bộ đọc</template>
               <template v-else>Cài bộ đọc</template>
             </Button>
           </template>

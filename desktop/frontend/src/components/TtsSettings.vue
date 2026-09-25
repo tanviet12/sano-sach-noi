@@ -58,7 +58,7 @@ async function uninstall() {
     <div class="flex items-center justify-between gap-3 px-4 py-3">
       <span>VieNeu-TTS v3 Turbo · {{ state.tts?.modelsOk ? 'mô hình đã tải' : 'chưa sẵn sàng' }}</span>
       <Badge v-if="state.ttsChecking" variant="secondary"><Loader2 class="w-3 h-3 mr-1 animate-spin" /> Đang kiểm tra</Badge>
-      <Badge v-else-if="state.tts?.ready" class="bg-rag-green/15 text-rag-green border-0">{{ state.tts.message }}</Badge>
+      <Badge v-else-if="state.tts?.ready" class="border-0" :class="state.tts.update ? 'bg-rag-amber/15 text-rag-amber' : 'bg-rag-green/15 text-rag-green'">{{ state.tts.message }}</Badge>
       <Badge v-else-if="state.tts" class="bg-rag-amber/15 text-rag-amber border-0">{{ state.tts.message }}</Badge>
     </div>
     <div v-if="state.tts" class="px-4 py-3 text-xs text-muted-foreground space-y-1 select-text">
@@ -68,9 +68,9 @@ async function uninstall() {
       <p>ffmpeg: <span class="font-mono">{{ state.tts.ffmpeg || 'không thấy' }}</span></p>
       <p v-if="state.tts.detail" class="whitespace-pre-line">{{ state.tts.detail }}</p>
     </div>
-    <div v-if="state.tts && !state.tts.ready && !state.ttsChecking" class="flex items-center justify-between px-4 py-3">
-      <span>Cài bộ đọc (tự tải về, vài phút)</span>
-      <Button size="sm" data-testid="tts-install" @click="state.view = 'setup'"><Download class="w-4 h-4" /> Cài bộ đọc</Button>
+    <div v-if="state.tts && (!state.tts.ready || state.tts.update) && !state.ttsChecking" class="flex items-center justify-between px-4 py-3">
+      <span>{{ state.tts.update ? 'Cập nhật thư viện bộ đọc (bản vá bảo mật, khoảng 1 phút)' : 'Cài bộ đọc (tự tải về, vài phút)' }}</span>
+      <Button size="sm" data-testid="tts-install" @click="state.view = 'setup'"><Download class="w-4 h-4" /> {{ state.tts.update ? 'Cập nhật bộ đọc' : 'Cài bộ đọc' }}</Button>
     </div>
     <div class="flex items-center justify-between px-4 py-3"><span>Giọng mặc định</span><span class="text-muted-foreground">Hải Đăng · Nam · miền Bắc · tự nhiên</span></div>
     <div class="flex items-center justify-between px-4 py-3"><span>Kiểm tra bộ đọc</span><Button variant="outline" size="sm" :disabled="state.ttsChecking" @click="refreshTTS"><RefreshCw class="w-4 h-4" :class="state.ttsChecking && 'animate-spin'" /> Chạy kiểm tra</Button></div>

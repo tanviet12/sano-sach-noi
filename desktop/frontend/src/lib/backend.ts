@@ -14,6 +14,8 @@ export interface TTSStatus {
   ffmpeg?: string
   source?: 'env' | 'app' | 'legacy' | ''
   dataDir?: string
+  /** Bộ đọc app cài vẫn chạy (ready) nhưng nên sync lại thư viện Python (bản vá bảo mật). */
+  update?: boolean
   message: string
   detail: string
 }
@@ -371,6 +373,13 @@ const mockTTS: TTSStatus = {
   modelsOk: true,
   message: 'Sẵn sàng',
   detail: 'Dữ liệu giả — mở trong trình duyệt, không có phần Go',
+}
+// ?tts=update lúc dev: xem màn "Cập nhật bộ đọc".
+if (import.meta.env.DEV && new URLSearchParams(window.location.search).get('tts') === 'update') {
+  Object.assign(mockTTS, {
+    ready: true, update: true, message: 'Bộ đọc cần cập nhật thư viện',
+    detail: 'Bản Sano này vá lỗi bảo mật trong thư viện Python của bộ đọc. Chỉ tải lại vài thư viện, mô hình giọng đọc giữ nguyên.',
+  })
 }
 
 export async function checkTTS(): Promise<TTSStatus> {
