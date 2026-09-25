@@ -41,7 +41,7 @@ REQ="$WORK/requirements.txt"
 # scripts/tts/vieneu-project/ vào mã VieNeu rồi `uv sync --frozen --no-dev`. File này chỉ
 # để đọc/đối chiếu; CI kiểm file này khớp (vieneu-lock.sh --check).
 HDR
-  (cd "$WORK" && uv export --frozen --no-dev --no-hashes --no-emit-project --no-annotate --quiet) | grep -v "^#" | grep -v "sys_platform == 'never'"
+  (cd "$WORK" && uv export --frozen --no-dev --no-hashes --no-emit-project --no-annotate --quiet) | grep -v "^#" | grep -v " ; sys_platform == 'never'$"
 } >"$REQ"
 
 if [[ "${1:-}" == "--check" ]]; then

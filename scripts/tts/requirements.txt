@@ -4,18 +4,24 @@
 # bỏ giao diện web gradio, bản vá bảo mật). Cách cài: phần mềm desktop chép
 # scripts/tts/vieneu-project/ vào mã VieNeu rồi `uv sync --frozen --no-dev`. File này chỉ
 # để đọc/đối chiếu; CI kiểm file này khớp (vieneu-lock.sh --check).
+anyio==4.14.2 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 audioop-lts==0.2.2 ; python_full_version >= '3.13'
 audioread==3.1.0
 certifi==2025.10.5
 cffi==2.0.0
 charset-normalizer==3.4.4
+click==8.2.1 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 colorama==0.4.6 ; sys_platform == 'win32'
 decorator==5.2.1
+exceptiongroup==1.3.1 ; (python_full_version < '3.11' and sys_platform == 'darwin') or (python_full_version < '3.11' and sys_platform == 'never')
 filelock==3.32.7
 flatbuffers==25.9.23
 fsspec==2025.9.0
+h11==0.16.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 hf-xet==1.2.0 ; (python_full_version != '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version != '3.12.*' and platform_machine == 'amd64' and sys_platform == 'linux') or (python_full_version != '3.12.*' and platform_machine == 'arm64' and sys_platform == 'linux') or (python_full_version != '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version < '3.11' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version < '3.11' and platform_machine == 'amd64' and sys_platform == 'win32') or (python_full_version < '3.11' and platform_machine == 'arm64' and sys_platform == 'win32') or (python_full_version < '3.11' and platform_machine == 'x86_64' and sys_platform == 'win32') or (platform_machine == 'aarch64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32') or (platform_machine == 'amd64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32') or (platform_machine == 'arm64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32') or (platform_machine == 'x86_64' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
 hf-xet==1.4.3 ; (python_full_version == '3.12.*' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'amd64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'arm64' and sys_platform == 'linux') or (python_full_version == '3.12.*' and platform_machine == 'x86_64' and sys_platform == 'linux') or (python_full_version == '3.11.*' and platform_machine == 'AMD64' and sys_platform == 'win32') or (python_full_version >= '3.13' and platform_machine == 'AMD64' and sys_platform == 'win32') or (python_full_version >= '3.11' and platform_machine == 'aarch64' and sys_platform == 'win32') or (python_full_version >= '3.11' and platform_machine == 'amd64' and sys_platform == 'win32') or (python_full_version >= '3.11' and platform_machine == 'arm64' and sys_platform == 'win32') or (python_full_version >= '3.11' and platform_machine == 'x86_64' and sys_platform == 'win32') or (platform_machine == 'AMD64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'darwin') or (platform_machine == 'amd64' and sys_platform == 'darwin') or (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'x86_64' and sys_platform == 'darwin')
+httpcore==1.0.9 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
+httpx==0.28.1 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 huggingface-hub==0.36.0 ; (python_full_version < '3.11' and sys_platform == 'win32') or (python_full_version == '3.12.*' and sys_platform == 'win32') or (sys_platform != 'darwin' and sys_platform != 'win32')
 huggingface-hub==1.13.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin'
 idna==3.20
@@ -24,6 +30,8 @@ kaldi-native-fbank==1.22.3
 lazy-loader==0.4
 librosa==0.11.0
 llvmlite==0.45.1
+markdown-it-py==4.0.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
+mdurl==0.1.2 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 mpmath==1.3.0
 msgpack==1.2.2
 numba==0.62.1
@@ -36,12 +44,15 @@ platformdirs==4.5.0
 pooch==1.8.2
 protobuf==6.33.6
 pycparser==2.23 ; implementation_name != 'PyPy'
+pygments==2.21.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 pyyaml==6.0.3
 requests==2.34.2
+rich==14.2.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 scikit-learn==1.7.2
 scipy==1.15.3 ; python_full_version < '3.11'
 scipy==1.16.2 ; python_full_version >= '3.11'
 sea-g2p==0.9.1
+shellingham==1.5.4 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 soundfile==0.13.1
 soxr==1.0.0
 standard-aifc==3.13.0 ; python_full_version >= '3.13'
@@ -51,5 +62,6 @@ sympy==1.14.0
 threadpoolctl==3.6.0
 tokenizers==0.22.2
 tqdm==4.67.1
+typer==0.20.0 ; (python_full_version == '3.11.*' and sys_platform == 'win32') or (python_full_version >= '3.13' and sys_platform == 'win32') or sys_platform == 'darwin' or sys_platform == 'never'
 typing-extensions==4.15.0
 urllib3==2.8.0

@@ -12,3 +12,5 @@ msgpack>=1.2.1,<2
 protobuf>=6.33.5,<7
 requests>=2.33.0,<3
 urllib3>=2.7.0,<3
+anyio>=4.14.2,<5
+pygments>=2.20.0,<3
