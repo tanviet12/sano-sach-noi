@@ -353,6 +353,13 @@ func downloadVerified(ctx context.Context, client *http.Client, raw, dest, wantH
 				progress(done, total)
 			}
 		}
+		// Huỷ có hiệu lực ngay cả khi dữ liệu đã nằm sẵn trong bộ đệm.
+		if ctx.Err() != nil {
+			if c := context.Cause(ctx); c != nil && !errors.Is(c, context.Canceled) {
+				return c
+			}
+			return ctx.Err()
+		}
 		if rerr == io.EOF {
 			break
 		}
