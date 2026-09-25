@@ -59,13 +59,13 @@ func TestVieNeuProject(t *testing.T) {
 	lock := append([]byte{}, files["uv.lock"]...)
 	lock[len(lock)-1] ^= 1
 	other := fstest.MapFS{
-		"vieneu/pyproject.toml": {Data: files["pyproject.toml"]},
-		"vieneu/uv.lock":        {Data: lock},
+		"vieneu-project/pyproject.toml": {Data: files["pyproject.toml"]},
+		"vieneu-project/uv.lock":        {Data: lock},
 	}
 	if _, sum2, err := vieneuProject(other); err != nil || sum2 == sum {
 		t.Errorf("uv.lock khác mà mã băm giống (%v)", err)
 	}
-	if _, _, err := vieneuProject(fstest.MapFS{"vieneu/pyproject.toml": {Data: []byte("x")}}); err == nil {
+	if _, _, err := vieneuProject(fstest.MapFS{"vieneu-project/pyproject.toml": {Data: []byte("x")}}); err == nil {
 		t.Error("thiếu uv.lock phải lỗi")
 	}
 }

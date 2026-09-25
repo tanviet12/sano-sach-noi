@@ -21,7 +21,7 @@ Chưa có bộ đọc → app mở màn cài: báo trước dung lượng (~1,5 
 | uv | GitHub Release `astral-sh/uv` đúng `UV_VERSION` | SHA256 ghim `UV_SHA256_*` trong `scripts/tts/versions.env` |
 | Python | uv tải (`uv python install`, không ghi ra `~/.local/bin`, không ghi registry Windows) | uv tự kiểm SHA256 bản Python |
 | Mã VieNeu-TTS | tarball GitHub của `VIENEU_COMMIT` (không cần git) | "tree hash" nội dung `VIENEU_TREE_SHA256` |
-| Thư viện | `uv sync --frozen --no-dev` theo `scripts/tts/vieneu/uv.lock` (uv.lock của VieNeu + ghi đè của Sano: bỏ gradio, bản vá bảo mật; chép đè sau khi kiểm tree hash). Máy đã cài mà khoá đổi → Cài đặt mời "Cập nhật bộ đọc" | uv kiểm hash từng gói trong `uv.lock` |
+| Thư viện | `uv sync --frozen --no-dev` theo `scripts/tts/vieneu-project/uv.lock` (uv.lock của VieNeu + ghi đè của Sano: bỏ gradio, bản vá bảo mật; chép đè sau khi kiểm tree hash). Máy đã cài mà khoá đổi → Cài đặt mời "Cập nhật bộ đọc" | uv kiểm hash từng gói trong `uv.lock` |
 | Mô hình (~580 MB) | Hugging Face, đúng revision ghim (`models.py fetch`, không cần tài khoản) | SHA256 từng file trong `scripts/tts/models.sha256` |
 | ffmpeg | chỉ tải khi máy chưa có — bản dựng tĩnh GPLv3 (`FFMPEG_*` trong `versions.env`) | SHA256 ghim + có bộ mã `libmp3lame` |
 | Kiểm tra cuối | `models.py check` + đọc thử một câu ra WAV | |

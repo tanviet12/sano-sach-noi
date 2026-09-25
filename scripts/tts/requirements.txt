@@ -1,8 +1,8 @@
 # Thư viện Python phần đọc giọng (VieNeu-TTS) Sano cài, mọi hệ điều hành.
-# SINH TỰ ĐỘNG bằng scripts/tts/vieneu-lock.sh từ scripts/tts/vieneu/uv.lock
+# SINH TỰ ĐỘNG bằng scripts/tts/vieneu-lock.sh từ scripts/tts/vieneu-project/uv.lock
 # (uv.lock của VieNeu-TTS tại VIENEU_COMMIT + ghi đè trong vieneu-overrides.txt:
 # bỏ giao diện web gradio, bản vá bảo mật). Cách cài: phần mềm desktop chép
-# scripts/tts/vieneu/ vào mã VieNeu rồi `uv sync --frozen --no-dev`. File này chỉ
+# scripts/tts/vieneu-project/ vào mã VieNeu rồi `uv sync --frozen --no-dev`. File này chỉ
 # để đọc/đối chiếu; CI kiểm file này khớp (vieneu-lock.sh --check).
 audioop-lts==0.2.2 ; python_full_version >= '3.13'
 audioread==3.1.0
