@@ -11,4 +11,4 @@ package main
 // Là biến (không phải hằng) để bản thử cục bộ gắn khoá thử qua
 // -ldflags "-X main.updatePublicKeys=..." — người build vốn đã kiểm soát bản
 // build của mình, không mở thêm đường nào cho kẻ khác.
-var updatePublicKeys = ""
+var updatePublicKeys = "A0ypMBnw4Ed+jckP/dmBysPSQ4EMTdoqk5w83ayrINw="
