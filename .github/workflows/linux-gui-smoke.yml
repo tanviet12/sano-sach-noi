@@ -1,7 +1,11 @@
 name: Linux GUI smoke
 
-# Chạy tay: Sano AppImage thật trên Xvfb, bấm chuột bằng xdotool, chụp màn hình.
-# play: bản mới nhất, mở sách mẫu, bấm Phát. update: bản cũ → bấm Cập nhật ngay.
+# Chạy tay: Sano AppImage thật (tải từ Releases) trên Xvfb, bấm chuột bằng
+# xdotool (tọa độ theo cửa sổ 1100×720), chụp màn hình từng bước (Artifacts).
+# play: mở sách mẫu, bấm Phát. update: bản cũ → Cập nhật ngay → Khởi động lại,
+# kiểm SHA256 AppImage sau khi thay khớp bản mới. Đổi bố cục giao diện thì xem
+# ảnh chụp rồi chỉnh tọa độ trong scripts/ci/linux-gui-smoke.sh.
+# 25/09/2026: 0.1.4 phát được; 0.1.3 → 0.1.4 tự cập nhật đạt.
 on:
   workflow_dispatch:
     inputs:
@@ -11,8 +15,6 @@ on:
       old:
         description: "Bản cũ để thử tự cập nhật"
         default: "0.1.3"
-  push:
-    branches: [ci/linux-gui-smoke]
 
 permissions:
   contents: read

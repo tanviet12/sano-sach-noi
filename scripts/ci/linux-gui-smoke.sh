@@ -35,10 +35,10 @@ else
   pid=$(run_app "$HOME/Apps/Sano.AppImage"); sleep 15; shot co-ban-moi
   click 100 646 3; shot hop-cap-nhat
   click 687 490 30; shot tai-xong
-  click 683 453 3; shot bam-khoi-dong-lai
+  click 681 471 3; shot bam-khoi-dong-lai
   sleep 20; shot sau-mo-lai
   after=$(sha256sum "$HOME/Apps/Sano.AppImage" | cut -d' ' -f1)
   echo "trước: $before"; echo "sau:   $after"; echo "cần:   $WANT"
   pgrep -af Sano || true
-  [[ "$after" == "$WANT" ]] && echo "ĐẠT: AppImage đã thay bằng bản mới" || echo "CHƯA: AppImage chưa đổi"
+  if [[ "$after" == "$WANT" ]]; then echo "ĐẠT: AppImage đã thay bằng bản mới"; else echo "LỖI: AppImage chưa đổi"; exit 1; fi
 fi
