@@ -7,14 +7,14 @@ name: Desktop build + release
 #   ed25519 SHA256SUMS.sig (app kiểm trước khi tự cập nhật), attestation
 #   nguồn gốc build, tạo GitHub Release dạng NHÁP (người vận hành tự bấm Publish).
 # - Run workflow (workflow_dispatch) → build thử 3 hệ điều hành, tải file ở mục
-#   Artifacts của lần chạy, KHÔNG tạo release.
+#   Artifacts của lần chạy, KHÔNG tạo release (tick "Quét VirusTotal" để thử quét).
 # - Pull request / push vào main có đụng mã desktop → build + đóng gói Linux và
 #   Windows để bắt lỗi sớm (bỏ macOS cho đỡ tốn phút: máy Mac tính gấp 10 lần).
 #
-# Chưa ký số Windows/Apple, không notarize (chưa có chứng chỉ). Secret duy nhất
-# ngoài GITHUB_TOKEN: SANO_UPDATE_SIGNING_KEY (khoá ed25519 ký SHA256SUMS, chỉ
-# dùng ở job release — tạo bằng scripts/release/update-key.sh). Mọi action ghim
-# theo SHA commit.
+# Chưa ký số Windows/Apple, không notarize (chưa có chứng chỉ). Secret ngoài
+# GITHUB_TOKEN: SANO_UPDATE_SIGNING_KEY (khoá ed25519 ký SHA256SUMS, chỉ dùng ở
+# job release — tạo bằng scripts/release/update-key.sh) và VT_API_KEY (quét
+# VirusTotal, chỉ dùng ở job virustotal). Mọi action ghim theo SHA commit.
 on:
   push:
     tags: ['v*']
@@ -33,6 +33,11 @@ on:
     branches: [main]
     paths: *build_paths
   workflow_dispatch:
+    inputs:
+      virustotal:
+        description: "Quét VirusTotal các bản build thử"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -222,10 +227,41 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  # Quét VirusTotal (P3-12): kết quả + link đưa vào ghi chú release. Có phần
+  # mềm báo nhiễm chỉ cảnh báo; VirusTotal lỗi / chậm cũng không chặn phát hành.
+  virustotal:
+    name: Quét VirusTotal
+    needs: [meta, build]
+    if: needs.meta.outputs.release == 'true' || (github.event_name == 'workflow_dispatch' && inputs.virustotal)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: sano-*
+          path: dist
+          merge-multiple: true
+      - name: Quét
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+        run: |
+          scripts/release/virustotal.sh dist > virustotal.md
+          cat virustotal.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: virustotal
+          path: virustotal.md
+          retention-days: 14
+
   release:
     name: GitHub Release (nháp)
-    needs: [meta, build]
-    if: needs.meta.outputs.release == 'true'
+    needs: [meta, build, virustotal]
+    # virustotal hỏng hay bị bỏ qua vẫn tạo release (build phải đạt).
+    if: ${{ !cancelled() && needs.meta.outputs.release == 'true' && needs.build.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -243,6 +279,12 @@ jobs:
           pattern: sano-*
           path: dist
           merge-multiple: true
+      - name: Kết quả VirusTotal (nếu có)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
+        with:
+          name: virustotal
+          path: ${{ runner.temp }}/vt
 
       - name: SHA256SUMS
         run: scripts/release/checksums.sh dist
@@ -274,6 +316,11 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           scripts/release/notes.sh "$VERSION" "$GITHUB_REPOSITORY" > "$RUNNER_TEMP/notes.md"
+          if [[ -s "$RUNNER_TEMP/vt/virustotal.md" ]]; then
+            { echo; cat "$RUNNER_TEMP/vt/virustotal.md"; } >> "$RUNNER_TEMP/notes.md"
+          else
+            echo "::warning::Không có kết quả VirusTotal — ghi chú release không kèm bảng quét."
+          fi
           flags=(--draft --verify-tag --title "Sano $VERSION" --notes-file "$RUNNER_TEMP/notes.md")
           [[ "$VERSION" == *-* ]] && flags+=(--prerelease)
           gh release create "$TAG" "${flags[@]}" dist/*
