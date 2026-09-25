@@ -110,6 +110,18 @@ const termsLine = computed(() => {
         </a>
       </div>
 
+      <h2 class="mt-8 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Giọng đọc</h2>
+      <a href="https://github.com/pnnbao97/VieNeu-TTS" target="_blank" rel="noopener" class="mt-3 flex items-start gap-3 rounded-lg border border-border px-4 py-3 text-sm hover:bg-muted/50">
+        <div class="flex-1 min-w-0">
+          <p class="font-medium">VieNeu-TTS</p>
+          <p class="mt-0.5 text-muted-foreground leading-relaxed">
+            Mọi giọng đọc trong Sano do VieNeu-TTS tạo — dự án mã nguồn mở chuyển văn bản thành giọng nói tiếng Việt của
+            Pham Nguyen Ngoc Bao, giấy phép Apache-2.0. Cảm ơn tác giả đã chia sẻ.
+          </p>
+        </div>
+        <ExternalLink class="w-3.5 h-3.5 mt-1 shrink-0 text-muted-foreground" />
+      </a>
+
       <h2 class="mt-8 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Thông tin</h2>
       <div class="mt-3 rounded-lg border border-border divide-y divide-border text-sm">
         <a :href="DOCS" target="_blank" rel="noopener" class="flex items-center gap-2.5 px-4 py-3 hover:bg-muted/50"><LifeBuoy class="w-4 h-4 text-muted-foreground" /><span class="flex-1">Hướng dẫn sử dụng</span><ExternalLink class="w-3.5 h-3.5 text-muted-foreground" /></a>

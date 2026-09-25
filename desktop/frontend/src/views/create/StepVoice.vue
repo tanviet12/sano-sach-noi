@@ -60,7 +60,10 @@ async function sample(v: Voice) {
 <template>
   <div class="max-w-2xl">
     <h1 class="text-xl font-semibold tracking-tight">Chọn giọng đọc</h1>
-    <p class="text-sm text-muted-foreground">Bấm nghe để thử từng giọng với một câu trong sách của bạn.</p>
+    <p class="text-sm text-muted-foreground">
+      Bấm nghe để thử từng giọng với một câu trong sách của bạn. Giọng đọc của
+      <a href="https://github.com/pnnbao97/VieNeu-TTS" target="_blank" rel="noopener" class="text-primary hover:underline">VieNeu-TTS</a>, mã nguồn mở, chạy ngay trên máy.
+    </p>
     <p v-if="state.voicesError" class="mt-4 text-sm text-destructive">{{ state.voicesError }}</p>
     <p v-else-if="!state.voices.length" class="mt-5 text-sm text-muted-foreground flex items-center gap-2"><Loader2 class="w-4 h-4 animate-spin" /> Đang lấy danh sách giọng…</p>
     <div class="mt-5 grid gap-2">

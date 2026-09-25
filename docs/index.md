@@ -19,6 +19,7 @@ markdownStyles: false
       <NormalizeCompare />
     </div>
     <VoiceStrip />
+    <VoiceCredit />
   </div>
 </section>
 

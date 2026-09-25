@@ -20,6 +20,7 @@ import ShotPlaceholder from './components/ShotPlaceholder.vue'
 import DemoShelf from './components/DemoShelf.vue'
 import VoiceGallery from './components/VoiceGallery.vue'
 import VoiceStrip from './components/VoiceStrip.vue'
+import VoiceCredit from './components/VoiceCredit.vue'
 
 export default {
   extends: DefaultTheme,
@@ -43,6 +44,7 @@ export default {
     app.component('DemoShelf', DemoShelf)
     app.component('VoiceGallery', VoiceGallery)
     app.component('VoiceStrip', VoiceStrip)
+    app.component('VoiceCredit', VoiceCredit)
   },
   setup() {
     // Bấm ảnh trong bài để phóng to (như khuôn tài liệu cũ)

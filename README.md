@@ -136,6 +136,12 @@ Dự án mã nguồn mở khác của tôi:
 - **[vbsec](https://github.com/tanviet12/vbsec)** — quét bảo mật mã nguồn bằng AI, phát hiện hơn 20 loại lỗ hổng phổ biến. Sano được kiểm tra bằng vbsec.
 - **[Chat Quality Agent](https://github.com/tanviet12/chat-quality-agent)** — dùng AI chấm chất lượng chăm sóc khách hàng qua Zalo OA, Facebook Messenger ([hướng dẫn](https://tanviet12.github.io/chat-quality-agent/))
 
+## Cảm ơn
+
+Mọi giọng đọc của Sano do **[VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS)** tạo — dự án mã nguồn mở chuyển văn bản thành giọng nói tiếng Việt của [Pham Nguyen Ngoc Bao](https://github.com/pnnbao97), giấy phép Apache-2.0 ([vieneu.io](https://www.vieneu.io)). Sano dùng mô hình [VieNeu-TTS v3 Turbo](https://huggingface.co/pnnbao-ump/VieNeu-TTS-v3-Turbo) chạy ngay trên máy, không chỉnh sửa mã hay mô hình. Cảm ơn tác giả đã chia sẻ.
+
+Các thành phần mã nguồn mở khác và giấy phép của chúng: [`desktop/licenses/THIRD-PARTY-NOTICES.md`](desktop/licenses/THIRD-PARTY-NOTICES.md).
+
 ## Giấy phép
 
 [MIT](./LICENSE)

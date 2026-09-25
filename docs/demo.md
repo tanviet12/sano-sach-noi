@@ -16,7 +16,7 @@ import { withBase } from 'vitepress'
   <div class="sano-container">
     <p class="demo-eyebrow">Nghe thử Sano</p>
     <h1 class="demo-h1">Sách nói tạo bằng AI, <span class="accent">ngay trên máy tính</span></h1>
-    <p class="sano-lead demo-lead">5 cuốn sách mẫu, 12 giọng đọc tiếng Việt. Tất cả tạo từ file Word bằng Sano, không cần phòng thu, không gửi tài liệu lên mạng.</p>
+    <p class="sano-lead demo-lead">5 cuốn sách mẫu, 12 giọng đọc tiếng Việt của bộ đọc mã nguồn mở VieNeu-TTS. Tất cả tạo từ file Word bằng Sano, không cần phòng thu, không gửi tài liệu lên mạng.</p>
     <div class="demo-actions">
       <a href="#tu-sach" class="sano-btn brand block-sm">Nghe ngay</a>
       <a :href="withBase('/#tai-ve')" class="sano-btn outline block-sm">Tải Sano miễn phí</a>
@@ -37,6 +37,7 @@ import { withBase } from 'vitepress'
     <h2 class="sano-h2">Một đoạn, 12 giọng</h2>
     <p class="sano-lead">Cùng một đoạn văn, bấm từng giọng để so sánh. Sano có 25 giọng, chọn được ngay khi tạo sách.</p>
     <VoiceGallery />
+    <VoiceCredit />
   </div>
 </section>
 
