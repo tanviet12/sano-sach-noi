@@ -36,6 +36,8 @@ type App struct {
 	// ttsChecks — số lượt kiểm tra bộ đọc đang chạy (CheckTTS). Kiểm tra giải nén
 	// script vào thư mục bộ đọc nên chặn gỡ, nhưng không chặn cài (xem setup.go).
 	ttsChecks int
+
+	updateState // tự cập nhật (selfupdate.go), khoá riêng updMu
 }
 
 // NewApp tạo App với thư viện ~/Sano; ctx gắn ở startup.

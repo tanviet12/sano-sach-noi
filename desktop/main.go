@@ -6,6 +6,7 @@ import (
 	"context"
 	"embed"
 	"log"
+	"os"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -20,6 +21,7 @@ import (
 var assets embed.FS
 
 func main() {
+	startAfterUpdate(os.Args[1:])
 	app := NewApp()
 
 	err := wails.Run(&options.App{
@@ -39,6 +41,8 @@ func main() {
 			app.CancelRender()
 			app.CancelM4B()
 			app.CancelSetup() // lần sau mở cài tiếp từ bước dở
+			app.CancelUpdate()
+			app.applyOnShutdown() // đã chọn "Khởi động lại sau" → thay bản mới lúc thoát
 		},
 		DragAndDrop: &options.DragAndDrop{
 			EnableFileDrop:     true,
