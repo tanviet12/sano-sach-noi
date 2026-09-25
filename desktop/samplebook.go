@@ -30,7 +30,7 @@ type sampleBook struct {
 
 // Thứ tự hiện trong thư viện (mới tạo nhất trước): cuốn đầu nằm trên cùng.
 var sampleBooks = []sampleBook{
-	{"gioi-thieu-sano", "Trúc Ly"},
+	{"gioi-thieu-sano", "Thiện Minh"},
 	{"nghe-de-nho", "Hải Đăng"},
 	{"tiem-ca-phe-thu-hai", "Mỹ Duyên"},
 }
