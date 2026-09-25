@@ -27,7 +27,14 @@ Khi mở, Sano hỏi GitHub xem có bản mới không (chỉ lấy số phiên 
 
 ### Cập nhật Sano thế nào?
 
-Có bản mới, thanh bên hiện **Có bản mới**. Bấm vào để xem có gì mới, rồi **Mở trang tải** và cài đè lên bản đang dùng. Sách, tiến độ nghe và bộ đọc giữ nguyên.
+Có bản mới, thanh bên hiện **Có bản mới**. Bấm vào để xem có gì mới, rồi **Cập nhật ngay**: Sano tự tải bản mới, kiểm chữ ký rồi thay bản và tự mở lại. Sách, tiến độ nghe và bộ đọc giữ nguyên.
+
+- Đang render thì tick **Tự cập nhật khi render xong** rồi bấm **Hẹn cập nhật**, Sano đợi render xong mới tải.
+- Tải xong mà chưa muốn khởi động lại: bấm **Khởi động lại sau**, Sano thay bản mới khi bạn thoát.
+- Bản tải về sai chữ ký hoặc sai mã SHA256 thì Sano từ chối, xoá file và báo rõ; bản đang dùng giữ nguyên.
+- Sano chạy thẳng từ file .dmg (macOS) hoặc nằm trong thư mục không có quyền ghi thì chỉ có nút **Mở trang tải**: tải bản cài rồi cài đè.
+
+Bản **0.1.0 và 0.1.1** chưa có phần tự cập nhật: tải bản mới ở [trang Cài đặt](./cai-dat) và cài đè một lần, từ 0.1.2 trở đi cập nhật ngay trong app.
 
 ### Tài liệu của tôi có bị gửi lên mạng không?
 
