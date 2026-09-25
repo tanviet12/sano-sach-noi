@@ -11,9 +11,19 @@ Trong Sano, bấm **Tạo sách mới**. Việc tạo sách gồm 6 bước: **N
 Sano chỉ nhận file `.docx`. Đặt kiểu **Heading 1** cho tên chương và **Heading 2** cho tên mục, Sano dựa vào đó để làm mục lục. Tài liệu có nhiều bảng, hình, sơ đồ thì nên [làm mượt tài liệu](./lam-muot-tai-lieu) trước.
 :::
 
+## Chuẩn bị file Word {#chuan-bi-file}
+
+Sano làm mục lục dựa vào **kiểu chữ của tiêu đề**: mỗi chương đặt kiểu **Heading 1**, mỗi mục trong chương đặt kiểu **Heading 2**. Chữ in đậm hay chữ to không lên mục lục. Trong Word: bôi đen dòng tiêu đề → thẻ **Trang chủ** → chọn **Heading 1** hoặc **Heading 2** trong ô Kiểu. Trong Google Docs: **Định dạng** → **Kiểu đoạn văn** → **Tiêu đề 1** / **Tiêu đề 2**, rồi tải về dạng `.docx`.
+
+Cách nhanh nhất là làm theo **file Word mẫu**: đã đặt sẵn đúng kiểu tiêu đề, bên trong có lời hướng dẫn. Mở bằng Word, xoá phần hướng dẫn, dán nội dung của bạn vào. Nạp ngay file mẫu vào Sano cũng tạo được sách để thử.
+
+<a class="sano-btn outline" href="/sano-sach-noi/mau/Mau-sach-noi-Sano.docx" download>Tải file Word mẫu (.docx)</a>
+
+Trong phần mềm, bước **Nạp file** cũng có nút **Tải file Word mẫu**. Tài liệu có bảng, hình, danh sách: xem thêm [Làm mượt tài liệu](./lam-muot-tai-lieu).
+
 ## 1. Nạp file
 
-Kéo file `.docx` vào ô **Kéo file .docx vào đây**, hoặc bấm vào ô để chọn file. Muốn thử trước thì bấm **Thử với tài liệu mẫu**.
+Kéo file `.docx` vào ô **Kéo file .docx vào đây**, hoặc bấm vào ô để chọn file. Muốn thử trước thì bấm **Thử với tài liệu mẫu** (nạp thẳng file Word mẫu), hoặc **Tải file Word mẫu** để lưu về máy làm theo.
 
 Sano đọc file rồi cho biết số chương, số tiểu mục, số ký tự. Nếu gặp phần sẽ không được đọc trọn vẹn, Sano hiện cảnh báo:
 
