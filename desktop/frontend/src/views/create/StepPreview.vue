@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// B5 Nghe thử (bắt buộc): render thật lời mở đầu + 2 tiểu mục đầu (mỗi đoạn
+// B5 Nghe thử (không bắt buộc): render thật lời mở đầu + 2 tiểu mục đầu (mỗi đoạn
 // ~500 ký tự đầu), phát trong app, hiện đúng lời đã đọc. Sửa lời đọc rồi render
 // lại đoạn đó — bản cuối dùng lời đã sửa.
 import { computed, onMounted, reactive, ref, watch } from 'vue'

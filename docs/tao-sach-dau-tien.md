@@ -70,7 +70,7 @@ Sửa được, hoặc bỏ tick **Có lời mở đầu** nếu không cần. G
 
 Sano tự đọc lời mở đầu và 2 mục đầu tiên (mỗi đoạn khoảng 500 ký tự đầu). Lần đầu mất khoảng nửa phút để nạp bộ đọc.
 
-- Phải **nghe ít nhất 2 đoạn** thì nút render mới mở.
+- Nghe thử không bắt buộc, nhưng nên nghe vài đoạn để chắc giọng và cách đọc đã ổn.
 - Chỗ nào đọc chưa đúng (tên riêng, từ nước ngoài, chữ viết tắt), sửa trong ô **Lời đọc** rồi bấm **Render lại đoạn này**. Bản cuối dùng đúng lời bạn đã sửa.
 - Muốn nghe thêm phần khác: chọn trong **Chọn thêm đoạn khác để nghe thử**.
 

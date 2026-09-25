@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // Tạo sách mới: 6 bước, dữ liệu thật từ phần Go (bookmaker).
-// Bắt buộc nghe thử ≥ MIN_HEARD đoạn trước khi render cả cuốn.
+// Nghe thử không bắt buộc; chỉ cần xác nhận quyền dùng tài liệu là render được.
 import { computed } from 'vue'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { steps } from '../lib/mock'
-import { canRender, heardEnough, MIN_HEARD, rendering, selectedStems, startRender, state } from '../lib/store'
+import { canRender, rendering, selectedStems, startRender, state } from '../lib/store'
 import StepFile from './create/StepFile.vue'
 import StepToc from './create/StepToc.vue'
 import StepVoice from './create/StepVoice.vue'
@@ -61,10 +61,7 @@ function jump(n: number) {
     <div v-if="state.step < 6" class="shrink-0 border-t border-border px-6 h-16 flex items-center justify-between gap-4">
       <Button variant="ghost" :disabled="state.step === 1" @click="state.step--"><ChevronLeft class="w-4 h-4" /> Quay lại</Button>
       <p v-if="state.renderError" class="text-sm text-destructive truncate" :title="state.renderError">{{ state.renderError }}</p>
-      <p v-else-if="state.step === 5 && !heardEnough && !state.previewing && state.clips.length" class="text-xs text-muted-foreground">
-        Nghe ít nhất {{ Math.min(MIN_HEARD, state.clips.length) }} đoạn để mở nút render
-      </p>
-      <p v-else-if="state.step === 5 && heardEnough && !state.rightsConfirmedAt" class="text-xs text-muted-foreground">
+      <p v-else-if="state.step === 5 && !state.rightsConfirmedAt" class="text-xs text-muted-foreground">
         Tick xác nhận quyền dùng tài liệu để mở nút render
       </p>
       <Button v-if="state.step < 5" :disabled="!canNext" @click="state.step++">Tiếp tục <ChevronRight class="w-4 h-4" /></Button>

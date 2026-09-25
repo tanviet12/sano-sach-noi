@@ -1,5 +1,10 @@
 # Changelog
 
+## Chưa phát hành
+
+### Thay đổi
+- Bước Nghe thử không còn bắt buộc nghe đủ 2 đoạn: chỉ cần tick xác nhận quyền dùng tài liệu là render được cả cuốn
+
 ## v0.1.0 (24/09/2026)
 
 Bản đầu tiên. Tạo sách nói từ file Word của chính bạn, giọng đọc tiếng Việt chạy ngay trên máy, nghe trong phần mềm hoặc xuất M4B nghe trên điện thoại.

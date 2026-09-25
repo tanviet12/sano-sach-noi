@@ -36,8 +36,6 @@ export interface TocEntry {
 
 /** Mã lời mở đầu khi nghe thử (khớp bookmaker.IntroStem). */
 export const INTRO_STEM = 'intro'
-/** Phải nghe ít nhất chừng này đoạn trước khi render cả cuốn. */
-export const MIN_HEARD = 2
 const DEFAULT_VOICE = 'Thiện Minh'
 
 // Cho phép mở thẳng một màn qua ?screen=...&step=...&update=1 (giống wireframe) —
@@ -204,9 +202,8 @@ function previewKey() {
   return JSON.stringify([s.path, s.title, s.author, s.voice, s.introText, s.keepHeadingNumbers, s.dropStems])
 }
 
-export const heardEnough = computed(() => state.clips.length > 0 && state.heard.length >= Math.min(MIN_HEARD, state.clips.length))
-/** Đủ điều kiện render cả cuốn: đã nghe đủ đoạn + đã xác nhận quyền dùng tài liệu. */
-export const canRender = computed(() => heardEnough.value && !!state.rightsConfirmedAt)
+/** Đủ điều kiện render cả cuốn: đã xác nhận quyền dùng tài liệu (nghe thử không bắt buộc). */
+export const canRender = computed(() => !!state.rightsConfirmedAt)
 
 // ── Render nền ────────────────────────────────────────────────────────────
 
