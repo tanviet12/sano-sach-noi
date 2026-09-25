@@ -53,3 +53,9 @@ docs/.vitepress/cache/
 !docs/public/audio/demo/*.mp3
 !docs/public/audio/giong/*.mp3
 !desktop/mau/sach-mau/*.mp3
+# Wails tự sinh các file build Windows (biểu tượng, manifest, wails_tools.nsh...)
+# lúc build; chỉ giữ project.nsi đã sửa cho tự cập nhật.
+desktop/build/windows/*
+!desktop/build/windows/installer/
+desktop/build/windows/installer/*
+!desktop/build/windows/installer/project.nsi

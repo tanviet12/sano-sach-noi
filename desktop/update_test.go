@@ -20,7 +20,7 @@ func releaseServer(t *testing.T, status int, body string) *httptest.Server {
 
 func TestCheckRelease_CoBanMoi(t *testing.T) {
 	srv := releaseServer(t, 200, `{"tag_name":"v0.2.0","published_at":"2026-10-20T08:00:00Z","body":"## Có gì mới\n- Nghe thử **mọi** đoạn\n* Xuất M4B nhanh hơn\nđoạn văn không phải gạch đầu dòng\n- "}`)
-	info, err := checkRelease(context.Background(), srv.Client(), srv.URL, "0.1.0")
+	info, _, err := checkRelease(context.Background(), srv.Client(), srv.URL, "0.1.0")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func TestCheckRelease_CoBanMoi(t *testing.T) {
 func TestCheckRelease_KhongCoBanMoi(t *testing.T) {
 	for _, cur := range []string{"0.2.0", "0.3.1", "v0.2.0", "dev"} {
 		srv := releaseServer(t, 200, `{"tag_name":"v0.2.0","body":""}`)
-		info, err := checkRelease(context.Background(), srv.Client(), srv.URL, cur)
+		info, _, err := checkRelease(context.Background(), srv.Client(), srv.URL, cur)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -60,7 +60,7 @@ func TestCheckRelease_Loi(t *testing.T) {
 	}
 	for name, c := range cases {
 		srv := releaseServer(t, c.status, c.body)
-		if _, err := checkRelease(context.Background(), srv.Client(), srv.URL, "0.1.0"); err == nil {
+		if _, _, err := checkRelease(context.Background(), srv.Client(), srv.URL, "0.1.0"); err == nil {
 			t.Errorf("%s: phải trả lỗi", name)
 		}
 	}
