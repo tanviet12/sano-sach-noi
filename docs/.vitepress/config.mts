@@ -150,9 +150,10 @@ export default defineConfig({
 
     nav: [
       { text: 'Trang chủ', link: '/', activeMatch: '^/$' },
+      { text: 'Nghe thử', link: '/demo', activeMatch: '^/demo' },
       {
         text: 'Hướng dẫn',
-        activeMatch: '^/(?!$)',
+        activeMatch: '^/(?!$|demo)',
         items: guide,
       },
       { text: 'Tải về', link: '/#tai-ve' },

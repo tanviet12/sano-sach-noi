@@ -50,3 +50,5 @@ docs/.vitepress/dist/
 docs/.vitepress/cache/
 # Audio nghe thử của trang tài liệu (nhỏ, render sẵn) — ngoại lệ của luật *.mp3 ở trên
 !docs/public/audio/*.mp3
+!docs/public/audio/demo/*.mp3
+!docs/public/audio/giong/*.mp3

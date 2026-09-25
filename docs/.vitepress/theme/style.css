@@ -289,3 +289,67 @@
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
 }
+
+/* ── Trang demo (/demo) ── */
+.demo-hero .sano-container {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.demo-eyebrow {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+}
+.demo-h1 {
+  margin: 8px 0 0;
+  max-width: 48rem;
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.demo-h1 .accent {
+  color: var(--vp-c-brand-1);
+}
+@media (min-width: 640px) {
+  .demo-h1 {
+    font-size: 48px;
+  }
+}
+.demo-lead {
+  margin-top: 16px;
+  font-size: 18px;
+}
+.demo-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.demo-actions.center {
+  justify-content: center;
+}
+@media (min-width: 640px) {
+  .demo-actions {
+    flex-direction: row;
+  }
+}
+.demo-normalize {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+  .demo-normalize {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+.demo-cta {
+  text-align: center;
+}
+.demo-cta .sano-lead {
+  margin-left: auto;
+  margin-right: auto;
+}

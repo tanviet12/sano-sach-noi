@@ -17,6 +17,9 @@ import Roadmap from './components/Roadmap.vue'
 import Sponsors from './components/Sponsors.vue'
 import Author from './components/Author.vue'
 import ShotPlaceholder from './components/ShotPlaceholder.vue'
+import DemoShelf from './components/DemoShelf.vue'
+import VoiceGallery from './components/VoiceGallery.vue'
+import VoiceStrip from './components/VoiceStrip.vue'
 
 export default {
   extends: DefaultTheme,
@@ -37,6 +40,9 @@ export default {
     app.component('Sponsors', Sponsors)
     app.component('Author', Author)
     app.component('ShotPlaceholder', ShotPlaceholder)
+    app.component('DemoShelf', DemoShelf)
+    app.component('VoiceGallery', VoiceGallery)
+    app.component('VoiceStrip', VoiceStrip)
   },
   setup() {
     // Bấm ảnh trong bài để phóng to (như khuôn tài liệu cũ)

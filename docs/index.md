@@ -18,6 +18,7 @@ markdownStyles: false
       <SamplePlayer />
       <NormalizeCompare />
     </div>
+    <VoiceStrip />
   </div>
 </section>
 
