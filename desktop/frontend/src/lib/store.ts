@@ -39,6 +39,23 @@ export interface TocEntry {
 /** Mã lời mở đầu khi nghe thử (khớp bookmaker.IntroStem). */
 export const INTRO_STEM = 'intro'
 const DEFAULT_VOICE = 'Hải Đăng'
+const LAST_VOICE_KEY = 'sano.lastVoice'
+
+/** Giọng của cuốn tạo gần nhất (tiện ích riêng của máy, mất thì về giọng mặc định). */
+export function lastVoice(): string {
+  try {
+    return localStorage.getItem(LAST_VOICE_KEY) || ''
+  } catch {
+    return ''
+  }
+}
+function saveLastVoice(v: string) {
+  try {
+    localStorage.setItem(LAST_VOICE_KEY, v)
+  } catch {
+    // không lưu được thì thôi
+  }
+}
 
 // Cho phép mở thẳng một màn qua ?screen=...&step=...&update=1 (giống wireframe) —
 // tiện chụp màn hình so với wireframe khi phát triển. Chỉ khi chạy dev: bản phát
@@ -89,7 +106,7 @@ export const state = reactive({
   // B3 Giọng đọc
   voices: [] as Voice[],
   voicesError: '',
-  voice: DEFAULT_VOICE,
+  voice: lastVoice() || DEFAULT_VOICE,
   sampleSentence: '',
 
   // B4 Lời mở đầu
@@ -406,6 +423,7 @@ export async function startRender() {
   state.renderError = ''
   try {
     state.render = await goStartRender(settings())
+    saveLastVoice(state.voice)
     state.step = 6
   } catch (e) {
     state.renderError = errText(e)
