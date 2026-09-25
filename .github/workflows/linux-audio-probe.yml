@@ -1,0 +1,56 @@
+name: Linux audio probe
+
+# Chạy tay (Run workflow): thử WebKitGTK 4.1 phát MP3 trên Ubuntu 22.04/24.04,
+# Debian 12, bật/tắt sandbox, loa giả PulseAudio. Các cách: scheme riêng (như
+# Wails), fetch + blob (cách Sano dùng trên Linux), file://, http://, và sau cú
+# bấm chuột thật (xdotool). 25/09/2026: scheme riêng lỗi NotSupportedError (mã
+# 4) ở mọi máy, các cách khác đều phát được → xem desktop/frontend/src/lib/audio.ts.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: ${{ matrix.image }} · ${{ matrix.sandbox }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ['ubuntu:22.04', 'ubuntu:24.04', 'debian:12']
+        sandbox: [bat, tat]
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Cài WebKitGTK 4.1 (không gói gợi ý)
+        run: |
+          apt-get update -q
+          apt-get install -y -q --no-install-recommends libwebkit2gtk-4.1-0 gir1.2-webkit2-4.1 python3-gi xvfb xauth xdotool gstreamer1.0-tools pulseaudio gstreamer1.0-pulseaudio dbus-x11
+          dpkg -l | grep -E 'gstreamer1\.0-' | awk '{print $2, $3}'
+          for e in mpg123audiodec mpegaudioparse avdec_mp3 autoaudiosink; do gst-inspect-1.0 "$e" >/dev/null 2>&1 && echo "có $e" || echo "THIẾU $e"; done
+      - name: Loa giả (PulseAudio null sink)
+        run: |
+          mkdir -p /tmp/xdg/pulse
+          pulseaudio --system --daemonize --disallow-exit --exit-idle-time=-1 --load=module-null-sink --load="module-native-protocol-unix auth-anonymous=1 socket=/tmp/xdg/pulse/native"
+          sleep 2
+          chmod 700 /tmp/xdg
+          { echo "XDG_RUNTIME_DIR=/tmp/xdg"; echo "PULSE_SERVER=unix:/tmp/xdg/pulse/native"; } >> "$GITHUB_ENV"
+      - name: Loa giả chạy được (GStreamer thuần)
+        run: timeout 20 gst-launch-1.0 -q playbin uri="file://$PWD/desktop/mau/sach-mau/ch01-sec01.mp3" && echo "gst-launch phát xong"
+      - name: Phát MP3 trong WebKitGTK
+        env:
+          GST_DEBUG: "2"
+        run: |
+          [ "${{ matrix.sandbox }}" = tat ] && export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
+          xvfb-run -a python3 scripts/ci/webkit_audio_probe.py desktop/mau/sach-mau/ch01-sec01.mp3 2>&1 | grep -E "^(scheme|blob|file|http):"
+      - name: Phát sau cú bấm chuột thật (chính sách mặc định như Wails)
+        if: always()
+        run: |
+          [ "${{ matrix.sandbox }}" = tat ] && export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
+          for m in nounlock unlock; do xvfb-run -a python3 scripts/ci/webkit_click_probe.py desktop/mau/sach-mau/ch01-sec01.mp3 $m 2>&1 | grep -E "^click-" || true; done

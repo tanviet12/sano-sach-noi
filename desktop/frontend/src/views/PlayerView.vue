@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import BookCover from '@/components/sano/BookCover.vue'
 import M4BProgress from '../components/M4BProgress.vue'
 import { book, deleteBook, errText, openBookFolder, revealBookZip, type BookDetail } from '../lib/backend'
+import { clearAudioSource, setAudioSource } from '../lib/audio'
 import { fmtClock, fmtLong, loadPosition, savePosition } from '../lib/position'
 import { go, state } from '../lib/store'
 import { m4bBusy, startM4B, useM4B } from '../lib/m4b'
@@ -66,6 +67,9 @@ watch(
   { immediate: true },
 )
 
+let loadSeq = 0
+let loading: Promise<void> = Promise.resolve()
+
 function load(i: number, at = 0) {
   const t = tracks.value[i]
   if (!t) return
@@ -73,14 +77,25 @@ function load(i: number, at = 0) {
   time.value = at
   duration.value = t.durationSec
   pendingSeek = at
-  audio.src = t.url
-  audio.defaultPlaybackRate = speed.value // nạp file mới trình duyệt đặt lại tốc độ theo giá trị này
-  audio.playbackRate = speed.value
+  const seq = ++loadSeq
+  // Linux: nạp qua blob (bất đồng bộ, xem lib/audio.ts); play() đợi xong mới phát.
+  loading = setAudioSource(audio, t.url)
+    .then(() => {
+      if (seq !== loadSeq) return // đã chọn tiểu mục khác
+      audio.defaultPlaybackRate = speed.value // nạp file mới trình duyệt đặt lại tốc độ theo giá trị này
+      audio.playbackRate = speed.value
+    })
+    .catch((e) => {
+      if (seq === loadSeq) error.value = errText(e)
+    })
 }
 
 async function play() {
   error.value = ''
   try {
+    const seq = loadSeq
+    await loading
+    if (seq !== loadSeq || error.value) return
     await audio.play()
   } catch (e) {
     error.value = 'Không phát được: ' + errText(e)
@@ -184,7 +199,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', closeSpeed)
   remember()
   audio.pause()
-  audio.removeAttribute('src')
+  clearAudioSource(audio)
 })
 
 const pctTrack = computed(() => (duration.value ? Math.min(100, (time.value / duration.value) * 100) : 0))
