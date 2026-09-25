@@ -4,7 +4,8 @@
 #   VT_API_KEY=... scripts/release/virustotal.sh <thư mục> > virustotal.md
 #
 # - File đã có trên VirusTotal (cùng SHA256) thì lấy kết quả sẵn, không gửi lại.
-# - Chưa có thì gửi lên (gói miễn phí: file ≤ 32 MB), đợi quét xong (tối đa ~15 phút/file).
+# - Chưa có thì gửi lên, đợi quét xong (tối đa ~15 phút/file). File > 32 MB (vd .dmg
+#   universal) gửi qua đường upload_url riêng — gói miễn phí nhận tới 650 MB.
 # - Gói miễn phí giới hạn 4 lượt gọi/phút → mỗi lượt gọi cách nhau 16 giây.
 # - Có phần mềm diệt virus báo nhiễm: in cảnh báo GitHub (::warning), KHÔNG dừng —
 #   app chưa ký số hay bị báo nhầm; xử lý bằng cách gửi file cho hãng phân tích.
@@ -18,7 +19,8 @@ DIR="${1:-$OUT_DIR}"
 command -v jq >/dev/null || die "thiếu jq"
 API="${VT_API:-https://www.virustotal.com/api/v3}"
 GUI="https://www.virustotal.com/gui/file"
-MAX_UPLOAD=$((32 * 1024 * 1024))
+MAX_DIRECT=$((32 * 1024 * 1024))
+MAX_UPLOAD=$((650 * 1024 * 1024))
 PACE="${VT_PACE:-16}" # giây giữa hai lượt gọi
 
 # Giữ nhịp ở tiến trình chính (vt chạy trong $(...) là tiến trình con, không
@@ -51,9 +53,15 @@ for f in "${files[@]}"; do
   fi
   if [[ -z "$stats" ]]; then
     size=$(wc -c <"$f" | tr -d ' ')
-    ((size <= MAX_UPLOAD)) || die "$name lớn hơn 32 MB (gói miễn phí không gửi được)"
+    ((size <= MAX_UPLOAD)) || die "$name lớn hơn 650 MB (VirusTotal không nhận)"
+    target="$API/files"
+    if ((size > MAX_DIRECT)); then
+      pace
+      target="$(vt "$API/files/upload_url" | jq -r '.data')"
+      [[ -n "$target" && "$target" != null ]] || die "VirusTotal không trả đường gửi file lớn cho $name"
+    fi
     pace
-    id="$(vt -F "file=@$f" "$API/files" | jq -r '.data.id')"
+    id="$(vt -F "file=@$f" "$target" | jq -r '.data.id')"
     [[ -n "$id" && "$id" != null ]] || die "gửi $name lên VirusTotal không trả mã phân tích"
     for _ in $(seq 1 55); do # 55 × 16 giây ≈ 15 phút
       pace
