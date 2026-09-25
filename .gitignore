@@ -52,3 +52,4 @@ docs/.vitepress/cache/
 !docs/public/audio/*.mp3
 !docs/public/audio/demo/*.mp3
 !docs/public/audio/giong/*.mp3
+!desktop/mau/sach-mau/*.mp3

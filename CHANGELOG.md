@@ -2,6 +2,9 @@
 
 ## Chưa phát hành
 
+### Tính năng
+- **Sách mẫu có sẵn trong thư viện**: lần đầu mở app, thư viện có cuốn "Kỹ năng mềm cho người trẻ" (giọng Hải Đăng, 4 phút) để nghe thử ngay. Xoá đi thì không tự thêm lại
+
 ### Thay đổi
 - Giọng mặc định đổi từ Thiện Minh sang **Hải Đăng** (nam, miền Bắc, tự nhiên)
 - Bước Nghe thử không còn bắt buộc nghe đủ 2 đoạn: chỉ cần tick xác nhận quyền dùng tài liệu là render được cả cuốn

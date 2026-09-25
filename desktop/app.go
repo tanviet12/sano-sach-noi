@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -48,6 +49,9 @@ func NewApp() *App {
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	if err := seedSampleBook(a.lib); err != nil {
+		log.Printf("sách mẫu: %v", err)
+	}
 }
 
 // searchRoots — nơi bắt đầu tìm VERSION và scripts/tts: thư mục hiện tại và
