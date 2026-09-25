@@ -1,10 +1,11 @@
 // Trình phát sách dùng chung cả app (wireframe D4): màn nghe và thanh nghe nhỏ
 // cùng điều khiển một thẻ audio, nên rời màn nghe (về Thư viện, Tạo sách, Cài đặt)
 // sách vẫn phát tiếp. Mở cuốn khác thì thay cuốn đang phát.
-import { computed, reactive, watch } from 'vue'
-import { book, errText, type BookDetail } from './backend'
+import { computed, reactive, shallowRef, watch } from 'vue'
+import { book, bookTexts, errText, type BookDetail, type SectionText } from './backend'
 import { beforeClipPlay, clearAudioSource, setAudioSource } from './audio'
 import { loadPosition, savePosition } from './position'
+import { buildLyrics, findSilences, sentenceAt, snapToSilences, type Lyrics } from './lyrics'
 import { state } from './store'
 
 export const SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2]
@@ -41,6 +42,58 @@ let played = false // chỉ mở rồi thoát, chưa phát → không tính là 
 export const tracks = computed(() => player.detail?.tracks ?? [])
 export const track = computed(() => tracks.value[player.current])
 export const totalSec = computed(() => tracks.value.reduce((n, t) => n + t.durationSec, 0))
+// ── Chữ chạy theo (wireframe D5) ─────────────────────────────────────────
+const texts = shallowRef<SectionText[]>([])
+const silences = shallowRef<{ url: string; list: { end: number; len: number }[] } | null>(null)
+const MAX_DECODE_SEC = 20 * 60 // tiểu mục quá dài: bỏ bước dò khoảng lặng (tốn bộ nhớ)
+
+/** Lời của tiểu mục đang phát (null = không có chữ). */
+export const lyrics = computed<Lyrics | null>(() => {
+  const t = track.value
+  const st = texts.value[player.current]
+  if (!t || !st?.text) return null
+  const l = buildLyrics(st.text, st.script, player.duration || t.durationSec)
+  const sil = silences.value
+  return sil && sil.url === t.url ? snapToSilences(l, sil.list) : l
+})
+export const lyricIndex = computed(() => (lyrics.value ? sentenceAt(lyrics.value, player.time) : 0))
+
+async function loadTexts(slug: string) {
+  texts.value = []
+  try {
+    const t = await bookTexts(slug)
+    if (player.slug === slug) texts.value = t
+  } catch {
+    // không có chữ thì thôi: màn nghe không hiện ô lời đọc
+  }
+}
+
+// Dò khoảng lặng thật của tiểu mục đang phát để câu đổi đúng lúc giọng ngừng.
+let decodeSeq = 0
+watch(
+  () => [track.value?.url, !!texts.value[player.current]?.text] as const,
+  async ([url, hasText]) => {
+    const seq = ++decodeSeq
+    if (!url || !hasText || (track.value?.durationSec ?? 0) > MAX_DECODE_SEC || silences.value?.url === url) return
+    try {
+      const buf = await (await fetch(url)).arrayBuffer()
+      const Ctx = window.OfflineAudioContext || (window as unknown as { webkitOfflineAudioContext: typeof OfflineAudioContext }).webkitOfflineAudioContext
+      const audioBuf = await new Ctx(1, 1, 16000).decodeAudioData(buf)
+      if (seq !== decodeSeq) return
+      silences.value = { url, list: findSilences(audioBuf.getChannelData(0), audioBuf.sampleRate) }
+    } catch {
+      // không giải mã được: dùng thời điểm ước lượng
+    }
+  },
+)
+
+/** Nghe từ giây `sec` của tiểu mục đang phát (bấm một câu trong Xem lời). */
+export function seekTime(sec: number) {
+  audio.currentTime = Math.max(0, sec)
+  player.time = audio.currentTime
+  if (!player.playing) void play()
+}
+
 export const pctTrack = computed(() => (player.duration ? Math.min(100, (player.time / player.duration) * 100) : 0))
 
 /** Nạp cuốn `slug` (giữ nguyên nếu đang là cuốn đó). */
@@ -64,6 +117,7 @@ async function open(slug: string, autoplay: boolean) {
     const d = await book(slug)
     if (player.slug !== slug) return // đã mở cuốn khác trong lúc chờ
     player.detail = d
+    void loadTexts(slug)
     const pos = loadPosition(slug)
     load(Math.min(pos?.track ?? 0, Math.max(0, tracks.value.length - 1)), pos?.time ?? 0)
     if (autoplay) void play()

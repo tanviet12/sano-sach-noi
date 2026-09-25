@@ -3,6 +3,7 @@
 ## Chưa phát hành
 
 ### Tính năng
+- **Chữ chạy theo lời đọc:** ô "Lời đọc" ở màn nghe hiện câu đang đọc; bấm vào mở màn Xem lời chữ lớn, câu đang đọc in đậm, tự cuộn theo, bấm một câu để nghe từ câu đó. Dùng được cho cả sách đã tạo: thời điểm từng câu ước lượng theo độ dài câu rồi khớp vào khoảng lặng thật trong âm thanh
 - **Rời màn nghe vẫn nghe tiếp:** thanh nghe nhỏ ở đáy cửa sổ (phát/dừng, tua −15s/+30s, dừng hẳn); bấm vào tên sách để mở lại màn nghe. Nghe mẫu giọng khi đang tạo sách thì sách tự tạm dừng
 - **Sách ghi tên giọng đọc** trên thẻ trong Thư viện và màn nghe (cả sách đã tạo trước đây); tìm sách được theo tên giọng
 - **Chọn giọng theo miền:** Miền Bắc / Trung / Nam / Tất cả kèm lọc giọng Nam, Nữ; mở đúng miền đã chọn lần trước, giọng đã dùng có nhãn "Dùng lần trước"

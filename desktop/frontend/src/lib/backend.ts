@@ -281,6 +281,7 @@ interface GoApp {
   Library(): Promise<LibraryInfo>
   LibrarySize(): Promise<number>
   Book(slug: string): Promise<BookDetail>
+  BookTexts(slug: string): Promise<SectionText[]>
   OpenBookFolder(slug: string): Promise<void>
   DeleteBook(slug: string): Promise<string>
   UpdateBookInfo(slug: string, info: BookInfo): Promise<LibraryBook>
@@ -522,6 +523,17 @@ export async function library(): Promise<LibraryInfo> {
 
 export async function book(slug: string): Promise<BookDetail> {
   return need().Book(slug)
+}
+
+/** Chữ một tiểu mục — khớp library.SectionText bên Go. */
+export interface SectionText {
+  text: string // để hiện (như trong file Word)
+  script: string // lời đã đọc thật (có tên tiểu mục ở đầu) — để ước lượng thời điểm
+}
+
+/** Chữ của từng tiểu mục, cùng thứ tự `tracks` (rỗng = không có). */
+export async function bookTexts(slug: string): Promise<SectionText[]> {
+  return need().BookTexts(slug)
 }
 
 export async function openBookFolder(slug: string): Promise<void> {
