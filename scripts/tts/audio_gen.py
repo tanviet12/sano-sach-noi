@@ -6,6 +6,11 @@ v3 Turbo tự chia câu, tự chống "nói thêm" (babble guard) và tự chèn
 theo ranh giới: ngắt đoạn (dòng trắng / xuống dòng) 0,70s > hết câu 0,50s > ngắt
 trong câu 0,30s. Vì vậy script chỉ đưa NGUYÊN văn bản vào `tts.infer()`.
 
+Khoảng nghỉ 0,30s trong câu chỉ có khi v3 Turbo phải cắt câu (dài hơn max_chars).
+Để mặc định 256 thì câu dài nhiều dấu phẩy thường nằm gọn trong một đoạn, model
+tự quyết ngắt hay không, có lúc đọc một tràng. MAX_CHARS nhỏ hơn buộc cắt ở dấu
+phẩy nên ngắt đều hơn, thời lượng gần như không đổi.
+
 Model nạp theo revision ghim trong versions.env (xem models.py) và chạy offline
 sau lần tải đầu.
 
@@ -31,6 +36,7 @@ for _stream in (sys.stdout, sys.stderr):
 import models
 
 DEFAULT_VOICE = "Hải Đăng"
+MAX_CHARS = 90
 
 
 def clean_text(text):
@@ -78,7 +84,7 @@ def synth_file(tts, voice, input_path, output_path):
     if not text:
         raise ValueError(f"File rỗng: {input_path}")
     start = time.time()
-    wav = tts.infer(text=text, voice=voice)
+    wav = tts.infer(text=text, voice=voice, max_chars=MAX_CHARS)
     compute = time.time() - start
     if wav is None or len(wav) == 0:
         raise RuntimeError(f"VieNeu không sinh được audio cho {input_path}")
