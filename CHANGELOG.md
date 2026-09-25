@@ -1,6 +1,6 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.7 (25/09/2026)
 
 ### Tính năng
 - **Chữ chạy theo lời đọc:** ô "Lời đọc" ở màn nghe hiện câu đang đọc; bấm vào mở màn Xem lời chữ lớn, câu đang đọc in đậm, tự cuộn theo, bấm một câu để nghe từ câu đó. Dùng được cho cả sách đã tạo: thời điểm từng câu ước lượng theo độ dài câu rồi khớp vào khoảng lặng thật trong âm thanh
@@ -11,6 +11,9 @@
 ### Sửa lỗi
 - Mục lục ở màn nghe tự cuộn tới tiểu mục đang phát, không phải kéo tìm
 - Chữ **P** đứng riêng ("chữ P đầu tiên", "P thứ hai là giá") và "4Ps" đọc là "pê" thay vì "phê"
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.6**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.7 và cài đè một lần. Tên giọng, chữ chạy theo có ngay cho sách đã tạo; cách đọc chữ P mới chỉ áp dụng cho sách tạo sau khi nâng cấp
 
 ## v0.1.6 (25/09/2026)
 
