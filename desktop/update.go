@@ -64,8 +64,12 @@ func (a *App) CheckUpdate() (UpdateInfo, error) {
 	if err != nil {
 		return info, err
 	}
+	// Chỉ giữ bản phát hành để tải khi nó mới hơn bản đang chạy (chống hạ cấp).
 	a.updMu.Lock()
-	a.updRelease = rel
+	a.updRelease = nil
+	if info.Available {
+		a.updRelease = rel
+	}
 	a.updMu.Unlock()
 	if info.Available {
 		plan, err := planUpdate(rel, detectInstall())
