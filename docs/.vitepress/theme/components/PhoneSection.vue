@@ -5,6 +5,7 @@ import { ArrowRight, Check, Download } from 'lucide-vue-next'
 import imgLibrary from '../../../images/nghe-tren-dien-thoai/2-thu-vien.jpg'
 import imgPlayer from '../../../images/nghe-tren-dien-thoai/3-trinh-phat.jpg'
 import imgChapters from '../../../images/nghe-tren-dien-thoai/4-muc-luc-chuong.jpg'
+import imgCar from '../../../images/nghe-tren-dien-thoai/5-carplay-dang-nghe.jpg'
 
 const RELEASES = 'https://github.com/tanviet12/sano-sach-noi/releases/latest'
 const shots = [
@@ -35,10 +36,16 @@ const shots = [
         </div>
         <p class="note sano-muted">File M4B mẫu (sách “Kỹ năng mềm cho người trẻ”, khoảng 4 phút 30 giây) đính kèm trong bản phát hành.</p>
       </div>
-      <div class="shots">
-        <figure v-for="s in shots" :key="s.cap">
-          <div class="phone"><img :src="s.src" :alt="s.alt" /></div>
-          <figcaption class="sano-muted">{{ s.cap }}</figcaption>
+      <div>
+        <div class="shots">
+          <figure v-for="s in shots" :key="s.cap">
+            <div class="phone"><img :src="s.src" :alt="s.alt" /></div>
+            <figcaption class="sano-muted">{{ s.cap }}</figcaption>
+          </figure>
+        </div>
+        <figure class="car">
+          <img :src="imgCar" alt="BookPlayer trên màn hình xe qua CarPlay: tên chương, bìa, nút tua và chuyển chương" loading="lazy" />
+          <figcaption class="sano-muted">Trên ô tô qua CarPlay: chọn sách, chọn chương ngay trên màn hình xe</figcaption>
         </figure>
       </div>
     </div>
@@ -46,6 +53,21 @@ const shots = [
 </template>
 
 <style scoped>
+.car {
+  margin: 20px 0 0;
+}
+.car img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--vp-c-divider);
+}
+.car figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  text-align: center;
+}
 .wrap {
   display: grid;
   gap: 40px;

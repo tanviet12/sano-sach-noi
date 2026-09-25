@@ -49,12 +49,18 @@ BookPlayer hiện bìa, mục lục chương, nhớ chỗ nghe dở, chỉnh t�
 
 BookPlayer chạy được trên màn hình xe qua **CarPlay**, không chỉ phát/dừng như trình phát nhạc:
 
-1. Kết nối iPhone với xe (cáp USB hoặc CarPlay không dây).
-2. Trên màn hình xe, mở **BookPlayer**.
-3. Xem **danh sách sách** trong thư viện, chạm vào một cuốn để nghe.
-4. Mở **danh sách chương** để nhảy tới chương muốn nghe. Tên chương hiện trên màn hình xe, lấy từ mục lục trong file M4B.
+1. Kết nối iPhone với xe (cáp USB hoặc CarPlay không dây), mở **BookPlayer** trên màn hình xe.
+2. Chọn sách ở tab **Recent** (nghe gần đây) hoặc **Library** (cả thư viện).
+3. Màn đang nghe hiện tên chương, tên sách, tác giả và bìa; có nút lùi/tới 30 giây, sang chương trước/sau, đổi tốc độ, đánh dấu.
+4. Bấm nút danh sách để mở **Chapters**: toàn bộ chương lấy từ mục lục trong file M4B, kèm thời điểm bắt đầu và độ dài. Chạm vào chương nào là nghe chương đó.
 
 BookPlayer nhớ chỗ nghe dở: tắt máy xe, lần sau mở lại nghe tiếp đúng chỗ, trên xe hay trên điện thoại đều vậy.
+
+<img class="app-shot" src="./images/nghe-tren-dien-thoai/6-carplay-thu-vien.jpg" alt="CarPlay: BookPlayer hiện danh sách sách, tab Recent và Library" width="1200" height="472">
+<img class="app-shot" src="./images/nghe-tren-dien-thoai/5-carplay-dang-nghe.jpg" alt="CarPlay: đang nghe, hiện tên chương, bìa, nút tua 30 giây và chuyển chương" width="1200" height="507">
+<img class="app-shot" src="./images/nghe-tren-dien-thoai/7-carplay-chuong.jpg" alt="CarPlay: danh sách chương của sách, kèm thời điểm bắt đầu và độ dài" width="1200" height="468">
+
+*Chụp trên xe thật: chọn sách · đang nghe · chọn chương. Sách mẫu do Sano tạo, xuất M4B.*
 
 ### App Sách của Apple
 
