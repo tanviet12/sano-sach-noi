@@ -431,8 +431,8 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
             <button v-if="query" class="text-muted-foreground hover:text-foreground" aria-label="Xoá chữ đang tìm" @click="query = ''"><X class="w-4 h-4" /></button>
           </div>
           <div class="relative" data-sort-menu>
-            <button class="h-9 px-3 rounded-md border bg-background text-sm flex items-center gap-1.5 hover:bg-muted/50" :class="manual ? 'border-primary text-primary' : 'border-input'" aria-haspopup="listbox" :aria-expanded="sortOpen" @click="sortOpen = !sortOpen">
-              <span :class="manual ? 'text-primary/70' : 'text-muted-foreground'">Sắp xếp:</span> {{ sortLabel }} <ChevronDown class="w-4 h-4 opacity-60" />
+            <button class="h-9 px-3 rounded-md border border-input bg-background text-sm flex items-center gap-1.5 hover:bg-muted/50" aria-haspopup="listbox" :aria-expanded="sortOpen" @click="sortOpen = !sortOpen">
+              <span class="text-muted-foreground">Sắp xếp:</span> {{ sortLabel }} <ChevronDown class="w-4 h-4 text-muted-foreground" />
             </button>
             <div v-if="sortOpen" role="listbox" aria-label="Sắp xếp" class="absolute right-0 top-full mt-1 w-56 rounded-lg border border-border bg-popover text-popover-foreground shadow-lg py-1 z-20">
               <button v-for="s in SORTS" :key="s.key" role="option" :aria-selected="s.key === sort"
