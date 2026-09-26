@@ -139,6 +139,53 @@ function endDrag() {
   dragKey.value = overKey.value = null
   dragEndedAt = Date.now()
 }
+
+// Kéo bằng chuột (pointer), KHÔNG dùng kéo thả HTML5: trong app, Wails chặn sự kiện thả
+// của WebView để nhận file (DisableWebViewDrop) nên kéo thả HTML5 không chạy.
+const dragDelta = ref({ x: 0, y: 0 })
+let press: { key: string; x: number; y: number; id: number } | null = null
+function onPointerDown(e: PointerEvent, key: string) {
+  if (!arranging.value || e.button !== 0) return
+  press = { key, x: e.clientX, y: e.clientY, id: e.pointerId }
+  window.addEventListener('pointermove', onPointerMove)
+  window.addEventListener('pointerup', onPointerUp)
+  window.addEventListener('pointercancel', onPointerCancel)
+}
+function onPointerMove(e: PointerEvent) {
+  if (!press || e.pointerId !== press.id) return
+  const dx = e.clientX - press.x
+  const dy = e.clientY - press.y
+  if (!dragKey.value) {
+    if (Math.hypot(dx, dy) < 6) return // chưa đủ xa: vẫn là bấm
+    dragKey.value = press.key
+  }
+  e.preventDefault()
+  dragDelta.value = { x: dx, y: dy }
+  // thẻ đang kéo có pointer-events: none → phần tử dưới con trỏ là thẻ đích
+  const el = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>('[data-shelf-key]')
+  const k = el?.dataset.shelfKey ?? null
+  overKey.value = k && k !== dragKey.value ? k : null
+}
+function stopPointer() {
+  press = null
+  window.removeEventListener('pointermove', onPointerMove)
+  window.removeEventListener('pointerup', onPointerUp)
+  window.removeEventListener('pointercancel', onPointerCancel)
+}
+function onPointerUp() {
+  const target = overKey.value
+  const was = !!dragKey.value
+  stopPointer()
+  dragDelta.value = { x: 0, y: 0 }
+  if (was && target) onDrop(target)
+  else if (was) endDrag()
+}
+function onPointerCancel() {
+  stopPointer()
+  dragDelta.value = { x: 0, y: 0 }
+  endDrag()
+}
+onBeforeUnmount(stopPointer)
 async function saveOrder(keys: string[]) {
   order.value = keys
   try {
@@ -166,7 +213,8 @@ watch(seriesItem, (it) => {
   if (openSeries.value && !it) openSeries.value = null // bộ vừa bị xoá / đổi tên
 })
 function openItem(i: ShelfItem) {
-  // Chế độ tự sắp xếp vẫn bấm mở được: trình duyệt không bắn click sau khi kéo thả.
+  // Vừa kéo xong thì không tính là bấm mở; không kéo thì vẫn bấm mở được như thường.
+  if (Date.now() - dragEndedAt < 400) return
   if (i.kind === 'book') openBook(i.book.slug)
   else openSeries.value = i.key
 }
@@ -461,11 +509,12 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
           <div v-for="it in shown" :key="it.key" class="text-left group relative rounded-lg"
             :class="[
               it.kind === 'book' && imported?.slug === it.book.slug && 'ring-2 ring-primary ring-offset-4 ring-offset-background',
-              arranging && 'cursor-grab', dragKey === it.key && 'opacity-40',
+              arranging && 'cursor-grab select-none touch-none', dragKey === it.key && 'opacity-80 shadow-2xl cursor-grabbing',
               overKey === it.key && dragKey !== it.key && 'ring-2 ring-primary ring-offset-4 ring-offset-background',
             ]"
-            :draggable="arranging" @dragstart="dragKey = it.key" @dragover.prevent="arranging && (overKey = it.key)" @dragleave="overKey === it.key && (overKey = null)"
-            @drop.prevent="onDrop(it.key)" @dragend="endDrag">
+            :data-shelf-key="it.key" :draggable="false"
+            :style="dragKey === it.key ? { transform: `translate(${dragDelta.x}px, ${dragDelta.y}px) scale(1.04)`, zIndex: 40, pointerEvents: 'none' } : undefined"
+            @pointerdown="onPointerDown($event, it.key)" @dragstart.prevent>
             <div class="relative">
               <!-- bộ sách: hai tập phía sau nhô lên rõ, như chồng sách -->
               <template v-if="it.kind === 'series'">
