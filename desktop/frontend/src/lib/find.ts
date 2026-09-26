@@ -58,8 +58,9 @@ export function categoryCounts(books: Pick<LibraryBook, 'category'>[]): [string,
 
 export const collator = new Intl.Collator('vi', { sensitivity: 'base', numeric: true })
 
-export type SortKey = 'newest' | 'recent' | 'title' | 'author' | 'longest'
+export type SortKey = 'manual' | 'newest' | 'recent' | 'title' | 'author' | 'longest'
 export const SORTS: { key: SortKey; label: string }[] = [
+  { key: 'manual', label: 'Tự sắp xếp' },
   { key: 'newest', label: 'Mới tạo nhất' },
   { key: 'recent', label: 'Nghe gần đây' },
   { key: 'title', label: 'Tên A–Z' },
@@ -92,24 +93,6 @@ export interface ShelfBook extends LibraryBook {
   listenedAt: number // lúc nghe gần nhất (ms), 0 = chưa nghe / không rõ
 }
 
-export function sortBooks(list: ShelfBook[], key: SortKey): ShelfBook[] {
-  const out = [...list]
-  const newest = (a: ShelfBook, b: ShelfBook) => b.createdAt.localeCompare(a.createdAt)
-  switch (key) {
-    case 'recent':
-      return out.sort((a, b) => b.listenedAt - a.listenedAt || newest(a, b))
-    case 'title':
-      return out.sort((a, b) => collator.compare(a.title, b.title))
-    case 'author':
-      // cuốn không có tác giả xếp cuối
-      return out.sort((a, b) => (!a.author ? 1 : 0) - (!b.author ? 1 : 0) || collator.compare(a.author, b.author) || collator.compare(a.title, b.title))
-    case 'longest':
-      return out.sort((a, b) => b.durationSec - a.durationSec)
-    default:
-      return out.sort(newest)
-  }
-}
-
 /** Đang nghe dở: đã nghe một phần, chưa xong. */
 export function isListening(b: ShelfBook): boolean {
   return b.progress > 0 && b.progress < 99
@@ -130,4 +113,103 @@ export function ago(at: number, now = Date.now()): string {
   if (days < 30) return `${Math.floor(days / 7)} tuần trước`
   if (days < 60) return 'tháng trước'
   return `${Math.floor(days / 30)} tháng trước`
+}
+
+// ── Kệ sách: bộ sách gom thành một thẻ (wireframe D5) ─────────────────────
+
+export const MAX_SERIES_LEN = 80
+
+/** Khoá bộ sách (không phân biệt hoa thường) — khớp library.SeriesKey bên Go. */
+export function seriesKey(name: string): string {
+  return [...name.trim().split(/\s+/).join(' ')].slice(0, MAX_SERIES_LEN).join('').trim().toLowerCase()
+}
+
+export type ShelfItem =
+  | { kind: 'book'; key: string; book: ShelfBook }
+  | {
+      kind: 'series'
+      key: string // "s:<tên bộ chữ thường>"
+      name: string
+      author: string
+      vols: ShelfBook[] // theo số tập
+      coverUrl: string
+      title: string // tập 1 (vẽ bìa mặc định)
+      durationSec: number
+      progress: number // % đã nghe cả bộ (theo thời lượng)
+      listenedAt: number
+      createdAt: string // tập mới nhất
+      current: ShelfBook // tập đang nghe dở / tập kế tiếp chưa nghe
+    }
+
+/** Tập nên nghe tiếp: tập đang dở, không thì tập đầu chưa nghe xong, không thì tập 1. */
+export function nextVolume(vols: ShelfBook[]): ShelfBook {
+  return vols.find(isListening) ?? vols.find((v) => v.progress < 99) ?? vols[0]
+}
+
+/** Gom sách thành thẻ trên kệ: sách lẻ giữ nguyên, các tập cùng bộ thành một thẻ. */
+export function shelfItems(books: ShelfBook[]): ShelfItem[] {
+  const out: ShelfItem[] = []
+  const series = new Map<string, ShelfBook[]>()
+  for (const b of books) {
+    if (!b.series) {
+      out.push({ kind: 'book', key: `b:${b.slug}`, book: b })
+      continue
+    }
+    const k = seriesKey(b.series)
+    if (!series.has(k)) series.set(k, [])
+    series.get(k)!.push(b)
+  }
+  for (const [k, vols] of series) {
+    vols.sort((a, b) => a.volume - b.volume || collator.compare(a.title, b.title))
+    const dur = vols.reduce((n, v) => n + v.durationSec, 0)
+    const heard = vols.reduce((n, v) => n + (v.durationSec * v.progress) / 100, 0)
+    out.push({
+      kind: 'series', key: `s:${k}`, name: vols[0].series, author: vols[0].author, vols,
+      coverUrl: vols[0].coverUrl, title: vols[0].title, durationSec: dur,
+      progress: dur ? Math.round((heard / dur) * 100) : 0,
+      listenedAt: Math.max(...vols.map((v) => v.listenedAt)),
+      createdAt: vols.map((v) => v.createdAt).sort().pop() ?? '',
+      current: nextVolume(vols),
+    })
+  }
+  return out
+}
+
+/** Sắp xếp thẻ trên kệ. "Tự sắp xếp": theo thứ tự đã lưu; thẻ chưa có trong thứ tự (sách mới) lên đầu, mới nhất trước. */
+export function sortShelf(items: ShelfItem[], key: SortKey, order: string[] = []): ShelfItem[] {
+  const f = (i: ShelfItem) => (i.kind === 'book' ? i.book : i)
+  const name = (i: ShelfItem) => (i.kind === 'book' ? i.book.title : i.name)
+  const newest = (a: ShelfItem, b: ShelfItem) => f(b).createdAt.localeCompare(f(a).createdAt)
+  const out = [...items]
+  switch (key) {
+    case 'manual': {
+      const pos = new Map(order.map((k, i) => [k, i]))
+      return out.sort((a, b) => {
+        const pa = pos.get(a.key) ?? -1
+        const pb = pos.get(b.key) ?? -1
+        if (pa < 0 || pb < 0) return pa < 0 && pb < 0 ? newest(a, b) : pa < 0 ? -1 : 1
+        return pa - pb
+      })
+    }
+    case 'recent':
+      return out.sort((a, b) => f(b).listenedAt - f(a).listenedAt || newest(a, b))
+    case 'title':
+      return out.sort((a, b) => collator.compare(name(a), name(b)))
+    case 'author':
+      return out.sort((a, b) => (!f(a).author ? 1 : 0) - (!f(b).author ? 1 : 0) || collator.compare(f(a).author, f(b).author) || collator.compare(name(a), name(b)))
+    case 'longest':
+      return out.sort((a, b) => f(b).durationSec - f(a).durationSec)
+    default:
+      return out.sort(newest)
+  }
+}
+
+/** Đưa thẻ `from` vào chỗ thẻ `to` (kéo thả), trả thứ tự khoá mới của cả kệ. */
+export function moveItem(keys: string[], from: string, to: string): string[] {
+  const list = keys.filter((k) => k !== from)
+  const i = keys.indexOf(from)
+  const j = keys.indexOf(to)
+  if (i < 0 || j < 0 || i === j) return keys
+  list.splice(list.indexOf(to) + (i < j ? 1 : 0), 0, from)
+  return list
 }

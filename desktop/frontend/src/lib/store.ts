@@ -96,6 +96,8 @@ export const state = reactive({
   title: '',
   author: '',
   category: '', // danh mục (trống = không phân loại)
+  series: '', // bộ sách (trống = sách lẻ)
+  volume: 0, // số tập (0 = tập kế tiếp)
   coverPath: '',
   coverDataUrl: '',
 
@@ -210,6 +212,8 @@ export function settings(): BookSettings {
     title: state.title.trim(),
     author: state.author.trim(),
     category: state.category.trim(),
+    series: state.series.trim(),
+    volume: state.series.trim() ? Math.max(0, Math.floor(Number(state.volume) || 0)) : 0,
     voice: state.voice,
     introText: introText(),
     keepHeadingNumbers: state.keepHeadingNumbers,
@@ -331,6 +335,8 @@ export function clearFile() {
   state.title = ''
   state.author = ''
   state.category = ''
+  state.series = ''
+  state.volume = 0
   state.coverPath = ''
   state.coverDataUrl = ''
   state.clips = []

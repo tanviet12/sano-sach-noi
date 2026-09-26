@@ -7,6 +7,7 @@ import { beforeClipPlay, clearAudioSource, setAudioSource } from './audio'
 import { loadPosition, savePosition } from './position'
 import { buildLyrics, findSilences, sentenceAt, snapToSilences, type Lyrics } from './lyrics'
 import { state } from './store'
+import { seriesKey } from './find'
 
 export const SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2]
 const SPEED_KEY = 'sano.speed'
@@ -290,6 +291,17 @@ audio.addEventListener('ended', () => {
   } else {
     player.time = player.duration
     remember()
+    // Hết một tập của bộ sách → sang tập kế tiếp (wireframe D5).
+    const d = player.detail
+    const next = d?.series
+      ? (state.library?.books ?? [])
+          .filter((b) => b.series && seriesKey(b.series) === seriesKey(d.series) && b.volume > d.volume)
+          .sort((a, b) => a.volume - b.volume)[0]
+      : undefined
+    if (next) {
+      state.playerAutoplay = true
+      state.playerSlug = next.slug
+    }
   }
 })
 audio.addEventListener('error', () => {

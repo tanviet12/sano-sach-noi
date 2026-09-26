@@ -58,8 +58,8 @@ export function mockVoices(): Voice[] {
 
 export function mockLibrary(): LibraryInfo {
   const voices = ['Hải Đăng', 'Ngọc Huyền', 'Thiện Minh', 'Hải Đăng', 'Thùy Dung', '']
-  const b = (i: number, title: string, author: string, durationSec: number, category = '') => ({
-    slug: `sach-${i}`, title, author, category, cover: '', coverUrl: '', zip: '', chapters: 4, sections: 8, durationSec,
+  const b = (i: number, title: string, author: string, durationSec: number, category = '', series = '', volume = 0) => ({
+    slug: `sach-${i}`, title, author, category, series, volume, cover: '', coverUrl: '', zip: '', chapters: 4, sections: 8, durationSec,
     voice: voices[(i - 1) % voices.length],
     createdAt: new Date(Date.UTC(2026, 8, 20 - i)).toISOString(),
   })
@@ -72,6 +72,9 @@ export function mockLibrary(): LibraryInfo {
       b(4, 'Khởi nghiệp từ số 0', 'Phạm Thị D', 2820, 'Kinh doanh'),
       b(5, 'Quản lý thời gian hiệu quả', 'Nguyễn Văn A', 7800, 'Kỹ năng'),
       b(6, 'Ghi chép cuộc họp', 'Phạm Thị D', 2040),
+      b(7, 'Tìm đúng khách hàng', 'Nguyễn Văn A', 4800, 'Kinh doanh', 'Kinh doanh cho người mới', 1),
+      b(8, 'Bán hàng không ngại', 'Nguyễn Văn A', 5700, 'Kinh doanh', 'Kinh doanh cho người mới', 2),
+      b(9, 'Giữ chân khách cũ', 'Nguyễn Văn A', 4500, 'Kinh doanh', 'Kinh doanh cho người mới', 3),
     ],
   }
 }

@@ -117,6 +117,8 @@ export interface BookSettings {
   title: string
   author: string
   category: string
+  series: string // tên bộ sách; trống = sách lẻ
+  volume: number // số tập; 0 = tập kế tiếp
   voice: string
   rightsConfirmedAt: string // lúc tick xác nhận quyền dùng tài liệu (bắt buộc để render)
   introText: string
@@ -162,6 +164,8 @@ export interface LibraryBook {
   title: string
   author: string
   category: string // trống = chưa phân loại
+  series: string // tên bộ sách; trống = sách lẻ
+  volume: number // số tập trong bộ (0 khi là sách lẻ)
   cover: string
   coverUrl: string
   zip: string
@@ -192,6 +196,14 @@ export interface BookInfo {
   title: string
   author: string
   category: string
+  series: string
+  volume: number // 0 = tập kế tiếp
+}
+
+/** Một danh mục hoặc bộ sách kèm số cuốn — khớp library.Group bên Go. */
+export interface Group {
+  name: string
+  count: number
 }
 
 export interface CoverFile {
@@ -289,6 +301,13 @@ interface GoApp {
   OpenBookFolder(slug: string): Promise<void>
   DeleteBook(slug: string): Promise<string>
   UpdateBookInfo(slug: string, info: BookInfo): Promise<LibraryBook>
+  SeriesList(): Promise<Group[]>
+  RenameCategory(old: string, name: string): Promise<number>
+  DeleteCategory(name: string): Promise<number>
+  RenameSeries(old: string, name: string): Promise<number>
+  DeleteSeries(name: string): Promise<number>
+  LibraryOrder(): Promise<string[]>
+  SetLibraryOrder(items: string[]): Promise<void>
   RevealBookZip(slug: string): Promise<void>
   OpenLibraryFolder(): Promise<void>
   ChooseCover(): Promise<CoverFile | null>
@@ -591,6 +610,36 @@ export async function deleteBook(slug: string): Promise<string> {
 /** Sửa tên, tác giả, danh mục (ghi metadata.json + gói zip). */
 export async function updateBookInfo(slug: string, info: BookInfo): Promise<LibraryBook> {
   return need().UpdateBookInfo(slug, info)
+}
+
+/** Đổi tên / xoá danh mục, bộ sách cho mọi cuốn; trả số cuốn đã sửa. */
+export async function renameCategory(old: string, name: string): Promise<number> {
+  return need().RenameCategory(old, name)
+}
+export async function deleteCategory(name: string): Promise<number> {
+  return need().DeleteCategory(name)
+}
+export async function renameSeries(old: string, name: string): Promise<number> {
+  return need().RenameSeries(old, name)
+}
+export async function deleteSeries(name: string): Promise<number> {
+  return need().DeleteSeries(name)
+}
+
+/** Thứ tự "Tự sắp xếp": khoá "b:<slug>" (sách lẻ) / "s:<tên bộ, chữ thường>" (bộ sách). */
+let mockOrder: string[] = []
+export async function libraryOrder(): Promise<string[]> {
+  const app = goApp()
+  if (!app) return [...mockOrder]
+  return app.LibraryOrder()
+}
+export async function setLibraryOrder(items: string[]): Promise<void> {
+  const app = goApp()
+  if (!app) {
+    mockOrder = [...items]
+    return
+  }
+  return app.SetLibraryOrder(items)
 }
 
 export async function revealBookZip(slug: string): Promise<void> {
