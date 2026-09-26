@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.11 (26/09/2026)
+
+### Tính năng
+- **Bộ sách nhiều tập:** ô **Bộ sách** + **Tập số** ở bước Nạp file và trong Sửa thông tin (tự điền tập kế tiếp, báo khi trùng số tập). Các tập gom thành một thẻ trên kệ, bấm vào mở trang bộ sách xếp theo số tập, có **Nghe tiếp** đúng tập đang dở. Nghe hết một tập thì tự chuyển sang tập sau. Gói zip mang theo tên bộ và số tập, nhập sang máy khác vẫn giữ
+- **Tự sắp xếp:** nút **Sắp xếp** cạnh "Tất cả sách" (hoặc chọn Tự sắp xếp trong menu), nhấn giữ bìa kéo đổi chỗ, bấm **Xong**. Có **Về thứ tự cũ**. Thứ tự lưu ở `~/Sano/.thu-tu.json`
+- **Quản lý danh mục và bộ sách:** đổi tên áp cho mọi cuốn (trùng danh mục có sẵn thì gộp), xoá thì sách giữ nguyên
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.10**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.11 và cài đè một lần
+
 ## v0.1.10 (26/09/2026)
 
 ### Tính năng
