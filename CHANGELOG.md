@@ -1,9 +1,12 @@
 # Changelog
 
-## Chưa phát hành
+## v0.1.10 (26/09/2026)
 
 ### Tính năng
 - **Giọng khuyên dùng:** bước chọn giọng mở sẵn tab **Khuyên dùng** với 3 giọng trong, không rè: Hải Đăng, Thiện Minh (nam, miền Bắc), Mỹ Duyên (nữ, miền Nam). Ở các tab miền, 3 giọng này nằm trên cùng, có nhãn Khuyên dùng
+
+### Lưu ý khi nâng cấp
+- Từ **0.1.2 – 0.1.9**: bấm **Cập nhật ngay** trong app. Từ **0.1.0 / 0.1.1**: tải bản 0.1.10 và cài đè một lần
 
 ## v0.1.9 (26/09/2026)
 

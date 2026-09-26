@@ -74,9 +74,9 @@ Một file M4B có mục lục chương, tên sách, bìa, khoảng 29 MB cho m�
 
 | Máy | Tải | Ghi chú |
 |---|---|---|
-| **Windows** 10/11 | [Bộ cài .exe](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.9/Sano-0.1.9-windows-amd64-setup.exe) · [Bản portable .zip](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.9/Sano-0.1.9-windows-amd64-portable.zip) | không cần quyền admin |
-| **macOS** 10.13+ | [Sano .dmg](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.9/Sano-0.1.9-macos-universal.dmg) | Apple Silicon và Intel |
-| **Linux** x86_64 | [Sano .AppImage](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.9/Sano-0.1.9-linux-amd64.AppImage) | cần WebKitGTK 4.1 |
+| **Windows** 10/11 | [Bộ cài .exe](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.10/Sano-0.1.10-windows-amd64-setup.exe) · [Bản portable .zip](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.10/Sano-0.1.10-windows-amd64-portable.zip) | không cần quyền admin |
+| **macOS** 10.13+ | [Sano .dmg](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.10/Sano-0.1.10-macos-universal.dmg) | Apple Silicon và Intel |
+| **Linux** x86_64 | [Sano .AppImage](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.10/Sano-0.1.10-linux-amd64.AppImage) | cần WebKitGTK 4.1 |
 
 Lần mở đầu, Sano tự tải bộ đọc giọng Việt về máy (khoảng 1 GB, chỉ một lần). App chưa ký số nên lần đầu mở: macOS → Cài đặt hệ thống → Quyền riêng tư & Bảo mật → **Vẫn mở**; Windows → **Thông tin thêm** → **Vẫn chạy** ([chi tiết](https://tanviet12.github.io/sano-sach-noi/mo-app-lan-dau)). Kiểm file bằng `SHA256SUMS` trong [bản phát hành](https://github.com/tanviet12/sano-sach-noi/releases/latest); mọi bản cài build trên GitHub Actions từ thẻ phiên bản. Tất cả phiên bản: [Releases](https://github.com/tanviet12/sano-sach-noi/releases).
 
