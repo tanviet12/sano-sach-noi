@@ -43,6 +43,8 @@ type BookSettings struct {
 	Title              string                           `json:"title"`
 	Author             string                           `json:"author"`
 	Category           string                           `json:"category"`
+	Series             string                           `json:"series"` // tên bộ sách; trống = sách lẻ
+	Volume             int                              `json:"volume"` // số tập; <= 0 = tập kế tiếp
 	Voice              string                           `json:"voice"`
 	IntroText          string                           `json:"introText"`
 	KeepHeadingNumbers bool                             `json:"keepHeadingNumbers"`
@@ -284,6 +286,10 @@ func (a *App) StartRender(s BookSettings) (*RenderStatus, error) {
 	}
 	slug := library.BookSlug(title)
 	category := a.lib.CanonicalCategory(s.Category, "") // gộp với danh mục đã có (không phân biệt hoa thường)
+	series, volume, err := a.lib.PlaceInSeries(s.Series, s.Volume, "")
+	if err != nil {
+		return nil, err
+	}
 
 	a.mu.Lock()
 	if err := a.renderBusyLocked(); err != nil {
@@ -303,6 +309,7 @@ func (a *App) StartRender(s BookSettings) (*RenderStatus, error) {
 	}
 	opts.OutputZip = filepath.Join(work, "book-"+slug+".zip")
 	opts.Category = category
+	opts.Series, opts.SeriesVolume = series, volume
 	ctx, cancel := context.WithCancel(a.context())
 	job := &renderJob{cancel: cancel, status: RenderStatus{Running: true, Title: title}}
 	a.job = job

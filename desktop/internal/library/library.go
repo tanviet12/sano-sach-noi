@@ -65,6 +65,8 @@ type Book struct {
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	Category    string `json:"category"` // tên danh mục; trống = chưa phân loại
+	Series      string `json:"series"`   // tên bộ sách; trống = sách lẻ
+	Volume      int    `json:"volume"`   // số tập trong bộ (0 khi là sách lẻ)
 	Cover       string `json:"cover"`    // tương đối với Root(); trống nếu không có
 	Zip         string `json:"zip"`      // tương đối với Root(); trống nếu không có
 	Chapters    int    `json:"chapters"`
@@ -93,6 +95,8 @@ type metadata struct {
 	Title    string `json:"title"`
 	Author   string `json:"author"`
 	Category string `json:"category"`
+	Series   string `json:"series"`
+	Volume   int    `json:"series_volume"`
 	Cover    string `json:"cover"`
 	Chapters []struct {
 		Title    string `json:"title"`
@@ -170,6 +174,9 @@ func (l *Library) Get(slug string) (*Detail, error) {
 	rel := func(name string) string { return filepath.ToSlash(filepath.Join(BooksDir, slug, name)) }
 
 	d := &Detail{Book: Book{Slug: slug, Title: m.Title, Author: m.Author, Category: NormalizeCategory(m.Category), Chapters: len(m.Chapters)}}
+	if d.Series = NormalizeSeries(m.Series); d.Series != "" {
+		d.Volume = max(m.Volume, 0)
+	}
 	if info, err := os.Stat(dir); err == nil {
 		d.CreatedAt = info.ModTime().UTC().Format(time.RFC3339)
 	}

@@ -158,6 +158,27 @@ func (a *App) UpdateBookInfo(slug string, info library.Info) (*BookView, error) 
 	return &v, nil
 }
 
+// SeriesList — các bộ sách đang có (cho ô chọn bộ sách và màn quản lý).
+func (a *App) SeriesList() ([]library.Group, error) { return a.lib.SeriesList() }
+
+// RenameCategory đổi tên danh mục cho mọi cuốn (trùng tên có sẵn thì gộp). Trả số cuốn đã đổi.
+func (a *App) RenameCategory(old, name string) (int, error) { return a.lib.RenameCategory(old, name) }
+
+// DeleteCategory gỡ danh mục khỏi mọi cuốn; sách giữ nguyên.
+func (a *App) DeleteCategory(name string) (int, error) { return a.lib.DeleteCategory(name) }
+
+// RenameSeries đổi tên bộ sách cho mọi tập.
+func (a *App) RenameSeries(old, name string) (int, error) { return a.lib.RenameSeries(old, name) }
+
+// DeleteSeries tách các tập của bộ thành sách lẻ; sách giữ nguyên.
+func (a *App) DeleteSeries(name string) (int, error) { return a.lib.DeleteSeries(name) }
+
+// LibraryOrder — thứ tự "Tự sắp xếp" đã lưu ("b:<slug>" / "s:<tên bộ>").
+func (a *App) LibraryOrder() ([]string, error) { return a.lib.Order() }
+
+// SetLibraryOrder lưu thứ tự "Tự sắp xếp".
+func (a *App) SetLibraryOrder(items []string) error { return a.lib.SetOrder(items) }
+
 // OpenLibraryFolder hiện thư mục ~/Sano/Sach trong trình quản lý file.
 func (a *App) OpenLibraryFolder() error {
 	if err := os.MkdirAll(a.lib.BooksRoot(), 0o755); err != nil {

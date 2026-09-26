@@ -1,6 +1,6 @@
 package library
 
-// Sửa thông tin hiển thị của một cuốn (tên, tác giả, danh mục): ghi lại
+// Sửa thông tin hiển thị của một cuốn (tên, tác giả, danh mục, bộ sách): ghi lại
 // metadata.json và manifest.json trong gói zip. Không đổi thư mục/slug, không
 // đụng MP3 — lời giới thiệu đã đọc giữ nguyên.
 
@@ -30,6 +30,8 @@ type Info struct {
 	Title    string `json:"title"`
 	Author   string `json:"author"`
 	Category string `json:"category"`
+	Series   string `json:"series"` // tên bộ sách; trống = sách lẻ
+	Volume   int    `json:"volume"` // số tập; <= 0 kèm Series = tự lấy số tập kế tiếp
 }
 
 // ErrEmptyTitle — tên sách để trống.
@@ -87,35 +89,70 @@ func (l *Library) CanonicalCategory(name, exceptSlug string) string {
 	return MergeCategory(name, l.Categories(exceptSlug))
 }
 
-// UpdateInfo sửa tên, tác giả, danh mục của một cuốn: cập nhật manifest.json
-// trong gói zip (viết lại zip an toàn, giữ nguyên mọi file khác) rồi
-// metadata.json. Thứ tự "Mới tạo nhất" giữ nguyên.
+// UpdateInfo sửa tên, tác giả, danh mục, bộ sách của một cuốn: cập nhật
+// manifest.json trong gói zip (viết lại zip an toàn, giữ nguyên mọi file khác)
+// rồi metadata.json. Thứ tự "Mới tạo nhất" giữ nguyên.
 func (l *Library) UpdateInfo(slug string, in Info) (*Detail, error) {
-	dir, err := l.Dir(slug)
-	if err != nil {
+	if _, err := l.Dir(slug); err != nil {
 		return nil, err
 	}
 	title := clip(strings.TrimSpace(in.Title), maxTitleLen)
 	if title == "" {
 		return nil, ErrEmptyTitle
 	}
-	author := clip(strings.TrimSpace(in.Author), maxTitleLen)
-	category := l.CanonicalCategory(in.Category, slug)
+	series, volume, err := l.placeInSeries(in.Series, in.Volume, slug)
+	if err != nil {
+		return nil, err
+	}
+	f := fields{
+		title:    title,
+		author:   clip(strings.TrimSpace(in.Author), maxTitleLen),
+		category: l.CanonicalCategory(in.Category, slug),
+		series:   series,
+		volume:   volume,
+	}
+	if err := l.writeFields(slug, f); err != nil {
+		return nil, err
+	}
+	return l.Get(slug)
+}
 
+// fields — thông tin hiển thị ghi vào metadata.json + manifest.json.
+type fields struct {
+	title, author, category, series string
+	volume                          int
+}
+
+func fieldsOf(b Book) fields {
+	return fields{title: b.Title, author: b.Author, category: b.Category, series: b.Series, volume: b.Volume}
+}
+
+// writeFields ghi f vào manifest.json trong gói zip rồi metadata.json, giữ giờ
+// thư mục (thứ tự "Mới tạo nhất").
+func (l *Library) writeFields(slug string, f fields) error {
+	dir, err := l.Dir(slug)
+	if err != nil {
+		return err
+	}
 	mtime := dirModTime(dir)
 
 	metaPath := filepath.Join(dir, "metadata.json")
 	raw, err := readJSONFile(metaPath)
 	if err != nil {
-		return nil, fmt.Errorf("đọc metadata.json: %w", err)
+		return fmt.Errorf("đọc metadata.json: %w", err)
 	}
 	var meta map[string]json.RawMessage
 	if err := json.Unmarshal(raw, &meta); err != nil {
-		return nil, fmt.Errorf("đọc metadata.json: %w", err)
+		return fmt.Errorf("đọc metadata.json: %w", err)
 	}
-	setJSON(meta, "title", title)
-	setJSON(meta, "author", author)
-	setJSON(meta, "category", category)
+	apply := func(m map[string]json.RawMessage) {
+		setJSON(m, "title", f.title)
+		setJSON(m, "author", f.author)
+		setJSON(m, "category", f.category)
+		setJSON(m, "series", f.series)
+		setInt(m, "series_volume", f.volume)
+	}
+	apply(meta)
 
 	if z := findZip(dir); z != "" {
 		err := rewriteZipEntry(filepath.Join(dir, z), "manifest.json", func(data []byte) ([]byte, error) {
@@ -123,28 +160,36 @@ func (l *Library) UpdateInfo(slug string, in Info) (*Detail, error) {
 			if err := json.Unmarshal(data, &man); err != nil {
 				return nil, fmt.Errorf("đọc manifest.json trong gói zip: %w", err)
 			}
-			setJSON(man, "title", title)
-			setJSON(man, "author", author)
-			setJSON(man, "category", category)
-			setJSON(man, "category_slug", bookmaker.CategorySlug(category))
+			apply(man)
+			setJSON(man, "category_slug", bookmaker.CategorySlug(f.category))
 			return marshalIndent(man)
 		})
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
 
 	out, err := marshalIndent(meta)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if err := writeFileAtomic(metaPath, out); err != nil {
-		return nil, fmt.Errorf("ghi metadata.json: %w", err)
+		return fmt.Errorf("ghi metadata.json: %w", err)
 	}
 	if !mtime.IsZero() {
 		_ = os.Chtimes(dir, mtime, mtime) // ghi file tạm làm đổi giờ thư mục → trả lại để giữ thứ tự
 	}
-	return l.Get(slug)
+	return nil
+}
+
+// setInt gán số v cho khoá k; v <= 0 thì xoá khoá.
+func setInt(m map[string]json.RawMessage, k string, v int) {
+	if v <= 0 {
+		delete(m, k)
+		return
+	}
+	b, _ := json.Marshal(v)
+	m[k] = b
 }
 
 // setJSON gán chuỗi v cho khoá k; v rỗng thì xoá khoá (như omitempty).

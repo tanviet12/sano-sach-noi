@@ -25,6 +25,9 @@ type outMeta struct {
 	Cover       string   `json:"cover,omitempty"`
 	Visibility  string   `json:"visibility,omitempty"`
 	Category    string   `json:"category,omitempty"`
+	// Series + SeriesVolume — bộ sách nhiều tập (tên bộ, số tập); trống / 0 = sách lẻ.
+	Series       string `json:"series,omitempty"`
+	SeriesVolume int    `json:"series_volume,omitempty"`
 	// RightsConfirmedAt — lúc người dùng xác nhận có quyền dùng tài liệu này (app desktop, RFC 3339).
 	RightsConfirmedAt string       `json:"rights_confirmed_at,omitempty"`
 	Chapters          []outChapter `json:"chapters"`
@@ -52,6 +55,8 @@ type Options struct {
 	Description       string
 	IntroText         string // != "" → chèn mục intro/branding đầu sách (tên mục = tiêu đề sách)
 	Category          string
+	Series            string // tên bộ sách; trống = sách lẻ
+	SeriesVolume      int    // số tập trong bộ (>= 1 khi có Series)
 	Visibility        string
 	RightsConfirmedAt string // lúc người dùng xác nhận có quyền dùng tài liệu (ghi vào metadata.json)
 	Tags              []string
@@ -245,6 +250,8 @@ func (opts Options) prepare() (*prepared, error) {
 		Tags:              opts.Tags,
 		Visibility:        opts.Visibility,
 		Category:          opts.Category,
+		Series:            opts.Series,
+		SeriesVolume:      opts.SeriesVolume,
 		RightsConfirmedAt: opts.RightsConfirmedAt,
 	}
 

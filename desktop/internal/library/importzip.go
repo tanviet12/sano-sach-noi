@@ -73,6 +73,8 @@ type ImportPreview struct {
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	Category    string `json:"category"`
+	Series      string `json:"series"`
+	Volume      int    `json:"volume"`
 	Voice       string `json:"voice"`
 	Chapters    int    `json:"chapters"`
 	Sections    int    `json:"sections"`
@@ -90,6 +92,8 @@ type ImportPreview struct {
 // importPlan — nội dung gói đã kiểm, dùng cho cả xem trước và giải nén.
 type importPlan struct {
 	title, author, category, voice string
+	series                         string
+	volume                         int
 	chapters                       []planChapter
 	cover                          *zip.File
 	coverExt                       string
@@ -135,7 +139,7 @@ func (l *Library) PreviewImport(path string) (*ImportPreview, error) {
 		return nil, err
 	}
 	pv := &ImportPreview{
-		Path: path, FileName: filepath.Base(path), Title: p.title, Author: p.author, Category: p.category, Voice: p.voice,
+		Path: path, FileName: filepath.Base(path), Title: p.title, Author: p.author, Category: p.category, Series: p.series, Volume: p.volume, Voice: p.voice,
 		Chapters: len(p.chapters), Sections: p.sections, DurationSec: p.durationSec, SizeBytes: size, HasCover: p.cover != nil,
 	}
 	if p.cover != nil {
@@ -202,6 +206,16 @@ func (l *Library) PrepareImport(ctx context.Context, path string, replace bool, 
 
 	var written int64
 	meta := importMeta{Title: title, Author: p.author, Category: p.category, Language: "vi"}
+	// Bộ sách: giữ tên bộ (gộp cách viết đã có); trùng số tập với cuốn đang có thì lấy tập kế tiếp.
+	except := ""
+	if replace {
+		except = existing
+	}
+	if sr, vol, perr := l.placeInSeries(p.series, p.volume, except); perr == nil {
+		meta.Series, meta.SeriesVolume = sr, vol
+	} else if errors.Is(perr, ErrVolumeTaken) {
+		meta.Series, meta.SeriesVolume, _ = l.placeInSeries(p.series, 0, except)
+	}
 	if p.voice != "" {
 		meta.Narrator = "VieNeu-TTS (" + p.voice + ")"
 	}
@@ -257,13 +271,16 @@ func (l *Library) CancelPrepared(workDir string) {
 
 // importMeta — metadata.json của cuốn nhập (cùng khuôn bookmaker outMeta).
 type importMeta struct {
-	Title    string              `json:"title"`
-	Author   string              `json:"author,omitempty"`
-	Narrator string              `json:"narrator,omitempty"`
-	Language string              `json:"language,omitempty"`
-	Cover    string              `json:"cover,omitempty"`
-	Category string              `json:"category,omitempty"`
-	Chapters []importMetaChapter `json:"chapters"`
+	Title    string `json:"title"`
+	Author   string `json:"author,omitempty"`
+	Narrator string `json:"narrator,omitempty"`
+	Language string `json:"language,omitempty"`
+	Cover    string `json:"cover,omitempty"`
+	Category string `json:"category,omitempty"`
+	Series   string `json:"series,omitempty"`
+	// SeriesVolume — số tập trong bộ (cùng khoá với bookmaker outMeta).
+	SeriesVolume int                 `json:"series_volume,omitempty"`
+	Chapters     []importMetaChapter `json:"chapters"`
 }
 
 type importMetaChapter struct {
@@ -345,6 +362,8 @@ func planImport(zr *importZip, zipSize int64) (*importPlan, error) {
 		Title    string `json:"title"`
 		Author   string `json:"author"`
 		Category string `json:"category"`
+		Series   string `json:"series"`
+		Volume   int    `json:"series_volume"`
 		Cover    string `json:"cover_filename"`
 		Voice    string `json:"voice_id"`
 		Version  int    `json:"version"`
@@ -360,6 +379,10 @@ func planImport(zr *importZip, zipSize int64) (*importPlan, error) {
 		author:   cleanLine(man.Author, maxTitleLen),
 		category: NormalizeCategory(cleanLine(man.Category, maxTitleLen)),
 		voice:    cleanLine(man.Voice, maxVoiceLen),
+		series:   NormalizeSeries(cleanLine(man.Series, maxTitleLen)),
+	}
+	if p.series != "" && man.Volume > 0 && man.Volume <= MaxVolume {
+		p.volume = man.Volume
 	}
 	if p.title == "" {
 		return nil, bad("Gói không có tên sách.")

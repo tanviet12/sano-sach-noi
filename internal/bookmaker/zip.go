@@ -39,7 +39,9 @@ type zipManifest struct {
 	Author         string   `json:"author,omitempty"`
 	Description    string   `json:"description,omitempty"`
 	CategorySlug   string   `json:"category_slug,omitempty"`
-	Category       string   `json:"category,omitempty"` // tên danh mục hiển thị (vd "Kỹ năng"); category_slug suy ra từ đây
+	Category       string   `json:"category,omitempty"`      // tên danh mục hiển thị (vd "Kỹ năng"); category_slug suy ra từ đây
+	Series         string   `json:"series,omitempty"`        // tên bộ sách (nhiều tập); trống = sách lẻ
+	SeriesVolume   int      `json:"series_volume,omitempty"` // số tập trong bộ
 	Tags           []string `json:"tags,omitempty"`
 	CoverFilename  string   `json:"cover_filename,omitempty"`
 	VoiceID        string   `json:"voice_id,omitempty"`
@@ -127,6 +129,8 @@ func packageBookZip(opts Options, meta outMeta, zipPath string) (string, error) 
 		Description:    meta.Description,
 		CategorySlug:   CategorySlug(meta.Category),
 		Category:       strings.TrimSpace(meta.Category),
+		Series:         strings.TrimSpace(meta.Series),
+		SeriesVolume:   meta.SeriesVolume,
 		Tags:           meta.Tags,
 		CoverFilename:  coverInZip(meta.Cover),
 		VoiceID:        opts.TTS.Voice,
