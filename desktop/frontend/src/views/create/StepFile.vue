@@ -212,21 +212,25 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
             <input v-model="state.author" placeholder="Không bắt buộc" class="mt-1 w-full h-9 rounded-md border border-input bg-background px-3" />
           </label>
         </div>
-        <div class="mt-4 text-sm">
-          <span>Danh mục <span class="text-muted-foreground">· không bắt buộc</span></span>
-          <CategoryPicker v-model="state.category" :categories="categories" class="mt-1 w-1/2 pr-2" />
-          <p class="mt-1.5 text-xs text-muted-foreground">Dùng để lọc trong Thư viện.</p>
-        </div>
-        <div class="mt-4 text-sm flex gap-3 w-1/2 pr-2">
-          <div class="flex-1 min-w-0">
-            <span>Bộ sách <span class="text-muted-foreground">· không bắt buộc</span></span>
-            <CategoryPicker v-model="state.series" kind="series" :categories="seriesGroups" class="mt-1" />
+        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span>Danh mục <span class="text-muted-foreground">· không bắt buộc</span></span>
+            <CategoryPicker v-model="state.category" :categories="categories" class="mt-1" />
+            <p class="mt-1.5 text-xs text-muted-foreground">Dùng để lọc trong Thư viện.</p>
           </div>
-          <label class="w-24 block shrink-0" :class="!state.series && 'opacity-40'">Tập số
-            <input :value="state.volume || ''" @input="state.volume = Math.floor(Number(($event.target as HTMLInputElement).value)) || 0" type="number" min="1" max="999" :disabled="!state.series" class="mt-1 w-full h-9 rounded-md border border-input bg-background px-3" />
-          </label>
+          <div>
+            <div class="flex gap-3">
+              <div class="flex-1 min-w-0">
+                <span>Bộ sách <span class="text-muted-foreground">· không bắt buộc</span></span>
+                <CategoryPicker v-model="state.series" kind="series" :categories="seriesGroups" class="mt-1" />
+              </div>
+              <label class="w-20 block shrink-0" :class="!state.series && 'opacity-40'">Tập số
+                <input :value="state.volume || ''" @input="state.volume = Math.floor(Number(($event.target as HTMLInputElement).value)) || 0" type="number" min="1" max="999" :disabled="!state.series" class="mt-1 w-full h-9 rounded-md border border-input bg-background px-3" />
+              </label>
+            </div>
+            <p class="mt-1.5 text-xs text-muted-foreground">{{ state.series && taken.length ? `Bộ "${state.series}" đang có tập ${[...taken].sort((a, b) => a - b).join(', ')}.` : 'Sách nhiều tập thì gom thành một bộ.' }}</p>
+          </div>
         </div>
-        <p v-if="state.series && taken.length" class="mt-1.5 text-xs text-muted-foreground">Bộ "{{ state.series }}" đang có tập {{ [...taken].sort((a, b) => a - b).join(', ') }}.</p>
         <div class="mt-4 flex items-center gap-4">
           <div class="h-24 w-[72px] rounded-md shadow-sm shrink-0 overflow-hidden">
             <img v-if="state.coverDataUrl" :src="state.coverDataUrl" alt="Ảnh bìa" class="h-full w-full object-cover" />
