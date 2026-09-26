@@ -7,7 +7,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   Check, ChevronDown, ChevronLeft, FileArchive, FilePlus2, FolderOpen, GripVertical, Layers, Mic, MoreHorizontal, Pencil, Play, Search,
-  Settings2, Trash2, Upload, X,
+  Settings2, Trash2, Upload, X, ArrowUpDown,
 } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import BookCover from '@/components/sano/BookCover.vue'
@@ -73,9 +73,11 @@ const sortOpen = ref(false)
 const sortLabel = computed(() => SORTS.find((s) => s.key === sort.value)?.label ?? '')
 
 function setSort(k: SortKey) {
+  if (k === 'manual') return startArrange()
   sort.value = k
   saveSort(k)
   sortOpen.value = false
+  doneArrange()
 }
 
 // Danh mục đang lọc không còn (sửa/xoá sách) hoặc nút lọc bị ẩn → về Tất cả.
@@ -108,13 +110,35 @@ const shown = computed(() =>
 const order = ref<string[]>([])
 const orderBefore = ref<string[] | null>(null) // thứ tự lúc vào chế độ tự sắp xếp → "Về thứ tự cũ"
 const manual = computed(() => sort.value === 'manual')
+// Đang kéo thả: chỉ bật khi bấm nút Sắp xếp (hoặc chọn "Tự sắp xếp"), bấm Xong là tắt;
+// thứ tự vẫn giữ kiểu "Tự sắp xếp".
+const arranging = ref(false)
 const dragKey = ref<string | null>(null)
 const overKey = ref<string | null>(null)
+let dragEndedAt = 0
 onMounted(async () => {
   order.value = await libraryOrder().catch(() => [])
-  if (manual.value) orderBefore.value = [...order.value]
 })
-watch(manual, (m) => (orderBefore.value = m ? [...order.value] : null))
+function startArrange() {
+  if (!manual.value) {
+    // chưa từng tự sắp xếp → lấy thứ tự đang thấy làm gốc
+    if (!order.value.length) void saveOrder(sortShelf(allItems.value, sort.value, order.value).map((i) => i.key))
+    sort.value = 'manual'
+    saveSort('manual')
+  }
+  sortOpen.value = false
+  menuFor.value = null
+  orderBefore.value = [...order.value]
+  arranging.value = true
+}
+function doneArrange() {
+  arranging.value = false
+  orderBefore.value = null
+}
+function endDrag() {
+  dragKey.value = overKey.value = null
+  dragEndedAt = Date.now()
+}
 async function saveOrder(keys: string[]) {
   order.value = keys
   try {
@@ -125,7 +149,7 @@ async function saveOrder(keys: string[]) {
 }
 function onDrop(target: string) {
   const from = dragKey.value
-  dragKey.value = overKey.value = null
+  endDrag()
   if (!from || from === target) return
   // đổi chỗ trên thứ tự của CẢ kệ (kể cả thẻ đang bị lọc ẩn)
   void saveOrder(moveItem(sortShelf(allItems.value, 'manual', order.value).map((i) => i.key), from, target))
@@ -239,7 +263,8 @@ onMounted(() => {
   offDrop = onFileDrop((paths) => {
     dragging.value = false
     dragDepth = 0
-    if (importPath.value || editing.value) return
+    // kéo bìa để sắp xếp cũng bắn sự kiện thả của cửa sổ → bỏ qua
+    if (importPath.value || editing.value || arranging.value || dragKey.value || Date.now() - dragEndedAt < 1500) return
     const zip = paths.find((p) => /\.zip$/i.test(p))
     if (zip) importPath.value = zip
     else if (paths.length) actionError.value = /\.docx$/i.test(paths[0]) ? 'File Word thì vào Tạo sách mới. Ở đây chỉ nhập gói sách .zip.' : 'Chỉ nhập được gói sách .zip.'
@@ -260,6 +285,7 @@ onBeforeUnmount(() => {
 function closeMenus(e: Event) {
   if (e instanceof KeyboardEvent) {
     if (e.key !== 'Escape' || editing.value || importPath.value || manageTab.value) return
+    if (arranging.value) doneArrange()
     menuFor.value = null
     sortOpen.value = false
     return
@@ -383,10 +409,11 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
         </div>
 
         <!-- Dải nhắc khi đang tự sắp xếp -->
-        <div v-if="manual" class="mt-3 flex items-center gap-2 rounded-lg bg-primary/5 border border-primary/20 px-3 py-2 text-sm">
+        <div v-if="arranging" class="mt-3 flex items-center gap-3 rounded-lg bg-primary/5 border border-primary/20 pl-3 pr-2 py-1.5 text-sm">
           <GripVertical class="w-4 h-4 text-primary shrink-0" />
           <span class="flex-1">Kéo bìa sách để đổi chỗ. Thứ tự được lưu lại, lần sau mở vẫn giữ nguyên.</span>
           <button v-if="canRestore" class="text-xs text-muted-foreground hover:text-foreground" @click="restoreOrder">Về thứ tự cũ</button>
+          <Button size="sm" @click="doneArrange"><Check class="w-4 h-4" /> Xong</Button>
         </div>
       </template>
     </div>
@@ -422,35 +449,40 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
               <span class="h-8 w-8 grid place-items-center rounded-full bg-primary text-primary-foreground shrink-0"><Play class="w-4 h-4 ml-0.5" /></span>
             </button>
           </div>
-          <h2 class="mt-6 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tất cả sách</h2>
+        </div>
+        <div class="flex items-center justify-between" :class="showContinue ? 'mt-6' : 'mt-4'">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tất cả sách</h2>
+          <button v-if="shown.length > 1 && !arranging" class="h-7 px-2.5 rounded-md text-xs flex items-center gap-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+            title="Kéo bìa sách để sắp xếp theo ý bạn" @click="startArrange"><ArrowUpDown class="w-3.5 h-3.5" /> Sắp xếp</button>
         </div>
 
         <!-- Lưới sách: sách lẻ + thẻ bộ sách -->
-        <div v-if="shown.length" class="mt-3 grid grid-cols-5 gap-4">
+        <div v-if="shown.length" class="mt-6 grid grid-cols-5 gap-x-5 gap-y-7 pr-3">
           <div v-for="it in shown" :key="it.key" class="text-left group relative rounded-lg"
             :class="[
               it.kind === 'book' && imported?.slug === it.book.slug && 'ring-2 ring-primary ring-offset-4 ring-offset-background',
-              manual && 'cursor-grab', dragKey === it.key && 'opacity-40',
+              arranging && 'cursor-grab', dragKey === it.key && 'opacity-40',
               overKey === it.key && dragKey !== it.key && 'ring-2 ring-primary ring-offset-4 ring-offset-background',
             ]"
-            :draggable="manual" @dragstart="dragKey = it.key" @dragover.prevent="manual && (overKey = it.key)" @dragleave="overKey === it.key && (overKey = null)"
-            @drop.prevent="onDrop(it.key)" @dragend="dragKey = overKey = null">
+            :draggable="arranging" @dragstart="dragKey = it.key" @dragover.prevent="arranging && (overKey = it.key)" @dragleave="overKey === it.key && (overKey = null)"
+            @drop.prevent="onDrop(it.key)" @dragend="endDrag">
             <div class="relative">
+              <!-- bộ sách: hai tập phía sau nhô lên rõ, như chồng sách -->
               <template v-if="it.kind === 'series'">
-                <div class="absolute inset-0 translate-x-2 -translate-y-1.5 rounded-lg bg-muted-foreground/25"></div>
-                <div class="absolute inset-0 translate-x-1 -translate-y-0.5 rounded-lg bg-muted-foreground/40"></div>
+                <div class="absolute inset-0 translate-x-[14px] -translate-y-[14px] rounded-lg bg-slate-400 dark:bg-slate-600 border-2 border-background shadow"></div>
+                <div class="absolute inset-0 translate-x-[7px] -translate-y-[7px] rounded-lg bg-slate-600 dark:bg-slate-400 border-2 border-background shadow"></div>
               </template>
               <button class="relative block w-full aspect-[3/4] rounded-lg shadow-md group-hover:shadow-xl transition overflow-hidden"
-                :class="!manual && 'group-hover:-translate-y-0.5'" :aria-label="it.kind === 'book' ? `Nghe ${it.book.title}` : `Mở bộ sách ${it.name}`" @click="openItem(it)">
+                :class="!arranging && 'group-hover:-translate-y-0.5'" :aria-label="it.kind === 'book' ? `Nghe ${it.book.title}` : `Mở bộ sách ${it.name}`" @click="openItem(it)">
                 <img v-if="it.kind === 'book' ? it.book.coverUrl : it.coverUrl" :src="it.kind === 'book' ? it.book.coverUrl : it.coverUrl" :alt="it.kind === 'book' ? it.book.title : it.name" class="h-full w-full object-cover" draggable="false" />
                 <BookCover v-else :title="it.kind === 'book' ? it.book.title : it.name" :author="it.kind === 'book' ? it.book.author : it.author" class="h-full w-full shadow-none" />
-                <span v-if="it.kind === 'series'" class="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/60 text-white text-[11px] font-medium px-2 py-0.5"><Layers class="w-3 h-3" /> {{ it.vols.length }} tập</span>
-                <span v-if="manual" class="absolute top-1.5 left-1.5 h-7 w-7 grid place-items-center rounded-md bg-black/50 text-white"><GripVertical class="w-4 h-4" /></span>
+                <span v-if="it.kind === 'series'" class="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold px-2 py-0.5 shadow-md"><Layers class="w-3 h-3" /> Bộ {{ it.vols.length }} tập</span>
+                <span v-if="arranging" class="absolute top-1.5 left-1.5 h-7 w-7 grid place-items-center rounded-md bg-black/50 text-white"><GripVertical class="w-4 h-4" /></span>
               </button>
             </div>
             <template v-if="it.kind === 'book'">
               <!-- Menu ⋯ trên bìa -->
-              <div v-if="!manual" data-book-menu>
+              <div v-if="!arranging" data-book-menu>
                 <button class="absolute top-1.5 right-1.5 h-7 w-7 grid place-items-center rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
                   :class="menuFor === it.book.slug && 'opacity-100'" aria-label="Thao tác với sách" aria-haspopup="menu" :aria-expanded="menuFor === it.book.slug"
                   @click="menuFor = menuFor === it.book.slug ? null : it.book.slug"><MoreHorizontal class="w-4 h-4" /></button>
@@ -470,8 +502,8 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
               </p>
             </template>
             <template v-else>
-              <p class="mt-2 text-sm font-medium truncate" :title="it.name">{{ it.name }}</p>
-              <p class="text-xs text-muted-foreground truncate">{{ it.author ? `${it.author} · ` : '' }}{{ it.vols.length }} tập · {{ fmtLong(it.durationSec) }}</p>
+              <p class="mt-2 text-sm font-medium truncate flex items-center gap-1.5" :title="it.name"><Layers class="w-3.5 h-3.5 text-primary shrink-0" /><span class="truncate">{{ it.name }}</span></p>
+              <p class="text-xs text-muted-foreground truncate">Bộ sách · {{ it.vols.length }} tập · {{ fmtLong(it.durationSec) }}</p>
               <div class="mt-1.5 h-1 rounded-full bg-muted overflow-hidden"><div class="h-full bg-primary" :style="{ width: it.progress + '%' }"></div></div>
               <p class="mt-1 text-[11px] text-muted-foreground truncate">{{ it.progress >= 99 ? 'Đã nghe hết bộ' : isListening(it.current) ? `Đang nghe tập ${it.current.volume}` : it.progress === 0 ? 'Chưa nghe' : `Nghe tiếp tập ${it.current.volume}` }}</p>
             </template>
