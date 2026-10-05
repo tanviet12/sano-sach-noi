@@ -48,7 +48,7 @@ type outSection struct {
 
 // Options — tham số chạy pipeline docx → output folder (+ gói zip nếu cần).
 type Options struct {
-	InputDocx         string
+	InputDocx         string // file nguồn: .docx hoặc .epub
 	OutputDir         string
 	Title             string
 	Author            string
@@ -228,7 +228,7 @@ func (o Options) norm() *Normalizer {
 // prepare nạp docx, bỏ tiểu mục theo DropStems / trang mục lục, ghi ảnh ra
 // OutputDir/images và dựng lời đọc cho từng tiểu mục. Chưa render audio.
 func (opts Options) prepare() (*prepared, error) {
-	book, err := ParseDocx(opts.InputDocx)
+	book, err := ParseBook(opts.InputDocx)
 	if err != nil {
 		return nil, err
 	}

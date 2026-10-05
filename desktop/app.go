@@ -9,7 +9,6 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"strings"
 	"sync"
 	"time"
 
@@ -140,28 +139,32 @@ func ttsNeedsResync() bool {
 	return setup.NeedsResync(l, pins, ttsscripts.Files)
 }
 
-// DocxFile mô tả file Word người dùng chọn.
+// DocxFile mô tả file nguồn người dùng chọn (Word .docx hoặc sách điện tử .epub).
 type DocxFile struct {
 	Path string `json:"path"`
 	Name string `json:"name"`
 	Size int64  `json:"size"`
 }
 
-// ErrNotDocx — file không phải .docx.
-var ErrNotDocx = errors.New("chỉ nhận file Word .docx")
+// ErrNotDocx — file không phải .docx hay .epub.
+var ErrNotDocx = errors.New("chỉ nhận file Word .docx hoặc sách điện tử .epub")
 
 // ErrRightsNotConfirmed — chưa tick xác nhận có quyền dùng tài liệu (bước Nghe thử).
 var ErrRightsNotConfirmed = errors.New("hãy xác nhận bạn có quyền dùng tài liệu này trước khi render")
 
-// ChooseDocx mở hộp chọn file của hệ điều hành, chỉ lọc .docx.
+// ChooseDocx mở hộp chọn file của hệ điều hành, lọc .docx và .epub.
 // Người dùng bấm huỷ → trả (nil, nil).
 func (a *App) ChooseDocx() (*DocxFile, error) {
 	if a.ctx == nil {
 		return nil, errors.New("ứng dụng chưa khởi động xong")
 	}
 	path, err := wruntime.OpenFileDialog(a.ctx, wruntime.OpenDialogOptions{
-		Title:   "Chọn file Word",
-		Filters: []wruntime.FileFilter{{DisplayName: "File Word (*.docx)", Pattern: "*.docx"}},
+		Title: "Chọn file Word hoặc EPUB",
+		Filters: []wruntime.FileFilter{
+			{DisplayName: "File Word, EPUB (*.docx, *.epub)", Pattern: "*.docx;*.epub"},
+			{DisplayName: "File Word (*.docx)", Pattern: "*.docx"},
+			{DisplayName: "Sách điện tử EPUB (*.epub)", Pattern: "*.epub"},
+		},
 	})
 	if err != nil {
 		return nil, fmt.Errorf("mở hộp chọn file: %w", err)
@@ -172,13 +175,13 @@ func (a *App) ChooseDocx() (*DocxFile, error) {
 	return describeDocx(path)
 }
 
-// DescribeDocx đọc thông tin file .docx được kéo thả vào cửa sổ.
+// DescribeDocx đọc thông tin file .docx / .epub được kéo thả vào cửa sổ.
 func (a *App) DescribeDocx(path string) (*DocxFile, error) {
 	return describeDocx(path)
 }
 
 func describeDocx(path string) (*DocxFile, error) {
-	if !strings.EqualFold(filepath.Ext(path), ".docx") {
+	if !bookmaker.IsSourceFile(path) {
 		return nil, ErrNotDocx
 	}
 	info, err := os.Stat(path)

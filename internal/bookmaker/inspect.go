@@ -58,10 +58,10 @@ type AcronymCount struct {
 // sampleSentenceMax — độ dài tối đa câu nghe mẫu giọng.
 const sampleSentenceMax = 200
 
-// Inspect nạp file .docx, trả mục lục (có đánh dấu trang mục lục gợi ý bỏ),
+// Inspect nạp file .docx / .epub, trả mục lục (có đánh dấu trang mục lục gợi ý bỏ),
 // số ký tự lời đọc từng tiểu mục và cảnh báo lúc nạp. Không ghi file nào.
 func Inspect(path string, opt InspectOptions) (*Outline, error) {
-	book, err := ParseDocx(path)
+	book, err := ParseBook(path)
 	if err != nil {
 		return nil, err
 	}

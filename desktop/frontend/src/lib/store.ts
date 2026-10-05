@@ -339,7 +339,7 @@ export async function setFile(f: DocxFile) {
     const o = await inspectDocx(f.path, state.keepHeadingNumbers)
     state.outline = o
     state.toc = buildToc(o)
-    state.title = o.title || capitalize(o.fileTitle || f.name.replace(/\.docx$/i, '').replace(/[-_]+/g, ' ').trim())
+    state.title = o.title || capitalize(o.fileTitle || f.name.replace(/\.(docx|epub)$/i, '').replace(/[-_]+/g, ' ').trim())
     state.sampleSentence = o.sampleSentence
     state.clips = []
     state.heard = []

@@ -135,7 +135,7 @@ func (t toolPaths) ttsConfig(voice string) bookmaker.TTSConfig {
 // options dựng bookmaker.Options từ lựa chọn của người dùng.
 // global — từ điển chung của người dùng (nil = chỉ bộ chuẩn).
 func (s BookSettings) options(t toolPaths, outDir string, global map[string]string) (bookmaker.Options, error) {
-	if !strings.EqualFold(filepath.Ext(s.Path), ".docx") {
+	if !bookmaker.IsSourceFile(s.Path) {
 		return bookmaker.Options{}, ErrNotDocx
 	}
 	norm, err := bookmaker.NewNormalizerWith(s.KeepHeadingNumbers, global, s.Pronunciations)
@@ -163,7 +163,7 @@ func (s BookSettings) options(t toolPaths, outDir string, global map[string]stri
 	}, nil
 }
 
-// InspectDocx nạp file Word thật: mục lục, số ký tự, cảnh báo lúc nạp.
+// InspectDocx nạp file Word / EPUB thật: mục lục, số ký tự, cảnh báo lúc nạp.
 func (a *App) InspectDocx(path string, keepHeadingNumbers bool) (*bookmaker.Outline, error) {
 	if _, err := describeDocx(path); err != nil {
 		return nil, err
