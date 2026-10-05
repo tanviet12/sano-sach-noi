@@ -36,7 +36,7 @@ import (
 
 func main() {
 	var (
-		input      = flag.String("input", "", "file .docx / .epub nguồn (bắt buộc)")
+		input      = flag.String("input", "", "file .docx / .epub / .pdf nguồn (bắt buộc)")
 		outputDir  = flag.String("output-dir", "", "thư mục đầu ra (bắt buộc)")
 		title      = flag.String("title", "", "ghi đè tiêu đề sách (mặc định: lấy từ docx)")
 		author     = flag.String("author", "", "tác giả")
@@ -122,7 +122,7 @@ func main() {
 		os.Exit(2)
 	}
 	if !bookmaker.IsSourceFile(*input) {
-		log.Fatalf("--input phải là file .docx hoặc .epub: %q", *input)
+		log.Fatalf("--input phải là file .docx, .epub hoặc .pdf: %q", *input)
 	}
 	// Chuyển output-dir sang tuyệt đối: renderVieNeu đặt cwd của python = output-dir
 	// nhưng truyền path .txt theo output-dir; nếu output-dir tương đối thì path .txt

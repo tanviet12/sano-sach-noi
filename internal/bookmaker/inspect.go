@@ -47,6 +47,7 @@ type LoadWarnings struct {
 	Tables          int            `json:"tables"`
 	FakeHeadings    []string       `json:"fakeHeadings"`
 	UnknownAcronyms []AcronymCount `json:"unknownAcronyms"`
+	Notes           []LoadNote     `json:"notes"` // lưu ý chất lượng (PDF)
 }
 
 // AcronymCount — từ viết hoa liền chưa có trong từ điển cách đọc + số lần gặp.
@@ -58,7 +59,7 @@ type AcronymCount struct {
 // sampleSentenceMax — độ dài tối đa câu nghe mẫu giọng.
 const sampleSentenceMax = 200
 
-// Inspect nạp file .docx / .epub, trả mục lục (có đánh dấu trang mục lục gợi ý bỏ),
+// Inspect nạp file .docx / .epub / .pdf, trả mục lục (có đánh dấu trang mục lục gợi ý bỏ),
 // số ký tự lời đọc từng tiểu mục và cảnh báo lúc nạp. Không ghi file nào.
 func Inspect(path string, opt InspectOptions) (*Outline, error) {
 	book, err := ParseBook(path)
@@ -120,6 +121,7 @@ func Inspect(path string, opt InspectOptions) (*Outline, error) {
 		SkippedImages: book.Stats.SkippedImages + book.Stats.DroppedImages,
 		Tables:        book.Stats.Tables,
 		FakeHeadings:  append([]string{}, book.Stats.FakeHeadings...),
+		Notes:         append([]LoadNote{}, book.Stats.Notes...),
 	}
 	for _, a := range unknownAcronyms(readings, norm.dict) {
 		out.Warnings.UnknownAcronyms = append(out.Warnings.UnknownAcronyms, AcronymCount(a))

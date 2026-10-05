@@ -42,7 +42,7 @@ Không. Sano đọc file và tạo giọng nói ngay trên máy bạn, không c�
 
 ### Sano nhận file gì?
 
-File Word `.docx` và sách điện tử `.epub`. Chưa nhận PDF. Sách EPUB có DRM bị từ chối. File `.doc` đời cũ thì mở bằng Word rồi lưu lại thành `.docx`. File có mật khẩu hoặc khoá bảo vệ bị từ chối.
+File Word `.docx`, sách điện tử `.epub` và file `.pdf` có chữ (bôi đen chọn được). Chưa đọc được PDF scan, ảnh chụp. Sách EPUB có DRM, PDF có mật khẩu hoặc cấm trích chữ bị từ chối. Với PDF, Sano báo trước những chỗ có thể đọc sai ([chi tiết](./tao-sach-dau-tien#pdf)). File `.doc` đời cũ thì mở bằng Word rồi lưu lại thành `.docx`. File có mật khẩu hoặc khoá bảo vệ bị từ chối.
 
 ### Làm sao để có mục lục chương?
 

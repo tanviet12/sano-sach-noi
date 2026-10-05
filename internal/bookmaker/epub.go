@@ -13,12 +13,20 @@ import (
 	"strings"
 )
 
-// ParseBook mở file nguồn theo đuôi: .epub → ParseEpub, còn lại → ParseDocx.
+// ParseBook mở file nguồn theo đuôi: .epub → ParseEpub, .pdf → ParsePDF, còn lại → ParseDocx.
 func ParseBook(filePath string) (*Book, error) {
-	if IsEpub(filePath) {
+	switch {
+	case IsEpub(filePath):
 		return ParseEpub(filePath)
+	case IsPDF(filePath):
+		return ParsePDF(filePath)
 	}
 	return ParseDocx(filePath)
+}
+
+// IsPDF — file nguồn là PDF (theo đuôi file).
+func IsPDF(filePath string) bool {
+	return strings.EqualFold(filepath.Ext(filePath), ".pdf")
 }
 
 // IsEpub — file nguồn là sách điện tử EPUB (theo đuôi file).
@@ -26,10 +34,9 @@ func IsEpub(filePath string) bool {
 	return strings.EqualFold(filepath.Ext(filePath), ".epub")
 }
 
-// IsSourceFile — đuôi file Sano nạp được làm sách: .docx hoặc .epub.
+// IsSourceFile — đuôi file Sano nạp được làm sách: .docx, .epub hoặc .pdf.
 func IsSourceFile(filePath string) bool {
-	ext := filepath.Ext(filePath)
-	return strings.EqualFold(ext, ".docx") || IsEpub(filePath)
+	return strings.EqualFold(filepath.Ext(filePath), ".docx") || IsEpub(filePath) || IsPDF(filePath)
 }
 
 // maxEpubTextBytes — tổng dung lượng các trang nội dung (XHTML) đọc từ một EPUB.

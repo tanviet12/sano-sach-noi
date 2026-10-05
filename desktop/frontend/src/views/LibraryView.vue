@@ -334,7 +334,7 @@ onMounted(() => {
     if (importPath.value || arranging.value || dragKey.value || Date.now() - dragEndedAt < 1500) return
     const zip = paths.find((p) => /\.zip$/i.test(p))
     if (zip) importPath.value = zip
-    else if (paths.length) actionError.value = /\.(docx|epub)$/i.test(paths[0]) ? 'File Word, EPUB thì vào Tạo sách nói. Ở đây chỉ nhập gói sách .zip.' : 'Chỉ nhập được gói sách .zip.'
+    else if (paths.length) actionError.value = /\.(docx|epub|pdf)$/i.test(paths[0]) ? 'File Word, EPUB, PDF thì vào Tạo sách nói. Ở đây chỉ nhập gói sách .zip.' : 'Chỉ nhập được gói sách .zip.'
   })
   window.addEventListener('dragenter', onDragEnter)
   window.addEventListener('dragleave', onDragLeave)
@@ -697,7 +697,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
       <div class="text-center">
         <FileArchive class="w-10 h-10 mx-auto text-primary" />
         <p class="mt-3 font-medium">Thả gói sách (.zip) để nhập vào thư viện</p>
-        <p class="mt-1 text-sm text-muted-foreground">File .docx, .epub thì vào Tạo sách nói</p>
+        <p class="mt-1 text-sm text-muted-foreground">File .docx, .epub, .pdf thì vào Tạo sách nói</p>
       </div>
     </div>
 

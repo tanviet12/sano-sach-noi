@@ -207,7 +207,7 @@ func TestParseBook_DispatchAndInspect(t *testing.T) {
 	for _, c := range []struct {
 		name string
 		want bool
-	}{{"a.docx", true}, {"a.EPUB", true}, {"a.pdf", false}, {"a.doc", false}} {
+	}{{"a.docx", true}, {"a.EPUB", true}, {"a.Pdf", true}, {"a.txt", false}, {"a.doc", false}} {
 		if got := IsSourceFile(c.name); got != c.want {
 			t.Errorf("IsSourceFile(%q) = %v", c.name, got)
 		}

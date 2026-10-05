@@ -8,7 +8,7 @@ description: 'Hướng dẫn từng bước làm sách nói bằng AI từ file 
 Trong Sano, bấm **Tạo sách nói**. Việc tạo sách gồm 7 bước: **Cách đọc** → **Nạp file** → **Mục lục** → **Giọng đọc** → **Lời mở đầu** → **Nghe thử** → **Render**. Giọng đọc AI chạy ngay trên máy bạn, tài liệu không gửi đi đâu.
 
 ::: tip Chuẩn bị file Word
-Sano nhận file Word `.docx` và sách điện tử `.epub`. Với file Word, đặt kiểu **Heading 1** cho tên chương và **Heading 2** cho tên mục, Sano dựa vào đó để làm mục lục. Tài liệu có nhiều bảng, hình, sơ đồ, hoặc muốn nghe cuốn hơn, chọn cấp 2 hay cấp 3 ở bước [Cách đọc](./lam-muot-tai-lieu).
+Sano nhận file Word `.docx`, sách điện tử `.epub` và file `.pdf`. Với file Word, đặt kiểu **Heading 1** cho tên chương và **Heading 2** cho tên mục, Sano dựa vào đó để làm mục lục. Tài liệu có nhiều bảng, hình, sơ đồ, hoặc muốn nghe cuốn hơn, chọn cấp 2 hay cấp 3 ở bước [Cách đọc](./lam-muot-tai-lieu).
 :::
 
 ## Chuẩn bị file Word {#chuan-bi-file}
@@ -25,6 +25,17 @@ Trong phần mềm, bước **Nạp file** cũng có nút **Tải file Word mẫ
 
 File `.epub` không cần chuẩn bị gì: Sano lấy tên sách và mục lục có sẵn trong sách, mỗi chương thành một chương của sách nói. Trang bìa, trang mục lục, chú thích cuối trang không được đọc. Sách có DRM (mua trên các cửa hàng có khoá chống sao chép) bị từ chối. Sách chỉ có hình như truyện tranh thì không có chữ để đọc.
 
+### File PDF {#pdf}
+
+PDF chỉ là chữ đặt theo vị trí trên trang, không có sẵn chương, đoạn như file Word, nên Sano phải tự dựng lại:
+
+- **Chương, mục** lấy từ mục lục bên lề PDF (bookmark). PDF không có bookmark thì Sano đoán theo cỡ chữ tiêu đề, nên xem kỹ ở bước **Mục lục**. Xuất PDF từ Word: tick **Tạo dấu trang bằng: Tiêu đề** để có bookmark.
+- **Đầu trang, chân trang, số trang** lặp lại được bỏ. Dòng bị xuống hàng được ghép lại thành đoạn, từ bị ngắt bằng gạch nối được nối lại.
+- **Sano báo ngay lúc nạp** khi PDF có chỗ sẽ đọc sai: chữ lỗi phông (phông cũ TCVN3, VNI), trang chỉ có ảnh, dàn nhiều cột, thiếu bookmark. Lỗi nặng hiện màu đỏ kèm số trang để bạn mở PDF xem lại.
+- **Không đọc được**: bản scan hoặc ảnh chụp (chữ không bôi đen chọn được), PDF có mật khẩu, PDF bị chủ sở hữu cấm trích chữ.
+
+Có file Word gốc thì dùng file Word, đọc chuẩn nhất.
+
 ## 1. Cách đọc
 
 Chọn một trong ba cấp: **Đọc nguyên văn** (Sano đọc đúng từng chữ, chọn sẵn lần đầu), **Làm mượt** (nhờ AI đổi bảng, hình, danh sách thành lời, giữ nguyên ý), hoặc **Viết lại thành văn sách nói** (nhờ AI viết lại như người kể, nghe hấp dẫn nhất). Mỗi cấp có nút **Nghe mẫu**. Chọn cấp 2 hoặc 3, Sano hướng dẫn 3 bước nhờ Claude, ChatGPT hoặc Gemini, có sẵn prompt để sao chép. Chi tiết ở trang [Ba cách đọc](./lam-muot-tai-lieu).
@@ -33,7 +44,7 @@ Chọn một trong ba cấp: **Đọc nguyên văn** (Sano đọc đúng từng 
 
 ## 2. Nạp file
 
-Kéo file `.docx` hoặc `.epub` vào ô **Kéo file .docx hoặc .epub vào đây**, hoặc bấm vào ô để chọn file. Muốn thử trước thì bấm **Thử với tài liệu mẫu** (nạp thẳng file Word mẫu), hoặc **Tải file Word mẫu** để lưu về máy làm theo.
+Kéo file `.docx`, `.epub` hoặc `.pdf` vào ô **Kéo file .docx, .epub hoặc .pdf vào đây**, hoặc bấm vào ô để chọn file. Muốn thử trước thì bấm **Thử với tài liệu mẫu** (nạp thẳng file Word mẫu), hoặc **Tải file Word mẫu** để lưu về máy làm theo.
 
 Sano đọc file rồi cho biết số chương, số tiểu mục, số ký tự. Nếu gặp phần sẽ không được đọc trọn vẹn, Sano hiện cảnh báo:
 

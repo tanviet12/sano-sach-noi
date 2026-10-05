@@ -68,7 +68,7 @@ func TestBookSettingsOptions(t *testing.T) {
 	if o.TTS.Voice != bookmaker.DefaultVoice || !o.TTS.KeepTxt || o.TTS.ScriptDir != "/x" || o.TTS.Mode != bookmaker.TTSModeVieNeu {
 		t.Errorf("TTS sai: %+v", o.TTS)
 	}
-	if _, err := (BookSettings{Path: "/tmp/a.pdf"}).options(toolPaths{}, "/out", nil); err == nil {
-		t.Error("file không phải .docx phải lỗi")
+	if _, err := (BookSettings{Path: "/tmp/a.txt"}).options(toolPaths{}, "/out", nil); err == nil {
+		t.Error("file không phải .docx/.epub/.pdf phải lỗi")
 	}
 }

@@ -139,31 +139,32 @@ func ttsNeedsResync() bool {
 	return setup.NeedsResync(l, pins, ttsscripts.Files)
 }
 
-// DocxFile mô tả file nguồn người dùng chọn (Word .docx hoặc sách điện tử .epub).
+// DocxFile mô tả file nguồn người dùng chọn (Word .docx, sách điện tử .epub hoặc .pdf).
 type DocxFile struct {
 	Path string `json:"path"`
 	Name string `json:"name"`
 	Size int64  `json:"size"`
 }
 
-// ErrNotDocx — file không phải .docx hay .epub.
-var ErrNotDocx = errors.New("chỉ nhận file Word .docx hoặc sách điện tử .epub")
+// ErrNotDocx — file không phải .docx, .epub hay .pdf.
+var ErrNotDocx = errors.New("chỉ nhận file Word .docx, sách điện tử .epub hoặc file .pdf")
 
 // ErrRightsNotConfirmed — chưa tick xác nhận có quyền dùng tài liệu (bước Nghe thử).
 var ErrRightsNotConfirmed = errors.New("hãy xác nhận bạn có quyền dùng tài liệu này trước khi render")
 
-// ChooseDocx mở hộp chọn file của hệ điều hành, lọc .docx và .epub.
+// ChooseDocx mở hộp chọn file của hệ điều hành, lọc .docx, .epub và .pdf.
 // Người dùng bấm huỷ → trả (nil, nil).
 func (a *App) ChooseDocx() (*DocxFile, error) {
 	if a.ctx == nil {
 		return nil, errors.New("ứng dụng chưa khởi động xong")
 	}
 	path, err := wruntime.OpenFileDialog(a.ctx, wruntime.OpenDialogOptions{
-		Title: "Chọn file Word hoặc EPUB",
+		Title: "Chọn file Word, EPUB hoặc PDF",
 		Filters: []wruntime.FileFilter{
-			{DisplayName: "File Word, EPUB (*.docx, *.epub)", Pattern: "*.docx;*.epub"},
+			{DisplayName: "File Word, EPUB, PDF (*.docx, *.epub, *.pdf)", Pattern: "*.docx;*.epub;*.pdf"},
 			{DisplayName: "File Word (*.docx)", Pattern: "*.docx"},
 			{DisplayName: "Sách điện tử EPUB (*.epub)", Pattern: "*.epub"},
+			{DisplayName: "File PDF (*.pdf)", Pattern: "*.pdf"},
 		},
 	})
 	if err != nil {
@@ -175,7 +176,7 @@ func (a *App) ChooseDocx() (*DocxFile, error) {
 	return describeDocx(path)
 }
 
-// DescribeDocx đọc thông tin file .docx / .epub được kéo thả vào cửa sổ.
+// DescribeDocx đọc thông tin file .docx / .epub / .pdf được kéo thả vào cửa sổ.
 func (a *App) DescribeDocx(path string) (*DocxFile, error) {
 	return describeDocx(path)
 }

@@ -48,11 +48,18 @@ type Book struct {
 
 // DocStats — những thứ bản đọc không truyền tải được hoặc có thể sai cấu trúc.
 type DocStats struct {
-	Images        int      // hình nhúng (chưa có mô tả → người nghe không biết nội dung)
-	SkippedImages int      // hình bỏ qua vì quá lớn sau khi giải nén (chống file "bom nén")
-	DroppedImages int      // tham chiếu hình vượt maxImageRefs: bỏ qua
-	Tables        int      // bảng (đọc phẳng từng ô, mất cấu trúc hàng/cột)
-	FakeHeadings  []string // đoạn in đậm / chữ to nhưng không dùng style Heading
+	Images        int        // hình nhúng (chưa có mô tả → người nghe không biết nội dung)
+	SkippedImages int        // hình bỏ qua vì quá lớn sau khi giải nén (chống file "bom nén")
+	DroppedImages int        // tham chiếu hình vượt maxImageRefs: bỏ qua
+	Tables        int        // bảng (đọc phẳng từng ô, mất cấu trúc hàng/cột)
+	FakeHeadings  []string   // đoạn in đậm / chữ to nhưng không dùng style Heading
+	Notes         []LoadNote // lưu ý chất lượng riêng của định dạng (PDF: thiếu bookmark, lỗi phông, trang scan…)
+}
+
+// LoadNote — 1 lưu ý lúc nạp file. Severe: ảnh hưởng nặng tới bản nghe.
+type LoadNote struct {
+	Text   string `json:"text"`
+	Severe bool   `json:"severe"`
 }
 
 // docxPara — 1 đoạn văn đã trích từ word/document.xml.

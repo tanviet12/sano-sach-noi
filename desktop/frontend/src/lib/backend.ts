@@ -99,6 +99,7 @@ export interface Outline {
     tables: number
     fakeHeadings: string[]
     unknownAcronyms: { word: string; count: number }[]
+    notes?: { text: string; severe: boolean }[] // lưu ý chất lượng file (PDF: thiếu bookmark, lỗi phông, trang scan…)
   }
 }
 
@@ -663,7 +664,7 @@ export async function thirdPartyNotices(): Promise<string> {
   return (await goApp()?.ThirdPartyNotices()) ?? ''
 }
 
-/** Mở hộp chọn file .docx / .epub của hệ điều hành. Huỷ → null. */
+/** Mở hộp chọn file .docx / .epub / .pdf của hệ điều hành. Huỷ → null. */
 export async function chooseDocx(): Promise<DocxFile | null> {
   const app = goApp()
   if (!app) return { path: '/giả/ky-nang-giao-tiep.docx', name: 'ky-nang-giao-tiep.docx', size: 1_468_006 }

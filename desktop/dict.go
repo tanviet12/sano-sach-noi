@@ -87,7 +87,7 @@ func (a *App) repackLater(slug string) {
 	}()
 }
 
-// CountWords đếm số chỗ có từng từ trong file Word / EPUB (cho "N chỗ trong sách").
+// CountWords đếm số chỗ có từng từ trong file Word / EPUB / PDF (cho "N chỗ trong sách").
 func (a *App) CountWords(path string, words []string) (map[string]int, error) {
 	if _, err := describeDocx(path); err != nil {
 		return nil, err

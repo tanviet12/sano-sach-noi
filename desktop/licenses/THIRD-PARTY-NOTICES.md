@@ -55,4 +55,7 @@ Sano gọi ffmpeg như một chương trình riêng (chuyển WAV → MP3), khô
 - golang.org/x/sys — BSD-3-Clause — https://go.googlesource.com/sys
 - github.com/ulikunitz/xz (giải nén bản ffmpeg Linux) — BSD-3-Clause — https://github.com/ulikunitz/xz
 - MCP Go SDK (kết nối AI: Claude, Codex…) — MIT / Apache License 2.0 — https://github.com/modelcontextprotocol/go-sdk
+- PDFium (đọc file PDF, bản WebAssembly kèm trong go-pdfium) — Apache License 2.0 / BSD-3-Clause — https://pdfium.googlesource.com/pdfium
+- go-pdfium — MIT — https://github.com/klippa-app/go-pdfium
+- wazero (chạy WebAssembly cho PDFium) — Apache License 2.0 — https://github.com/tetratelabs/wazero
 - Các thư viện Go / npm khác: xem `go.mod`, `desktop/go.mod`, `desktop/frontend/package.json` (đều MIT, BSD hoặc Apache-2.0).

@@ -30,8 +30,8 @@ func TestDescribeDocx(t *testing.T) {
 		t.Errorf("file .epub phải nhận, được %+v, %v", got, err)
 	}
 
-	if _, err := describeDocx(filepath.Join(dir, "a.pdf")); !errors.Is(err, ErrNotDocx) {
-		t.Errorf("file .pdf phải trả ErrNotDocx, được %v", err)
+	if _, err := describeDocx(filepath.Join(dir, "a.txt")); !errors.Is(err, ErrNotDocx) {
+		t.Errorf("file .txt phải trả ErrNotDocx, được %v", err)
 	}
 	if _, err := describeDocx(filepath.Join(dir, "khong-co.docx")); err == nil {
 		t.Error("file không tồn tại phải báo lỗi")

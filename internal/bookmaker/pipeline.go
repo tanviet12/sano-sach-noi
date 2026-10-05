@@ -48,7 +48,7 @@ type outSection struct {
 
 // Options — tham số chạy pipeline docx → output folder (+ gói zip nếu cần).
 type Options struct {
-	InputDocx         string // file nguồn: .docx hoặc .epub
+	InputDocx         string // file nguồn: .docx, .epub hoặc .pdf
 	OutputDir         string
 	Title             string
 	Author            string

@@ -163,7 +163,7 @@ func (s BookSettings) options(t toolPaths, outDir string, global map[string]stri
 	}, nil
 }
 
-// InspectDocx nạp file Word / EPUB thật: mục lục, số ký tự, cảnh báo lúc nạp.
+// InspectDocx nạp file Word / EPUB / PDF thật: mục lục, số ký tự, cảnh báo lúc nạp.
 func (a *App) InspectDocx(path string, keepHeadingNumbers bool) (*bookmaker.Outline, error) {
 	if _, err := describeDocx(path); err != nil {
 		return nil, err

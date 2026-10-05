@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// B1 Nạp file: hộp chọn file .docx / .epub (Wails) hoặc kéo thả → nạp thật: mục lục,
+// B1 Nạp file: hộp chọn file .docx / .epub / .pdf (Wails) hoặc kéo thả → nạp thật: mục lục,
 // số ký tự, cảnh báo lúc nạp (hình, bảng, tiêu đề gõ tay, viết tắt chưa có).
 // Cấp 2/3 (bước Cách đọc): nạp file AI tạo, hoặc dán văn bản AI trả về (Gemini).
 // Cấp 1 không nhắc tới AI.
@@ -183,7 +183,9 @@ function closeTeach(e: MouseEvent) {
 }
 onMounted(() => document.addEventListener('mousedown', closeTeach))
 onBeforeUnmount(() => document.removeEventListener('mousedown', closeTeach))
-const hasWarnings = computed(() => !!w.value && (w.value.images + (w.value.skippedImages ?? 0) + w.value.tables + w.value.fakeHeadings.length + w.value.unknownAcronyms.length) > 0)
+const notes = computed(() => w.value?.notes ?? [])
+const severeNotes = computed(() => notes.value.some((n) => n.severe))
+const hasWarnings = computed(() => !!w.value && (w.value.images + (w.value.skippedImages ?? 0) + w.value.tables + w.value.fakeHeadings.length + w.value.unknownAcronyms.length + notes.value.length) > 0)
 // Bảng, hình, tiêu đề gõ tay còn sót (khác chữ viết tắt: AI không cần làm lại).
 const layoutLeft = computed(() => !!w.value && (w.value.images + (w.value.skippedImages ?? 0) + w.value.tables + w.value.fakeHeadings.length) > 0)
 const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) => `«${s}»`).join(', '))
@@ -191,10 +193,10 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
 
 <template>
   <div class="max-w-2xl">
-    <h1 class="text-xl font-semibold tracking-tight">{{ viaAI ? 'Nạp file AI tạo' : 'Nạp file Word' }}</h1>
+    <h1 class="text-xl font-semibold tracking-tight">{{ viaAI ? 'Nạp file AI tạo' : 'Nạp file' }}</h1>
     <p class="text-sm text-muted-foreground">
       Cấp {{ state.level }} · {{ levelTitles[state.level] }} <button class="text-primary hover:underline ml-1" @click="changeLevel">Đổi</button>
-      <template v-if="!viaAI"> · Sano đọc mục lục từ kiểu Heading 1 / Heading 2 trong file Word, hoặc mục lục có sẵn của sách EPUB.
+      <template v-if="!viaAI"> · Sano đọc mục lục từ kiểu Heading 1 / Heading 2 trong file Word, hoặc mục lục có sẵn của sách EPUB, PDF.
         <a :href="DOCS + '/tao-sach-dau-tien#chuan-bi-file'" target="_blank" rel="noopener" class="text-primary hover:underline">Cách chuẩn bị file để đọc hay nhất</a></template>
     </p>
 
@@ -214,8 +216,9 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
       <button class="mt-5 w-full h-56 rounded-xl border-2 border-dashed border-border grid place-items-center hover:border-primary/50 hover:bg-primary/5" :disabled="picking" @click="pick">
         <span class="text-center">
           <Upload class="w-8 h-8 mx-auto text-muted-foreground" />
-          <span class="block mt-3 font-medium">{{ viaAI ? 'Kéo file Word AI tạo vào đây' : 'Kéo file .docx hoặc .epub vào đây' }}</span>
+          <span class="block mt-3 font-medium">{{ viaAI ? 'Kéo file Word AI tạo vào đây' : 'Kéo file .docx, .epub hoặc .pdf vào đây' }}</span>
           <span class="block text-sm text-muted-foreground">hoặc bấm để chọn file</span>
+          <span v-if="!viaAI" class="block mt-1 text-xs text-muted-foreground">File Word đọc chuẩn nhất. PDF dàn trang phức tạp có thể đọc lẫn chữ thừa, Sano sẽ báo nếu thấy</span>
         </span>
       </button>
       <p v-if="state.fileError" class="mt-3 text-sm text-destructive">{{ state.fileError }}</p>
@@ -258,9 +261,10 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
       </div>
 
       <template v-if="state.outline">
-        <div v-if="hasWarnings" class="mt-4 rounded-lg border border-rag-amber/40 bg-rag-amber/10 p-4 text-sm">
-          <p class="font-medium flex items-center gap-2 text-rag-amber"><AlertTriangle class="w-4 h-4" /> Có phần sẽ không được đọc trọn vẹn</p>
+        <div v-if="hasWarnings" class="mt-4 rounded-lg border p-4 text-sm" :class="severeNotes ? 'border-destructive/40 bg-destructive/10' : 'border-rag-amber/40 bg-rag-amber/10'">
+          <p class="font-medium flex items-center gap-2" :class="severeNotes ? 'text-destructive' : 'text-rag-amber'"><AlertTriangle class="w-4 h-4" /> {{ severeNotes ? 'File này đọc ra sẽ có nhiều chỗ sai, nên xem trước khi tạo sách' : 'Có phần sẽ không được đọc trọn vẹn' }}</p>
           <ul class="mt-2 space-y-1 text-foreground/80 list-disc pl-5">
+            <li v-for="(n, i) in notes" :key="'n' + i" :class="n.severe && 'text-destructive font-medium'">{{ n.text }}</li>
             <li v-if="w!.tables">{{ w!.tables }} bảng — nội dung bảng được đọc phẳng từng ô, mất hàng/cột</li>
             <li v-if="w!.images">{{ w!.images }} hình — không có lời tả, người nghe sẽ không biết nội dung hình</li>
             <li v-if="w!.skippedImages">{{ w!.skippedImages }} hình quá lớn hoặc vượt giới hạn số hình — đã bỏ qua, không trích ra</li>

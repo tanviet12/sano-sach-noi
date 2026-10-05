@@ -93,7 +93,7 @@ func CountWord(text, word string) int {
 	return n
 }
 
-// CountWordsInDocx đếm từng từ trong chữ của file Word / EPUB (mọi tiểu mục, cả tiêu đề).
+// CountWordsInDocx đếm từng từ trong chữ của file Word / EPUB / PDF (mọi tiểu mục, cả tiêu đề).
 func CountWordsInDocx(path string, words []string) (map[string]int, error) {
 	book, err := ParseBook(path)
 	if err != nil {
