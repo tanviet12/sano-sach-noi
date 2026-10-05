@@ -52,6 +52,10 @@ tanviet12/sano-sach-noi#33 (EPUB), tanviet12/sano-sach-noi#34 (PDF). Issue #28 x
 - **Chưa thử với PDF / EPUB tiếng Việt thật** (cloud chặn tải sách). Anh hứa gửi PDF test → chạy lại, chỉnh ngưỡng
   lọc đầu trang / đoán tiêu đề nếu cần.
 - Issue mới: #32 clone giọng (để dành).
+- **Bản phát hành kế tiếp (anh Việt chốt 05/10):** hộp cập nhật trong app chỉ hiện các dòng `- ` của ghi chú bản
+  mới nhất (tối đa 8, `desktop/update.go` `releaseNotes`). Nên ở mục CHANGELOG của bản sau: tính năng mới của bản đó
+  trước, rồi **nhắc lại 2 dòng EPUB, PDF** của 0.1.23, cuối cùng dòng sửa chữ "ghi đủ Word, EPUB, PDF trong app"
+  (PR #35, chưa phát hành riêng). Không phát hành bản chỉ sửa chữ, không build lại trùng số 0.1.23.
 
 ## 3c. Phiên 30/09 — 0.1.21: tìm trong mục lục + Kết nối AI (MCP)
 
