@@ -499,7 +499,7 @@ export async function editClip(stem: string, text: string) {
 
 // ── Từ điển cách đọc của cuốn đang tạo (D12) ─────────────────────────────
 
-/** Đếm lại số chỗ mỗi từ trong từ điển (và các từ thêm) xuất hiện trong file Word. */
+/** Đếm lại số chỗ mỗi từ trong từ điển (và các từ thêm) xuất hiện trong file nguồn (Word, EPUB, PDF). */
 export async function refreshWordCounts(extra: string[] = []) {
   const words = [...new Set([...Object.keys(state.bookDict), ...extra])]
   if (!state.file || !words.length) return

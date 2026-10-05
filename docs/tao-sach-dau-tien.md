@@ -1,13 +1,13 @@
 ---
-title: Cách làm sách nói bằng AI từ file Word
-description: 'Hướng dẫn từng bước làm sách nói bằng AI từ file Word với Sano: nạp file, chọn chương, chọn giọng đọc tiếng Việt, nghe thử, sửa lời đọc rồi tạo cả cuốn ngay trên máy.'
+title: Cách làm sách nói bằng AI từ file Word, PDF, EPUB
+description: 'Hướng dẫn từng bước làm sách nói bằng AI từ file Word, PDF, EPUB với Sano: nạp file, chọn chương, chọn giọng đọc tiếng Việt, nghe thử, sửa lời đọc rồi tạo cả cuốn ngay trên máy.'
 ---
 
-# Cách làm sách nói bằng AI từ file Word
+# Cách làm sách nói bằng AI từ file Word, PDF, EPUB
 
 Trong Sano, bấm **Tạo sách nói**. Việc tạo sách gồm 7 bước: **Cách đọc** → **Nạp file** → **Mục lục** → **Giọng đọc** → **Lời mở đầu** → **Nghe thử** → **Render**. Giọng đọc AI chạy ngay trên máy bạn, tài liệu không gửi đi đâu.
 
-::: tip Chuẩn bị file Word
+::: tip Chuẩn bị file
 Sano nhận file Word `.docx`, sách điện tử `.epub` và file `.pdf`. Với file Word, đặt kiểu **Heading 1** cho tên chương và **Heading 2** cho tên mục, Sano dựa vào đó để làm mục lục. Tài liệu có nhiều bảng, hình, sơ đồ, hoặc muốn nghe cuốn hơn, chọn cấp 2 hay cấp 3 ở bước [Cách đọc](./lam-muot-tai-lieu).
 :::
 
@@ -60,7 +60,7 @@ Muốn đọc đủ phần này, chọn cấp 2 **Làm mượt** ở bước Cá
 <img class="app-shot" src="./images/app/b1-nap-file.jpg" alt="Bước Nạp file: thông tin file, cảnh báo, tên sách và bìa" width="1600" height="955">
 
 ::: info File có mật khẩu
-File Word có mật khẩu hoặc khoá bảo vệ sẽ bị từ chối. Sano không có tính năng gỡ khoá.
+File Word, PDF có mật khẩu hoặc khoá bảo vệ, sách EPUB có DRM sẽ bị từ chối. Sano không có tính năng gỡ khoá.
 :::
 
 ## 3. Mục lục

@@ -405,7 +405,7 @@ export async function startBookVideo(d: BookDetail, o: BookVideoOptions) {
       '',
       ...marks.map((m, k) => `${clock(k === 0 ? 0 : m.t)} ${m.label}`),
       '',
-      'Sách nói tạo bằng Sano — tự tạo sách nói miễn phí từ file Word: https://sanobook.com',
+      'Sách nói tạo bằng Sano — tự tạo sách nói miễn phí từ file Word, EPUB, PDF: https://sanobook.com',
     ].join('\n')
     bv.desc = o.extras.desc ? desc : ''
     bv.title = outName

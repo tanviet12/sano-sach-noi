@@ -12,7 +12,7 @@ const { version, links } = useRelease()
 
 // Sano dùng để làm gì — cùng nội dung với trang Cài đặt, mục Giới thiệu trong app và README
 const uses = [
-  { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
+  { t: 'Tạo sách nói', d: 'từ file Word, EPUB, PDF của chính bạn' },
   { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
   { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android)' },
   { t: 'Nghe khi lái xe ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },
@@ -39,7 +39,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
     <div class="wrap">
       <div>
         <span class="badge"><span class="dot" /> Mã nguồn mở · Miễn phí · Không cần API key</span>
-        <h1 class="h1">Tạo <span class="accent">sách nói bằng AI</span> từ file Word</h1>
+        <h1 class="h1">Tạo <span class="accent">sách nói bằng AI</span> từ file Word, PDF, EPUB</h1>
         <p class="lead">
           Biến tài liệu của chính bạn thành sách nói. Giọng đọc AI tiếng Việt chạy ngay trên máy, miễn phí, mã nguồn mở.
           Nghe trong phần mềm, hoặc chép một file sang điện thoại nghe khi lái xe, lúc rảnh tay.

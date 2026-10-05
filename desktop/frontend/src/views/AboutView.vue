@@ -13,7 +13,7 @@ import hostLogo from '../assets/sponsors/123host.svg'
 
 // Sano dùng để làm gì — cùng nội dung với trang chủ, trang Cài đặt và README
 const uses = [
-  { t: 'Tạo sách nói', d: 'từ tài liệu Word của chính bạn' },
+  { t: 'Tạo sách nói', d: 'từ tài liệu của chính bạn: Word, EPUB, PDF' },
   { t: 'Nghe trên máy tính', d: 'ngay trong phần mềm, nhớ chỗ nghe dở' },
   { t: 'Nghe trên điện thoại', d: 'xuất một file M4B, nghe bằng app BookPlayer (miễn phí, có cho iPhone và Android)' },
   { t: 'Nghe khi lái xe ô tô', d: 'BookPlayer chạy trên CarPlay và Android Auto: chọn sách, chọn chương ngay trên màn hình xe' },

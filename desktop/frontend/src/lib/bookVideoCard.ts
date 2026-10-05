@@ -329,7 +329,7 @@ export function drawScene(canvas: HTMLCanvasElement, o: SceneCommon, s: Scene, p
     }
     ctx.textAlign = 'center'
     text(ctx, 'Tạo sách nói của bạn', bw / 2, cy + 12, `700 ${wide ? 30 : 26}px ${sans}`, '#fff')
-    text(ctx, 'Miễn phí · chạy ngay trên máy · từ file Word', bw / 2, cy + 36, `400 ${wide ? 14 : 12.5}px ${sans}`, 'rgba(255,255,255,0.82)')
+    text(ctx, 'Miễn phí · chạy ngay trên máy · từ Word, EPUB, PDF', bw / 2, cy + 36, `400 ${wide ? 14 : 12.5}px ${sans}`, 'rgba(255,255,255,0.82)')
     ctx.font = `700 18px ${sans}`
     const pw = ctx.measureText('sanobook.com').width + 40
     ctx.fillStyle = '#fff'

@@ -8,7 +8,7 @@ import shot3 from '../../../images/app/b6-render.jpg'
 import shot4 from '../../../images/app/nghe.jpg'
 
 const steps = [
-  { icon: FileUp, shot: shot1, title: 'Nạp file Word', desc: 'Sano đọc mục lục theo Heading, cảnh báo bảng, hình, chữ viết tắt lạ.' },
+  { icon: FileUp, shot: shot1, title: 'Nạp file Word, EPUB, PDF', desc: 'Sano đọc mục lục có sẵn, cảnh báo bảng, hình, chữ viết tắt lạ, PDF dễ đọc sai.' },
   { icon: Headphones, shot: shot2, title: 'Nghe thử & sửa lời đọc', desc: 'Nghe vài đoạn, sửa cách đọc từ riêng trước khi tạo cả cuốn.' },
   { icon: AudioLines, shot: shot3, title: 'Tạo sách (chạy nền)', desc: 'Giọng đọc AI chạy trên máy bạn. Vẫn làm việc khác được trong lúc chờ.' },
   { icon: Smartphone, shot: shot4, title: 'Nghe trên máy hoặc điện thoại', desc: 'Nghe ngay trong Sano, hoặc xuất một file M4B chép sang điện thoại.' },
@@ -19,7 +19,7 @@ const steps = [
   <section id="cach-hoat-dong" class="sano-section alt">
     <div class="sano-container">
       <h2 class="sano-h2">Cách hoạt động</h2>
-      <p class="sano-lead">Bốn bước, từ file Word tới sách nói có mục lục chương.</p>
+      <p class="sano-lead">Bốn bước, từ file Word, EPUB, PDF tới sách nói có mục lục chương.</p>
       <ol class="steps">
         <li v-for="(s, i) in steps" :key="s.title" class="sano-card step">
           <div class="ph"><img :src="s.shot" :alt="`Bước ${i + 1}: ${s.title}`" width="1600" height="955" loading="lazy" /></div>

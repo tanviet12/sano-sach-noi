@@ -227,7 +227,7 @@ const fake = computed(() => (w.value?.fakeHeadings ?? []).slice(0, 2).map((s) =>
       </button>
       <div v-else class="mt-3 rounded-lg border border-border px-4 py-3 text-sm">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <span class="text-muted-foreground flex-1 min-w-[16rem]">Chưa có file Word? Tải file mẫu có sẵn mục lục và hướng dẫn để làm theo, hoặc thử ngay với file mẫu.</span>
+          <span class="text-muted-foreground flex-1 min-w-[16rem]">Chưa có tài liệu? Tải file Word mẫu có sẵn mục lục và hướng dẫn để làm theo, hoặc thử ngay với file mẫu.</span>
           <div class="flex gap-2">
             <Button variant="outline" size="sm" :disabled="picking" @click="downloadSample"><Download class="w-4 h-4" /> Tải file Word mẫu</Button>
             <Button variant="outline" size="sm" :disabled="picking" @click="useSample"><Sparkles class="w-4 h-4" /> Thử với tài liệu mẫu</Button>

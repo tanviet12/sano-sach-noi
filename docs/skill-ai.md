@@ -1,13 +1,13 @@
 ---
 title: Skill làm sách nói cho AI
-description: 'Skill miễn phí cho Claude và ChatGPT: biến tài liệu Word thành bản đọc sách nói nghe cuốn hút, giữ đủ kiến thức, trả về file Word nạp thẳng vào Sano.'
+description: 'Skill miễn phí cho Claude và ChatGPT: biến tài liệu Word, PDF thành bản đọc sách nói nghe cuốn hút, giữ đủ kiến thức, trả về file Word nạp thẳng vào Sano.'
 ---
 
 # Skill làm sách nói cho AI
 
 Tài liệu viết để **đọc bằng mắt** thường khó nghe: bảng biểu, hình, gạch đầu dòng, chữ viết tắt, câu dài. Skill **sano-sach-noi** dạy Claude hoặc ChatGPT biên tập lại thành bản để **nghe bằng tai**, rồi trả về file Word có sẵn chương, mục. Bạn nạp file đó vào Sano là đọc thành sách nói.
 
-Nạp skill **một lần**. Mỗi lần làm sách chỉ cần đính kèm file Word và gõ một câu, không phải dán prompt dài.
+Nạp skill **một lần**. Mỗi lần làm sách chỉ cần đính kèm file Word hoặc PDF và gõ một câu, không phải dán prompt dài.
 
 <div class="sano-actions">
   <a class="sano-btn brand" href="/skill/sano-sach-noi.zip" download>Tải skill sano-sach-noi.zip</a>
@@ -61,7 +61,7 @@ Gemini chưa nạp được skill. Trong Sano, ở màn nhờ AI chọn Gemini r
 
 ## Mỗi lần làm sách
 
-Mở cuộc trò chuyện mới, đính kèm file Word rồi gõ một câu:
+Mở cuộc trò chuyện mới, đính kèm file Word hoặc PDF rồi gõ một câu:
 
 | Việc | Claude, ChatGPT có mục Skills | ChatGPT dùng Dự án |
 |---|---|---|

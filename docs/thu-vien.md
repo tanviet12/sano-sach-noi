@@ -92,7 +92,7 @@ Bấm vào một cuốn để nghe ngay trong Sano:
 
 ### Chữ chạy theo lời đọc
 
-Ô **Lời đọc** dưới tên mục hiện câu đang đọc và câu kế. Bấm vào để mở **Xem lời**: chữ lớn như trong file Word, câu đang đọc in đậm, tự cuộn theo.
+Ô **Lời đọc** dưới tên mục hiện câu đang đọc và câu kế. Bấm vào để mở **Xem lời**: chữ lớn như trong tài liệu gốc, câu đang đọc in đậm, tự cuộn theo.
 
 <img class="app-shot" src="./images/app/xem-loi.jpg" alt="Màn Xem lời: câu đang đọc in đậm, câu đã đọc mờ, thanh điều khiển ở đáy" width="1600" height="955">
 

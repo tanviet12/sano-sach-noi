@@ -40,7 +40,7 @@ const canNext = computed(() => {
 // Nút chính ghi rõ bước kế tiếp (wireframe D8).
 const nextLabel = computed(() => {
   if (state.step === 1 && state.levelScreen === 'choose') {
-    if (state.level === 1) return 'Tiếp: nạp file Word'
+    if (state.level === 1) return 'Tiếp: nạp file'
     if (state.level > 1) return state.level === 3 ? 'Tiếp: nhờ AI viết lại' : 'Tiếp: nhờ AI làm mượt'
     return 'Tiếp'
   }

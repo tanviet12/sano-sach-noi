@@ -10,7 +10,7 @@ import { AI_TOOLS, CHATGPT_PLANS, SKILL_STEPS, SKILL_ZIP, promptFor, shortInstru
 import { saveAITool, saveLevel, state } from '../../lib/store'
 
 const options = [
-  { n: 1, title: 'Đọc nguyên văn', does: 'Sano đọc đúng từng chữ trong file Word.', fit: 'bài viết, ghi chép đã dễ đọc; hoặc bạn muốn nghe y nguyên', time: 'Không cần chuẩn bị', best: false },
+  { n: 1, title: 'Đọc nguyên văn', does: 'Sano đọc đúng từng chữ trong file của bạn: Word, EPUB hoặc PDF.', fit: 'bài viết, ghi chép đã dễ đọc; hoặc bạn muốn nghe y nguyên', time: 'Không cần chuẩn bị', best: false },
   { n: 2, title: 'Làm mượt', does: 'Nhờ AI đổi bảng, hình, danh sách, chữ viết tắt thành lời. Giữ nguyên ý và giọng tác giả.', fit: 'tài liệu nhiều bảng biểu, gạch đầu dòng', time: 'Thêm khoảng 5 phút với AI', best: false },
   { n: 3, title: 'Viết lại thành văn sách nói', does: 'Nhờ AI viết lại như người kể: chuyện trước, lý thuyết sau, chương ngắn, cuối chương có ba ý cần nhớ.', fit: 'sách, giáo trình, tài liệu dài muốn nghe cuốn như sách nói', time: 'Thêm khoảng 10–15 phút với AI', best: true },
 ]
@@ -177,7 +177,7 @@ async function download(kind: 'claude' | 'chatgpt') {
         </li>
         <li class="flex items-center gap-4 px-4 py-3.5">
           <span class="h-7 w-7 rounded-full bg-primary text-primary-foreground grid place-items-center text-sm font-semibold shrink-0">2</span>
-          <p class="flex-1 font-medium">Mở {{ tool.name }}, đính kèm file Word của bạn, dán prompt rồi gửi</p>
+          <p class="flex-1 font-medium">Mở {{ tool.name }}, đính kèm tài liệu của bạn (Word hoặc PDF), dán prompt rồi gửi</p>
           <Button variant="outline" class="shrink-0 w-60" @click="openURL(tool.url)">Mở {{ tool.name }} <ExternalLink class="w-3.5 h-3.5" /></Button>
         </li>
         <li class="flex items-center gap-4 px-4 py-3.5">
@@ -243,7 +243,7 @@ async function download(kind: 'claude' | 'chatgpt') {
           <p v-if="saveError" class="mt-2 text-xs text-destructive">{{ saveError }}</p>
           <!-- Từ nay làm sách: câu gõ mẫu có tên skill và cấp độ (wireframe D8b) -->
           <div v-if="steps.length" class="mt-4">
-            <p class="text-sm font-medium">Từ nay làm sách: mở cuộc trò chuyện mới{{ plan === 'project' ? ' trong dự án "Sano – sách nói"' : '' }}, đính kèm file Word rồi gõ:</p>
+            <p class="text-sm font-medium">Từ nay làm sách: mở cuộc trò chuyện mới{{ plan === 'project' ? ' trong dự án "Sano – sách nói"' : '' }}, đính kèm tài liệu (Word hoặc PDF) rồi gõ:</p>
             <ul class="mt-2 space-y-2">
               <li v-for="(ph, i) in usePhrases(plan === 'project')" :key="i" class="rounded-lg border border-border px-3 py-2.5">
                 <p class="text-xs font-medium text-muted-foreground">{{ ph.what }}</p>

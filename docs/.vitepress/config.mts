@@ -7,9 +7,9 @@ import { defineConfig, type HeadConfig } from 'vitepress'
 
 const SITE = 'https://sanobook.com/'
 const REPO = 'https://github.com/tanviet12/sano-sach-noi'
-const SITE_TITLE = 'Sano – Tạo sách nói bằng AI từ file Word'
+const SITE_TITLE = 'Sano – Tạo sách nói bằng AI từ file Word, PDF, EPUB'
 const SITE_DESC =
-  'Sano giúp bạn tự làm sách nói bằng AI từ file Word của chính mình: giọng đọc tiếng Việt chạy trên máy, có mục lục chương, xuất M4B nghe trên điện thoại. Miễn phí, mã nguồn mở.'
+  'Sano giúp bạn tự làm sách nói bằng AI từ file Word, PDF, EPUB của chính mình: giọng đọc tiếng Việt chạy trên máy, có mục lục chương, xuất M4B nghe trên điện thoại. Miễn phí, mã nguồn mở.'
 
 // Huy hiệu vbsec ở chân trang: CHỈ bật khi lượt quét vbsec trên bản phát hành cho kết quả ĐẠT.
 // Bật: passed: true + date: 'dd/mm/yyyy' (ngày quét).
@@ -25,7 +25,7 @@ const extraMeta: Record<string, { title: string; description: string }> = {
   'dieu-khoan-su-dung.md': {
     title: 'Điều khoản sử dụng',
     description:
-      'Điều khoản sử dụng Sano, phần mềm tạo sách nói bằng AI từ file Word: chỉ dùng tài liệu bạn có quyền sử dụng, không làm sách nói từ tác phẩm còn bản quyền, dữ liệu nằm trên máy bạn.',
+      'Điều khoản sử dụng Sano, phần mềm tạo sách nói bằng AI từ file Word, PDF, EPUB: chỉ dùng tài liệu bạn có quyền sử dụng, không làm sách nói từ tác phẩm còn bản quyền, dữ liệu nằm trên máy bạn.',
   },
   'tts-build-guide.md': {
     title: 'Đọc giọng bằng VieNeu-TTS (dòng lệnh)',

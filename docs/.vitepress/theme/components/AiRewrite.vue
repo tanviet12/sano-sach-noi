@@ -6,7 +6,7 @@ import { withBase } from 'vitepress'
 import { Download, Github, Pause, Play, Sparkles } from 'lucide-vue-next'
 
 const levels = [
-  { n: 1, title: 'Đọc nguyên văn', desc: 'Sano đọc đúng từng chữ trong file Word.' },
+  { n: 1, title: 'Đọc nguyên văn', desc: 'Sano đọc đúng từng chữ trong file Word, EPUB, PDF.' },
   { n: 2, title: 'Làm mượt', desc: 'AI đổi bảng, hình, danh sách, chữ viết tắt thành lời. Giữ nguyên ý.' },
   { n: 3, title: 'Viết lại thành văn sách nói', desc: 'AI viết lại như người kể: chuyện trước, lý thuyết sau, cuối chương có ba ý cần nhớ.' },
 ]
@@ -48,7 +48,7 @@ function toggle(n: number) {
       <div class="sano-card gift">
         <p class="tag"><Sparkles :size="14" aria-hidden="true" /> Tặng kèm miễn phí</p>
         <h3 class="gt">Skill làm sách nói cho Claude và ChatGPT</h3>
-        <p class="sano-muted gd">Nạp một lần. Lần sau chỉ cần đính kèm file Word và gõ một câu, AI trả về file Word đã viết lại, có sẵn chương, mục để nạp vào Sano.</p>
+        <p class="sano-muted gd">Nạp một lần. Lần sau chỉ cần đính kèm file Word hoặc PDF và gõ một câu, AI trả về file Word đã viết lại, có sẵn chương, mục để nạp vào Sano.</p>
         <p class="say">"Làm file sách nói dùng skill sano-sach-noi (cấp độ 3)"</p>
         <div class="btns">
           <a class="sano-btn brand" :href="withBase('/skill/sano-sach-noi.zip')" download><Download :size="16" aria-hidden="true" /> Tải skill</a>

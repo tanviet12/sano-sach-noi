@@ -309,7 +309,7 @@ async function onImported(slug: string) {
   toastTimer = window.setTimeout(() => (imported.value = null), 10000)
 }
 
-// Kéo thả: chỉ nhận một file .zip; file khác báo lỗi nhẹ (Word thì vào Tạo sách nói).
+// Kéo thả: chỉ nhận một file .zip; file khác báo lỗi nhẹ (Word, EPUB, PDF thì vào Tạo sách nói).
 let offDrop: (() => void) | null = null
 let dragDepth = 0
 const hasFiles = (e: DragEvent) => !!e.dataTransfer && [...e.dataTransfer.types].includes('Files')
@@ -487,7 +487,7 @@ const progressText = (p: number) => (p >= 99 ? 'Đã nghe xong' : p === 0 ? 'Ch�
       <!-- Thư viện trống -->
       <div v-if="state.library && !books.length" class="mt-10 rounded-xl border-2 border-dashed border-border p-10 text-center">
         <p class="font-medium">Chưa có cuốn nào</p>
-        <p class="mt-1 text-sm text-muted-foreground">Tạo sách nói từ file Word, hoặc nhập gói sách (.zip) người khác gửi cho bạn.</p>
+        <p class="mt-1 text-sm text-muted-foreground">Tạo sách nói từ file Word, EPUB, PDF, hoặc nhập gói sách (.zip) người khác gửi cho bạn.</p>
         <div class="mt-4 flex justify-center gap-2">
           <Button @click="go('create')"><FilePlus2 class="w-4 h-4" /> Tạo sách nói</Button>
           <Button variant="outline" @click="pickZip"><Upload class="w-4 h-4" /> Nhập sách</Button>

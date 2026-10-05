@@ -6,7 +6,7 @@ Phiên mới: đọc file này + `README.md` + `CHANGELOG.md` là đủ nắm tr
 
 ## 1. Dự án là gì
 
-Phần mềm desktop (Wails: Go + Vue 3 + shadcn-vue + Tailwind) biến file Word thành sách nói tiếng Việt.
+Phần mềm desktop (Wails: Go + Vue 3 + shadcn-vue + Tailwind) biến file Word, EPUB, PDF thành sách nói tiếng Việt.
 Giọng đọc VieNeu-TTS v3 Turbo chạy ngay trên máy, không cần API key. Chạy Windows, macOS, Linux.
 
 | Thư mục | Nội dung |

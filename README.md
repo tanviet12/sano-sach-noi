@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/public/logo.svg" alt="Sano" width="72" height="72"></p>
 
-<h1 align="center">Sano — Tạo sách nói bằng AI từ file Word</h1>
+<h1 align="center">Sano — Tạo sách nói bằng AI từ file Word, PDF, EPUB</h1>
 
 <p align="center">Biến tài liệu của chính bạn thành sách nói. Giọng đọc AI tiếng Việt chạy ngay trên máy tính.<br>Miễn phí · Mã nguồn mở · Không cần API key · Windows, macOS, Linux</p>
 
@@ -24,7 +24,7 @@
 
 ## Sano làm được gì
 
-- **Tạo sách nói** từ tài liệu Word của chính bạn: tự đọc mục lục theo Heading, tự chuẩn hoá số, chữ viết tắt, ký hiệu thành lời đọc tự nhiên
+- **Tạo sách nói** từ tài liệu của chính bạn: file Word, sách điện tử EPUB, PDF có chữ. Tự đọc mục lục (Heading trong Word, mục lục EPUB, bookmark PDF), tự chuẩn hoá số, chữ viết tắt, ký hiệu thành lời đọc tự nhiên
 - **Ba cách đọc**: đọc nguyên văn, hoặc nhờ AI làm mượt, viết lại thành văn sách nói cho nghe cuốn hơn (xem bên dưới)
 - **Nghe trên máy tính** ngay trong phần mềm: nhớ chỗ nghe dở, chữ chạy theo lời đọc, đổi tốc độ, nghe tiếp ở thanh nghe nhỏ khi làm việc khác
 - **Sửa sách đã tạo**: sửa chữ từng mục rồi đọc lại riêng mục đó, đổi tên (bìa và lời giới thiệu tự làm lại), đổi giọng cả cuốn
@@ -56,7 +56,7 @@ Giọng đọc do [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS) tạo (xe
 <table>
   <tr>
     <td width="50%"><img src="docs/images/app/b0-cach-doc.jpg" alt="Chọn cách đọc: đọc nguyên văn, làm mượt, viết lại thành văn sách nói"><br><b>1. Chọn cách đọc.</b> Đọc nguyên văn, hoặc nhờ AI làm mượt, viết lại thành văn sách nói. Mỗi cách có nút nghe mẫu.</td>
-    <td width="50%"><img src="docs/images/app/b1-nap-file.jpg" alt="Nạp file Word"><br><b>2. Nạp file Word.</b> Sano đọc mục lục, cảnh báo bảng, hình, chữ viết tắt lạ. Chưa có file thì tải file Word mẫu.</td>
+    <td width="50%"><img src="docs/images/app/b1-nap-file.jpg" alt="Nạp file"><br><b>2. Nạp file Word, EPUB hoặc PDF.</b> Sano đọc mục lục, cảnh báo bảng, hình, chữ viết tắt lạ, PDF dễ đọc sai. Chưa có file thì tải file Word mẫu.</td>
   </tr>
   <tr>
     <td><img src="docs/images/app/b5-nghe-thu.jpg" alt="Chọn giọng, nghe thử và sửa lời đọc"><br><b>3. Chọn giọng, nghe thử.</b> Nghe từng đoạn, sửa lời đọc nếu cần, rồi tạo cả cuốn. Sano chạy nền ngay trên máy bạn.</td>
@@ -68,7 +68,7 @@ Giọng đọc do [VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS) tạo (xe
 
 Văn viết để đọc bằng mắt, đọc to lên thường nghe chán. Ở bước **Cách đọc**, chọn **Làm mượt** (giữ nguyên ý, đổi bảng, hình, danh sách thành lời) hoặc **Viết lại thành văn sách nói** (kể như người kể chuyện, chương ngắn, cuối chương có ba ý cần nhớ). Sano đưa sẵn prompt cho Claude, ChatGPT hoặc Gemini, bản miễn phí cũng được. Nghe mẫu ba cách: [cấp 1](https://sanobook.com/audio/cach-doc-cap-1.mp3) · [cấp 2](https://sanobook.com/audio/cach-doc-cap-2.mp3) · [cấp 3](https://sanobook.com/audio/cach-doc-cap-3.mp3).
 
-**Tặng kèm [skill làm sách nói](skills/)** cho Claude và ChatGPT: nạp một lần, lần sau chỉ cần đính kèm file Word và gõ "Làm file sách nói dùng skill sano-sach-noi (cấp độ 3)". [Tải skill](https://sanobook.com/skill/sano-sach-noi.zip) · [cách nạp](https://sanobook.com/lam-muot-tai-lieu).
+**Tặng kèm [skill làm sách nói](skills/)** cho Claude và ChatGPT: nạp một lần, lần sau chỉ cần đính kèm file Word hoặc PDF và gõ "Làm file sách nói dùng skill sano-sach-noi (cấp độ 3)". [Tải skill](https://sanobook.com/skill/sano-sach-noi.zip) · [cách nạp](https://sanobook.com/lam-muot-tai-lieu).
 
 ## Thư viện và Hành trình nghe
 
@@ -202,7 +202,7 @@ go run ./cmd/sano-docx2tts -h                                                 # 
 ```
 sano-sach-noi/
 ├── desktop/             # phần mềm (Wails, Go module riêng) — giao diện ở desktop/frontend/
-├── cmd/sano-docx2tts/   # CLI tạo sách từ file Word
+├── cmd/sano-docx2tts/   # CLI tạo sách từ file Word, EPUB, PDF
 ├── cmd/sano-skill/      # ghi skill làm sách nói từ docs/prompts ra skills/
 ├── skills/              # skill làm sách nói cho Claude / ChatGPT (dựng từ docs/prompts)
 ├── internal/

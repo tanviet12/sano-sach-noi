@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// B2 Mục lục: mục lục thật từ file Word; trang mục lục gốc bỏ tick sẵn.
+// B2 Mục lục: mục lục thật từ file nguồn (Word, EPUB, PDF); trang mục lục gốc bỏ tick sẵn.
 import { estListen, estRender, reloadOutline, state, totalChars } from '../../lib/store'
 </script>
 

@@ -1,8 +1,8 @@
 ---
 layout: home
-title: Sano – Tạo sách nói bằng AI từ file Word
+title: Sano – Tạo sách nói bằng AI từ file Word, PDF, EPUB
 titleTemplate: false
-description: 'Sano giúp bạn tự làm sách nói bằng AI từ file Word của chính mình: giọng đọc tiếng Việt chạy trên máy, có mục lục chương, xuất M4B nghe trên điện thoại. Miễn phí, mã nguồn mở.'
+description: 'Sano giúp bạn tự làm sách nói bằng AI từ file Word, PDF, EPUB của chính mình: giọng đọc tiếng Việt chạy trên máy, có mục lục chương, xuất M4B nghe trên điện thoại. Miễn phí, mã nguồn mở.'
 markdownStyles: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Nhật ký thay đổi
-description: 'Những thay đổi qua từng phiên bản của Sano, phần mềm tạo sách nói bằng AI từ file Word.'
+description: 'Những thay đổi qua từng phiên bản của Sano, phần mềm tạo sách nói bằng AI từ file Word, PDF, EPUB.'
 editLink: false
 ---
 
