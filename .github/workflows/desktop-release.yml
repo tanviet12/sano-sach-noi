@@ -11,7 +11,8 @@ name: Desktop build + release
 # - Pull request / push vào main có đụng mã desktop → build + đóng gói Linux và
 #   Windows để bắt lỗi sớm (bỏ macOS cho đỡ tốn phút: máy Mac tính gấp 10 lần).
 #
-# Chưa ký số Windows/Apple, không notarize (chưa có chứng chỉ). Secret ngoài
+# macOS: ký Developer ID + notarize (secret MACOS_CERT_P12, MACOS_CERT_PASSWORD,
+# MACOS_NOTARY_KEY, MACOS_NOTARY_KEY_ID, MACOS_NOTARY_ISSUER). Chưa ký số Windows. Secret ngoài
 # GITHUB_TOKEN: SANO_UPDATE_SIGNING_KEY (khoá ed25519 ký SHA256SUMS, chỉ dùng ở
 # job release — tạo bằng scripts/release/update-key.sh) và VT_API_KEY (quét
 # VirusTotal, chỉ dùng ở job virustotal). Mọi action ghim theo SHA commit.
@@ -178,8 +179,43 @@ jobs:
       - name: Build
         run: scripts/release/build.sh "$VERSION" "${{ matrix.platform }}"
 
+      # Keychain tạm chứa chứng chỉ Developer ID (file .p12 base64 trong secret, gồm
+      # cả chứng chỉ trung gian G2). Không có secret thì package-macos.sh ký ad-hoc;
+      # bản phát hành (thẻ v*) bắt buộc có (SANO_REQUIRE_MAC_SIGN=1).
+      - name: Chứng chỉ Developer ID (macOS)
+        if: runner.os == 'macOS'
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+        run: |
+          if [[ -z "$MACOS_CERT_P12" ]]; then
+            echo "::warning::Chưa có secret MACOS_CERT_P12 — bản macOS chỉ ký ad-hoc."
+            exit 0
+          fi
+          kc="$RUNNER_TEMP/sano-sign.keychain-db"
+          pw="$(openssl rand -hex 24)"
+          security create-keychain -p "$pw" "$kc"
+          security set-keychain-settings -lut 21600 "$kc"
+          security unlock-keychain -p "$pw" "$kc"
+          (umask 077 && printf '%s' "$MACOS_CERT_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12")
+          security import "$RUNNER_TEMP/cert.p12" -k "$kc" -P "$MACOS_CERT_PASSWORD" -T /usr/bin/codesign
+          rm -f "$RUNNER_TEMP/cert.p12"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$pw" "$kc" >/dev/null
+          # shellcheck disable=SC2046
+          security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
+          echo "SANO_MAC_KEYCHAIN=$kc" >> "$GITHUB_ENV"
+
       - name: Đóng gói
+        env:
+          SANO_REQUIRE_MAC_SIGN: ${{ needs.meta.outputs.release == 'true' && '1' || '0' }}
+          SANO_NOTARY_KEY: ${{ runner.os == 'macOS' && secrets.MACOS_NOTARY_KEY || '' }}
+          SANO_NOTARY_KEY_ID: ${{ runner.os == 'macOS' && secrets.MACOS_NOTARY_KEY_ID || '' }}
+          SANO_NOTARY_ISSUER: ${{ runner.os == 'macOS' && secrets.MACOS_NOTARY_ISSUER || '' }}
         run: scripts/release/package-${{ matrix.target }}.sh "$VERSION" "${{ matrix.arch }}"
+
+      - name: Xoá keychain tạm (macOS)
+        if: always() && runner.os == 'macOS' && env.SANO_MAC_KEYCHAIN != ''
+        run: security delete-keychain "$SANO_MAC_KEYCHAIN" || true
 
       # Tự cập nhật trên Windows (P3-7): phần Go chỉ chạy được trên máy Windows
       # thật, và bộ cài NSIS đã sửa phải đợi Sano thoát rồi mới chép, cài xong

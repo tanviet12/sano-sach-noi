@@ -80,7 +80,7 @@ case "$PLATFORM" in
     else
       build_bridge darwin "${PLATFORM#darwin/}" "$MACOS_DIR/sano-mcp"
     fi
-    # Wails đã ký app trước khi có sano-mcp → ký lại (ad-hoc) cho khớp; bản phát hành ký thật ở sign.sh.
+    # Wails đã ký app trước khi có sano-mcp → ký lại (ad-hoc) cho khớp; bản phát hành ký Developer ID ở package-macos.sh.
     codesign --force --deep --sign - "$BIN_DIR/Sano.app"
     codesign --verify --deep --strict "$BIN_DIR/Sano.app"
     ;;
