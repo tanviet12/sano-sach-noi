@@ -1,17 +1,21 @@
 ---
-title: Mở app lần đầu khi chưa ký số
-description: 'Cách mở Sano, phần mềm tạo sách nói bằng AI, lần đầu trên macOS ("Vẫn mở") và Windows ("Thông tin thêm → Vẫn chạy") khi bản cài chưa có chữ ký số.'
+title: Mở app lần đầu
+description: 'Cách mở Sano, phần mềm tạo sách nói bằng AI, lần đầu: macOS đã ký số Apple từ bản 0.1.25, Windows chưa ký số ("Thông tin thêm → Vẫn chạy").'
 ---
 
-# Mở app lần đầu khi chưa ký số
+# Mở app lần đầu
 
-Sano chưa mua chứng chỉ ký số của Apple và Microsoft, nên lần đầu mở, hệ điều hành cảnh báo "không xác minh được nhà phát triển". Đây là cảnh báo chung cho mọi phần mềm chưa ký số, không phải Sano có lỗi. Chỉ cần làm một lần.
+Từ bản 0.1.25, bản macOS có chữ ký số Apple (Developer ID) và đã qua Apple kiểm duyệt (notarize), mở như mọi app thường. Bản Windows chưa có chữ ký số, nên lần đầu mở Windows cảnh báo "không xác minh được nhà phát triển". Đây là cảnh báo chung cho mọi phần mềm chưa ký số, không phải Sano có lỗi. Chỉ cần làm một lần.
 
 ::: tip Chỉ tải từ nguồn chính thức
 Tải Sano từ [GitHub Releases của dự án](https://github.com/tanviet12/sano-sach-noi/releases/latest). Muốn chắc file không bị sửa, đối chiếu mã SHA256 với file `SHA256SUMS` đi kèm (xem [Cài đặt](./cai-dat#kiem-tra-file-tai-ve-khong-bat-buoc)).
 :::
 
 ## macOS
+
+**Bản 0.1.25 trở đi:** kéo Sano vào Applications rồi mở. macOS hỏi *"Sano" là ứng dụng tải từ Internet, bạn có chắc muốn mở?* → bấm **Mở** (**Open**). Hộp này hiện với mọi app tải từ mạng, chỉ hỏi một lần.
+
+**Bản 0.1.24 trở về trước** (chưa ký số):
 
 1. Mở Sano trong thư mục Applications. macOS báo không mở được vì không xác minh được nhà phát triển → bấm **Xong** (**Done**) hoặc **OK**.
 2. Mở **Cài đặt hệ thống** (**System Settings**) → **Quyền riêng tư & Bảo mật** (**Privacy & Security**).

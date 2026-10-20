@@ -1,6 +1,6 @@
 ---
 title: Chính sách ký số
-description: 'Chính sách ký số của Sano: file cài nào được ký, ký ở đâu, ai duyệt, chữ ký bản cập nhật và quyền riêng tư. Ký số Windows miễn phí qua SignPath Foundation.'
+description: 'Chính sách ký số của Sano: file cài nào được ký, ký ở đâu, ai duyệt, chữ ký bản cập nhật và quyền riêng tư. macOS ký Developer ID và notarize, ký số Windows miễn phí qua SignPath Foundation.'
 ---
 
 # Chính sách ký số
@@ -8,11 +8,13 @@ description: 'Chính sách ký số của Sano: file cài nào được ký, ký
 Trang này nói rõ file nào của Sano được ký, ký bằng cách nào và ai chịu trách nhiệm. Bản tiếng Anh ở [cuối trang](#code-signing-policy-english).
 
 ::: info Tình trạng
+Bản cài macOS **đã ký số Apple** (Developer ID Application: Viet Bui Tan, mã nhóm `N3AKXDXQSX`) và qua Apple kiểm duyệt (notarize) từ bản 0.1.25.
+
 Bản cài Windows **đang xin ký số miễn phí** qua chương trình dành cho phần mềm mã nguồn mở của [SignPath Foundation](https://signpath.org). Khi được duyệt, từ bản phát hành kế tiếp:
 
 *Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).*
 
-Trước đó, bản cài Windows và macOS chưa có chữ ký số của hệ điều hành — xem [cách mở app lần đầu](./mo-app-lan-dau).
+Trước đó, bản cài Windows chưa có chữ ký số của hệ điều hành — xem [cách mở app lần đầu](./mo-app-lan-dau).
 :::
 
 ## File nào được ký
@@ -20,6 +22,7 @@ Trước đó, bản cài Windows và macOS chưa có chữ ký số của hệ 
 | File | Chữ ký |
 |---|---|
 | `Sano-<phiên bản>-windows-amd64-setup.exe` và `Sano.exe` trong bản portable `.zip` | Chữ ký số Windows (Authenticode) qua SignPath Foundation — khi được duyệt |
+| `Sano-<phiên bản>-macos-universal.dmg`, `Sano.app` và `sano-mcp` bên trong | Chữ ký Developer ID của Apple, hardened runtime, notarize và gắn vé duyệt (staple) vào `.dmg` |
 | `SHA256SUMS` (mã SHA256 của mọi file cài) | Chữ ký ed25519 riêng của dự án, file `SHA256SUMS.sig`. Sano kiểm chữ ký này trước khi tự cập nhật, sai là từ chối |
 | Mọi file phát hành | Attestation nguồn gốc build của GitHub (`gh attestation verify`) |
 
@@ -28,8 +31,9 @@ Chỉ ký file build từ mã nguồn của chính repo [tanviet12/sano-sach-noi
 ## Ký ở đâu
 
 - Chỉ ký trong quy trình phát hành tự động trên GitHub Actions ([`desktop-release.yml`](https://github.com/tanviet12/sano-sach-noi/blob/main/.github/workflows/desktop-release.yml)), chạy khi gắn thẻ phiên bản `vX.Y.Z`.
-- **Không bao giờ ký bản build trên máy cá nhân.**
+- **Bản phát hành không bao giờ ký trên máy cá nhân.**
 - Mỗi lượt ký Windows phải được người duyệt ký bấm duyệt trên SignPath.
+- Chứng chỉ Apple và khoá notarize chỉ nằm trong secret của repo và bản sao cất riêng của người bảo trì.
 - Khoá ed25519 ký `SHA256SUMS` chỉ nằm trong secret của repo và bản sao cất riêng của người bảo trì, không có trong mã nguồn.
 
 ## Vai trò
@@ -60,6 +64,8 @@ Thấy file cài có dấu hiệu bị sửa, chữ ký sai hoặc lỗi bảo m
 ## Code signing policy (English)
 
 ::: info Status
+macOS releases are **signed with an Apple Developer ID** (Viet Bui Tan, team `N3AKXDXQSX`) and notarized by Apple, starting with 0.1.25.
+
 Windows installers are **pending approval** for free code signing through the [SignPath Foundation](https://signpath.org) open-source program. Once approved, starting with the next release:
 
 *Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).*
@@ -68,6 +74,7 @@ Windows installers are **pending approval** for free code signing through the [S
 **What is signed**
 
 - Windows installer `Sano-<version>-windows-amd64-setup.exe` and `Sano.exe` inside the portable `.zip` — Authenticode signature via SignPath Foundation (once approved).
+- macOS disk image `Sano-<version>-macos-universal.dmg`, `Sano.app` and `sano-mcp` inside — Apple Developer ID signature with hardened runtime, notarized, ticket stapled to the `.dmg`.
 - `SHA256SUMS` — signed with the project's own ed25519 key (`SHA256SUMS.sig`). The app verifies this signature before applying any in-app update and rejects mismatches.
 - All release files carry GitHub build provenance attestations.
 
@@ -76,7 +83,7 @@ Only artifacts built from this project's own source code in [tanviet12/sano-sach
 **Where signing happens**
 
 - Only in the automated GitHub Actions release workflow ([`desktop-release.yml`](https://github.com/tanviet12/sano-sach-noi/blob/main/.github/workflows/desktop-release.yml)), triggered by a `vX.Y.Z` version tag.
-- Local builds are never signed.
+- Releases are never signed on a personal machine.
 - Every Windows signing request is manually approved by the approver in SignPath.
 
 **Team roles**

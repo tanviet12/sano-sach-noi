@@ -77,7 +77,7 @@ const others = computed(() => (Object.keys(builds) as OS[]).filter((k) => k !== 
           <template v-if="os === 'mobile'">Sano cài trên máy tính Windows, macOS, Linux; nghe trên điện thoại bằng file M4B.</template>
           <template v-else-if="build">Tải thẳng <code>{{ links[build.asset].name }}</code> (bản {{ version }}).</template>
           <template v-else>Bản cài trên GitHub Releases.</template>
-          Bản cài chưa ký số —
+          Bản Windows chưa ký số —
           <a :href="withBase('/mo-app-lan-dau')">cách mở lần đầu</a>.
         </p>
       </div>

@@ -44,8 +44,8 @@ chmod +x Sano-*.AppImage
 
 Thiếu WebKitGTK thì cài thêm: `sudo apt install libwebkit2gtk-4.1-0`.
 
-::: warning Bản cài chưa ký số
-Lần đầu mở, macOS và Windows sẽ cảnh báo vì Sano chưa mua chứng chỉ ký số. Xem [Mở app lần đầu khi chưa ký số](./mo-app-lan-dau) để mở an toàn.
+::: warning Bản Windows chưa ký số
+Bản macOS có chữ ký số Apple từ bản 0.1.25, mở bình thường. Bản Windows chưa ký số nên lần đầu mở Windows sẽ cảnh báo. Xem [Mở app lần đầu](./mo-app-lan-dau) để mở an toàn.
 :::
 
 ## Cài bộ đọc lần mở đầu

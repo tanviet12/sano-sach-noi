@@ -102,7 +102,7 @@ Thư viện đọc giọng không có bản cho máy của bạn. Sano từ bả
 
 ### Máy báo không mở được Sano
 
-Bản cài chưa ký số, xem [Mở app lần đầu khi chưa ký số](./mo-app-lan-dau).
+Bản Windows chưa ký số, macOS từ bản 0.1.25 đã ký số Apple. Xem [Mở app lần đầu](./mo-app-lan-dau).
 
 ### Kiểm tra bộ đọc còn chạy tốt không?
 

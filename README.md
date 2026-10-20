@@ -95,11 +95,11 @@ Một file M4B có mục lục chương, tên sách, bìa, khoảng 29 MB cho m�
 
 | Máy | Tải | Ghi chú |
 |---|---|---|
-| **Windows** 10/11 | [Bộ cài .exe](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.24/Sano-0.1.24-windows-amd64-setup.exe) · [Bản portable .zip](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.24/Sano-0.1.24-windows-amd64-portable.zip) | không cần quyền admin |
-| **macOS** 14+ (Intel: 13+) | [Sano .dmg](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.24/Sano-0.1.24-macos-universal.dmg) | Apple Silicon và Intel |
-| **Linux** x86_64 | [Sano .AppImage](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.24/Sano-0.1.24-linux-amd64.AppImage) | cần WebKitGTK 4.1 |
+| **Windows** 10/11 | [Bộ cài .exe](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.25/Sano-0.1.25-windows-amd64-setup.exe) · [Bản portable .zip](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.25/Sano-0.1.25-windows-amd64-portable.zip) | không cần quyền admin |
+| **macOS** 14+ (Intel: 13+) | [Sano .dmg](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.25/Sano-0.1.25-macos-universal.dmg) | Apple Silicon và Intel |
+| **Linux** x86_64 | [Sano .AppImage](https://github.com/tanviet12/sano-sach-noi/releases/download/v0.1.25/Sano-0.1.25-linux-amd64.AppImage) | cần WebKitGTK 4.1 |
 
-Lần mở đầu, Sano tự tải bộ đọc giọng Việt về máy (khoảng 1 GB, chỉ một lần). App chưa ký số nên lần đầu mở: macOS → Cài đặt hệ thống → Quyền riêng tư & Bảo mật → **Vẫn mở**; Windows → **Thông tin thêm** → **Vẫn chạy** ([chi tiết](https://sanobook.com/mo-app-lan-dau)). Kiểm file bằng `SHA256SUMS` trong [bản phát hành](https://github.com/tanviet12/sano-sach-noi/releases/latest); mọi bản cài build trên GitHub Actions từ thẻ phiên bản. Tất cả phiên bản: [Releases](https://github.com/tanviet12/sano-sach-noi/releases).
+Lần mở đầu, Sano tự tải bộ đọc giọng Việt về máy (khoảng 1 GB, chỉ một lần). Bản macOS có chữ ký số Apple và qua Apple kiểm duyệt, mở bình thường. Bản Windows chưa ký số nên lần đầu mở: **Thông tin thêm** → **Vẫn chạy** ([chi tiết](https://sanobook.com/mo-app-lan-dau)). Kiểm file bằng `SHA256SUMS` trong [bản phát hành](https://github.com/tanviet12/sano-sach-noi/releases/latest); mọi bản cài build trên GitHub Actions từ thẻ phiên bản. Tất cả phiên bản: [Releases](https://github.com/tanviet12/sano-sach-noi/releases).
 
 > Repo không kèm sách nào ngoài 5 cuốn mẫu tự viết. Xem [Bản quyền và trách nhiệm](#bản-quyền-và-trách-nhiệm) trước khi dùng.
 

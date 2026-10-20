@@ -97,7 +97,7 @@ async function copyLink() {
       <p class="trust">
         <ShieldCheck :size="16" class="ok" aria-hidden="true" />
         <span>
-          File cài build tự động trên GitHub từ mã nguồn công khai, kèm SHA256SUMS có chữ ký. Chưa ký số hệ điều hành nên lần đầu mở máy sẽ cảnh báo —
+          File cài build tự động trên GitHub từ mã nguồn công khai, kèm SHA256SUMS có chữ ký. Bản macOS ký số Apple và qua Apple kiểm duyệt. Bản Windows chưa ký số nên lần đầu mở máy sẽ cảnh báo —
           <a :href="withBase('/mo-app-lan-dau')" class="link">cách mở lần đầu</a>. Ký số Windows đang xin miễn phí qua SignPath Foundation —
           <a :href="withBase('/chinh-sach-ky-so')" class="link">chính sách ký số</a>.
         </span>
@@ -117,7 +117,7 @@ async function copyLink() {
         <li class="sano-card box">
           <span class="num">2</span>
           <h3>Mở lần đầu</h3>
-          <p class="sano-muted">Windows hoặc macOS có thể hỏi lại vì bản cài chưa ký số. <a :href="withBase('/mo-app-lan-dau')" class="link">Xem cách mở</a>.</p>
+          <p class="sano-muted">Windows có thể hỏi lại vì bản cài chưa ký số, macOS chỉ hỏi xác nhận mở app tải từ mạng. <a :href="withBase('/mo-app-lan-dau')" class="link">Xem cách mở</a>.</p>
         </li>
         <li class="sano-card box">
           <span class="num">3</span>

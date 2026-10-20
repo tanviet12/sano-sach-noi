@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.25 (20/10/2026)
+
+### Tính năng
+- **Bản macOS có chữ ký số Apple:** Sano ký bằng chứng chỉ Developer ID và qua Apple kiểm duyệt (notarize). Tải về mở thẳng, không còn phải vào Quyền riêng tư & Bảo mật bấm "Vẫn mở". Lần đầu mở bản mới, macOS có thể hỏi lại quyền vào thư mục một lần
+- **Nạp sách điện tử EPUB và file PDF có chữ** (từ 0.1.23): tên sách, chương, mục lấy từ mục lục hoặc bookmark có sẵn. PDF dễ đọc sai thì Sano báo ngay lúc nạp, kèm số trang
+
 ## v0.1.24 (06/10/2026)
 
 ### Tính năng

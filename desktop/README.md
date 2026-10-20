@@ -76,7 +76,7 @@ scripts/release/package-macos.sh 0.1.0        # hoặc package-windows.sh / pack
 scripts/release/checksums.sh                  # SHA256SUMS → desktop/build/bin/release/
 ```
 
-**App chưa ký số** (chưa mua chứng chỉ). macOS chỉ ký ad-hoc, không notarize: lần đầu mở báo không xác minh được nhà phát triển → Cài đặt hệ thống → Quyền riêng tư & Bảo mật → **Vẫn mở**. Windows SmartScreen → **Thông tin thêm** → **Vẫn chạy**. Linux: `chmod +x Sano-*.AppImage` rồi chạy. Không nén UPX (dễ bị antivirus báo nhầm).
+**Ký số:** macOS ký Developer ID + notarize trong CI (`scripts/release/package-macos.sh`, secret `MACOS_*`; máy không có chứng chỉ thì ký ad-hoc). Windows chưa ký số: SmartScreen → **Thông tin thêm** → **Vẫn chạy**. Linux: `chmod +x Sano-*.AppImage` rồi chạy. Không nén UPX (dễ bị antivirus báo nhầm).
 
 Kiểm file tải về: `sha256sum -c SHA256SUMS --ignore-missing` (macOS: `shasum -a 256 -c ...`), nguồn gốc build: `gh attestation verify <file> --repo <owner>/sano-sach-noi`.
 
