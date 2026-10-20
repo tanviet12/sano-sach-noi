@@ -21,6 +21,7 @@ override-dependencies = [
     "urllib3>=2.7.0,<3",
     "anyio>=4.14.2,<5",
     "pygments>=2.20.0,<3",
+    "fsspec>=2026.6.0",
     "onnxruntime==1.23.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
     "onnxruntime>=1.20.0; sys_platform != 'darwin' or platform_machine != 'x86_64'",
     "nvidia-nccl-cu12; sys_platform == 'linux'",

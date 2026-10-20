@@ -14,6 +14,10 @@ requests>=2.33.0,<3
 urllib3>=2.7.0,<3
 anyio>=4.14.2,<5
 pygments>=2.20.0,<3
+# fsspec: vá lỗi chèn template ở ReferenceFileSystem. Ghi đè thay cả yêu cầu
+# fsspec[http] của datasets (chỉ nhóm gpu, Sano không cài) nên aiohttp, multidict
+# cũng ra khỏi uv.lock.
+fsspec>=2026.6.0
 # onnxruntime 1.24 bỏ bản cho Mac Intel. Mac Intel ghim 1.23.2 (bản cuối có x86_64,
 # cần macOS 13+). Apple Silicon giữ 1.24 (cần macOS 14+): 1.23.2 đọc chậm hơn ~20%.
 # Hai dòng có marker bù nhau vì override thay toàn bộ yêu cầu của gói.
