@@ -1,6 +1,6 @@
 # HANDOFF — Sano (sách nói tiếng Việt)
 
-Cập nhật: 06/10/2026 · Phiên bản đang phát hành: **0.1.24** (Latest, công khai 06/10, đủ 6 file, CI xanh 3 hệ + smoke) · `main` = bản phát hành + HANDOFF
+Cập nhật: 20/10/2026 · Phiên bản đang phát hành: **0.1.25** (Latest, công khai 20/10, đủ 6 file, CI xanh 3 hệ, macOS ký Developer ID + notarize) · `main` = bản phát hành + HANDOFF
 
 Phiên mới: đọc file này + `README.md` + `CHANGELOG.md` là đủ nắm trạng thái.
 
@@ -29,6 +29,15 @@ Giọng đọc VieNeu-TTS v3 Turbo chạy ngay trên máy, không cần API key.
 - Phát hành: cập nhật `VERSION`, `CHANGELOG.md` (ngắn, hộp cập nhật của bản cũ hiện đoạn này), link tải trong `README.md` → commit `chore: phát hành vX.Y.Z` → push `main` → `git tag -a vX.Y.Z` + push tag → chờ CI → `gh release edit vX.Y.Z --draft=false --latest`.
 - Phiên Claude trên web (cloud): đẩy được nhánh và `main`, **không đẩy được tag** (proxy ngắt kết nối), không công khai được release (công cụ GitHub chỉ đọc). Anh tự đẩy tag từ `~/Claude-Code/sano-sach-noi-public` (thư mục `sano-sach-noi` cạnh đó là repo cũ `-archive`). Công khai trên điện thoại: mở bằng trình duyệt, **Edit bản nháp "Sano X.Y.Z" do CI tạo** rồi Publish — đừng tạo release mới từ tag (05/10 đã lỡ tạo một bản rỗng, không có file, phải xoá).
 - VirusTotal luôn báo 2 phần mềm nhầm bản Windows (đã có từ 0.1.16, file Go chưa ký), không chặn phát hành.
+
+## 3f. Phiên 20/10 — 0.1.25: ký số macOS (Developer ID + notarize)
+
+- Chứng chỉ **Developer ID Application: Viet Bui Tan (N3AKXDXQSX)**, hạn 19/11/2027. Khoá riêng, `.p12`, mật khẩu, khoá API notarize (`AuthKey_CJUFAFBMQ5.p8`) ở `~/AppleSigning` máy anh (anh sao lưu vào kho mật khẩu). Hồ sơ notarytool trên máy: `sano-notary`.
+- `scripts/release/package-macos.sh`: ký `sano-mcp` rồi `Sano.app` (hardened runtime, timestamp), ký `.dmg`, notarize, staple. Không có chứng chỉ → ad-hoc; `SANO_REQUIRE_MAC_SIGN=1` (bản thẻ v*) thì dừng.
+- CI: secret `MACOS_CERT_P12` (base64, kèm chứng chỉ trung gian G2), `MACOS_CERT_PASSWORD`, `MACOS_NOTARY_KEY`, `MACOS_NOTARY_KEY_ID`, `MACOS_NOTARY_ISSUER`; keychain tạm trong job build macOS.
+- Notarize lần đầu của tài khoản mất ~50 phút; trên CI 0.1.25 trót lọt trong giới hạn 45 phút của job.
+- Tài liệu: bỏ "Vẫn mở" cho macOS từ 0.1.25 (giữ hướng dẫn cho bản cũ), Windows vẫn chưa ký (SignPath đang chờ).
+- Còn: Dependabot báo 9 lỗ hổng trên `main` (6 cao) — chưa xem.
 
 ## 3e. Phiên 06/10 (Claude web) — 0.1.24: sửa chữ "chỉ file Word"
 
