@@ -83,6 +83,7 @@ type Track struct {
 	Chapter     string `json:"chapter"`
 	Title       string `json:"title"`
 	File        string `json:"file"` // tương đối với Root()
+	SourceFile  string `json:"-"`    // nguyên văn sections[].file, để kiểm trước khi phát
 	DurationSec int    `json:"durationSec"`
 	// ChapterStart — tiểu mục đầu của một chương (trình phát nghỉ lâu hơn trước nó).
 	ChapterStart bool `json:"chapterStart"`
@@ -198,7 +199,7 @@ func (l *Library) Get(slug string) (*Detail, error) {
 	for ci, ch := range m.Chapters {
 		for si, sec := range ch.Sections {
 			dur := durations[strconv.Itoa(ci+1)+"/"+strconv.Itoa(si+1)]
-			d.Tracks = append(d.Tracks, Track{Chapter: ch.Title, Title: sec.Title, File: rel(sec.File), DurationSec: dur, ChapterStart: si == 0})
+			d.Tracks = append(d.Tracks, Track{Chapter: ch.Title, Title: sec.Title, File: rel(sec.File), SourceFile: sec.File, DurationSec: dur, ChapterStart: si == 0})
 			d.DurationSec += dur
 		}
 	}

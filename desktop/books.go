@@ -18,6 +18,7 @@ import (
 	wruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 
 	"sano/desktop/internal/library"
+	"sano/internal/safepath"
 )
 
 // BookView — một cuốn trong thư viện, kèm URL bìa để hiện.
@@ -70,12 +71,49 @@ func (a *App) Book(slug string) (*BookDetail, error) {
 	if err != nil {
 		return nil, err
 	}
+	// Chỉ chặn lúc phát; sách lỗi vẫn hiện trong Thư viện và mở được để sửa.
+	for _, t := range d.Tracks {
+		if err := a.validatePlaybackFile(t); err != nil {
+			return nil, err
+		}
+	}
 	dir, _ := a.lib.Dir(slug)
 	out := &BookDetail{BookView: a.bookView(d.Book), Dir: dir, Tracks: make([]TrackView, 0, len(d.Tracks))}
 	for _, t := range d.Tracks {
 		out.Tracks = append(out.Tracks, TrackView{Track: t, URL: a.mediaURLStamp(t.File)})
 	}
 	return out, nil
+}
+
+// validatePlaybackFile kiểm tên gốc trước khi ghép đường dẫn, rồi kiểm file thật.
+// Lỗi chỉ kèm tên file hợp lệ, không lộ đường dẫn máy từ os.Stat.
+func (a *App) validatePlaybackFile(t library.Track) error {
+	context := fmt.Sprintf("chương %q, tiểu mục %q", t.Chapter, t.Title)
+	if strings.TrimSpace(t.SourceFile) == "" {
+		return fmt.Errorf("%s: thiếu hoặc rỗng trường file trong metadata.json", context)
+	}
+	if !safepath.IsPlainName(t.SourceFile) {
+		return fmt.Errorf("%s: tên file không hợp lệ (phải nằm ngay trong thư mục sách)", context)
+	}
+	context += fmt.Sprintf(" (file %q)", t.SourceFile)
+	if !strings.EqualFold(filepath.Ext(t.SourceFile), ".mp3") {
+		return fmt.Errorf("%s: file âm thanh phải có đuôi .mp3", context)
+	}
+	full, err := a.lib.Resolve(t.File)
+	if err != nil {
+		return fmt.Errorf("%s: đường dẫn file không hợp lệ (phải nằm trong thư viện Sano)", context)
+	}
+	info, err := os.Stat(full)
+	if errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("%s: không tìm thấy file âm thanh", context)
+	}
+	if err != nil {
+		return fmt.Errorf("%s: không kiểm tra được file âm thanh", context)
+	}
+	if !info.Mode().IsRegular() {
+		return fmt.Errorf("%s: không phải file thường", context)
+	}
+	return nil
 }
 
 // BookTexts trả chữ của từng tiểu mục (cùng thứ tự Tracks) cho chế độ xem lời.
